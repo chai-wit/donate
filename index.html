@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>รายนามผู้บริจาคเงินสร้างโดม</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Sarabun Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Sarabun', sans-serif; /* Changed font to Sarabun */
+            background: linear-gradient(135deg, rgba(230, 240, 255, 0.8), rgba(200, 220, 255, 0.8)), url('https://placehold.co/1920x1080/E0F2F7/2C3E50?text=Transparent+Background');
+            background-size: cover;
+            background-attachment: fixed;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Align to top */
+            min-height: 100vh;
+            padding: 2rem 1rem; /* Add padding for overall layout */
+        }
+        .container {
+            max-width: 1000px;
+            width: 100%;
+            background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque white */
+            backdrop-filter: blur(10px); /* Frosted glass effect */
+            border-radius: 1.5rem; /* More rounded corners */
+            padding: 2.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        .summary-card {
+            background-color: #E0F2F7; /* Light blue */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 120px; /* Ensure consistent height */
+        }
+        .summary-icon {
+            font-size: 2.5rem;
+            color: #3B82F6; /* Primary blue */
+            margin-bottom: 0.5rem;
+        }
+        .data-table-container {
+            background-color: #F8FAFC; /* Off-white */
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Inner shadow */
+        }
+        /* Removed .table-header as classes are applied directly to thead */
+        .btn-primary {
+            background-color: #3B82F6; /* Primary blue */
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-primary:hover {
+            background-color: #2563EB; /* Darker blue on hover */
+            transform: translateY(-2px);
+        }
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        .btn-secondary {
+            background-color: #BFDBFE; /* Light blue */
+            color: #1E40AF; /* Darker blue */
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            transition: background-color 0.2s, transform 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-secondary:hover {
+            background-color: #93C5FD; /* Lighter blue on hover */
+            transform: translateY(-2px);
+        }
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+        input[type="text"], input[type="number"], input[type="date"], input[type="file"], select, textarea {
+            border: 1px solid #BFDBFE; /* Light blue border */
+            border-radius: 0.5rem;
+            padding: 0.75rem 1rem;
+            width: 100%;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #60A5FA; /* Brighter blue on focus */
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        }
+        /* Style for readonly input to make it visually clear it's not editable */
+        input[readonly] {
+            background-color: #e2e8f0; /* bg-gray-200 */
+            cursor: not-allowed;
+            opacity: 0.8;
+        }
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+        .spinner {
+            border: 8px solid #f3f3f3;
+            border-top: 8px solid #3B82F6;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .status-message {
+            margin-top: 1rem;
+            font-size: 1.125rem;
+            color: #3B82F6;
+            font-weight: 600;
+        }
+
+        /* Custom scrollbar for table */
+        .overflow-x-auto::-webkit-scrollbar {
+            height: 8px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb {
+            background: #BFDBFE;
+            border-radius: 10px;
+        }
+        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
+            background: #93C5FD;
+        }
+
+        /* Responsive adjustments for mobile */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1.5rem;
+            }
+            .summary-grid {
+                flex-direction: column; /* Stack summary cards on mobile */
+            }
+            .summary-card {
+                width: 100%; /* Full width for cards */
+                margin-bottom: 1rem; /* Space between stacked cards */
+                min-height: auto;
+            }
+            .summary-card:last-child {
+                margin-bottom: 0;
+            }
+            .header-buttons {
+                flex-direction: column; /* Stack buttons on mobile */
+            }
+            .header-buttons .btn-primary,
+            .header-buttons .btn-secondary {
+                width: 100%; /* Full width for buttons */
+                margin-bottom: 0.75rem; /* Space between stacked buttons */
+            }
+            .header-buttons .btn-primary:last-child,
+            .header-buttons .btn-secondary:last-child {
+                margin-bottom: 0;
+            }
+            /* Adjust search and pagination for mobile */
+            .top-controls {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem; /* Add gap between stacked elements */
+            }
+            .top-controls > div {
+                width: 100%;
+            }
+            .search-input-container {
+                flex-direction: column; /* Stack search inputs vertically on mobile */
+                align-items: flex-start; /* Align search inputs to left */
+            }
+            .search-input-container > div {
+                width: 100%;
+            }
+            table th, table td {
+                font-size: 0.875rem; /* Smaller font for table on mobile */
+                padding: 0.75rem 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="loadingOverlay" class="loading-overlay hidden">
+        <div class="spinner"></div>
+        <p id="loadingMessage" class="status-message">กำลังดำเนินการ...</p>
+    </div>
+
+    <div class="container">
+        <div id="dashboardView" class="view">
+            <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">รายนามผู้บริจาคเงินสร้างโดม</h1>
+
+            <!-- Summary Section -->
+            <div class="flex flex-col md:flex-row gap-4 mb-8 summary-grid">
+                <div class="summary-card flex-1">
+                    <i class="fas fa-hand-holding-usd summary-icon"></i>
+                    <div class="text-sm text-gray-600">ยอดบริจาครวม</div>
+                    <div id="totalDonation" class="text-3xl font-bold text-blue-600 mt-2">฿ 0.00</div>
+                </div>
+                <div class="summary-card flex-1">
+                    <i class="fas fa-users summary-icon"></i>
+                    <div class="text-sm text-gray-600">จำนวนผู้บริจาค</div>
+                    <div id="donorCount" class="text-3xl font-bold text-blue-600 mt-2">0 คน</div>
+                </div>
+            </div>
+
+            <!-- Donor List Section -->
+            <div class="data-table-container">
+                <div class="flex flex-col md:flex-row items-center justify-between mb-6 header-buttons">
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4 md:mb-0">รายนามผู้บริจาคเงิน</h2>
+                    <button id="showDonationFormBtn" class="btn-primary">
+                        <i class="fas fa-plus-circle"></i> แจ้งข้อมูลโอนเงิน
+                    </button>
+                </div>
+
+                <!-- Top controls: Entries per page (left) and Single Search (right) -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 top-controls">
+                    <!-- Left: Entries per page - short width -->
+                    <div class="flex items-center gap-2 mb-4 md:mb-0 md:w-24">
+                        <select id="entriesPerPage" class="p-1 border border-blue-300 rounded-md text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
+                            <option value="10">10</option>
+                            <option value="25">25</option>
+                            <option value="50">50</option>
+                            <option value="100" selected>100</option> <!-- Set 100 as default selected -->
+                        </select>
+                    </div>
+
+                    <!-- Right: Single search input - adjustable width -->
+                    <div class="flex items-end gap-3 w-full md:w-64 justify-end">
+                        <input type="text" id="generalSearchInput" placeholder="ค้นหาชื่อ, อาชีพ, จำนวนเงิน, วันที่..." class="w-full text-sm p-2 rounded-md border border-blue-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
+                    </div>
+                </div>
+
+                <!-- Data Table -->
+                <div class="overflow-x-auto rounded-lg shadow-md border border-blue-200">
+                    <table class="min-w-full divide-y divide-blue-200">
+                        <thead class="bg-blue-100"> <!-- Lighter blue for header background -->
+                            <tr>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700 rounded-tl-lg">ลำดับที่</th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">ชื่อ-นามสกุล</th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">รุ่น/อาชีพ</th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">จำนวนเงิน (บาท)</th>
+                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700 rounded-tr-lg">วันที่แจ้งโอนเงิน</th>
+                            </tr>
+                        </thead>
+                        <tbody id="donorsTableBody" class="divide-y divide-gray-200">
+                            <!-- Data will be loaded here -->
+                            <tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">ไม่มีข้อมูลผู้บริจาค</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination controls (bottom-right) -->
+                <div class="flex justify-between items-center mt-4">
+                    <div id="paginationInfo" class="text-sm text-gray-600"></div>
+                    <div class="flex gap-2">
+                        <button id="prevPageBtn" class="btn-secondary px-3 py-1 text-sm rounded-md disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-chevron-left"></i> ก่อนหน้า</button>
+                        <button id="nextPageBtn" class="btn-secondary px-3 py-1 text-sm rounded-md disabled:opacity-50 disabled:cursor-not-allowed">ถัดไป <i class="fas fa-chevron-right"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="donationFormView" class="view hidden">
+            <div class="data-table-container relative">
+                <button id="backToDashboardBtn" class="btn-primary absolute top-4 right-4">
+                    <i class="fas fa-arrow-left"></i> กลับหน้าหลัก
+                </button>
+                <h2 class="text-2xl font-semibold text-blue-700 mb-6 text-center">แจ้งข้อมูลการโอนเงิน</h2>
+
+                <form id="donationForm" class="grid grid-cols-1 gap-6">
+                    <div>
+                        <label for="notificationDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่แจ้งโอนเงิน</label>
+                        <input type="text" id="notificationDate" required class="w-full" readonly> <!-- Changed to type="text" and readonly -->
+                    </div>
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
+                        <input type="text" id="fullName" placeholder="ชื่อ-นามสกุล" required class="w-full">
+                    </div>
+                    <div>
+                        <label for="batchOccupation" class="block text-sm font-medium text-gray-700 mb-1">รุ่น/อาชีพ</label>
+                        <input type="text" id="batchOccupation" placeholder="รุ่น/อาชีพ" class="w-full">
+                    </div>
+                    <div>
+                        <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">เบอร์โทร</label>
+                        <input type="text" id="phoneNumber" placeholder="เช่น 0812345678" class="w-full">
+                    </div>
+                    <div>
+                        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">จำนวนเงิน (บาท)</label>
+                        <input type="number" id="amount" placeholder="0.00" step="0.01" min="0" required class="w-full">
+                    </div>
+                    <div>
+                        <label for="transferDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่โอนเงิน</label>
+                        <input type="date" id="transferDate" required class="w-full">
+                        <p id="transferDateBuddhistDisplay" class="text-xs text-gray-500 mt-1"></p> <!-- Added for Buddhist year display -->
+                    </div>
+                    <div>
+                        <label for="slipFile" class="block text-sm font-medium text-gray-700 mb-1">แนบสลิปโอนเงิน</label>
+                        <input type="file" id="slipFile" accept="image/*" required class="w-full p-2 border border-blue-200 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
+                    </div>
+                    <div class="text-center mt-4">
+                        <button type="submit" class="btn-primary">
+                            <i class="fas fa-save"></i> บันทึกข้อมูล
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Google Apps Script URL for deployment
+        // ตรวจสอบให้แน่ใจว่า URL นี้เป็น URL ที่คุณได้จากการ Deploy Google Apps Script ในรูปแบบ Web app และตั้งค่าการเข้าถึงเป็น "Anyone"
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwVUyzidu01RujYqUrcSbqEyEl8nWPkvFaxv-s_4jrBjnmYLAFd9Hkk1sf-a5Llm6-/exec';
+
+        // Get DOM elements
+        const dashboardView = document.getElementById('dashboardView');
+        const donationFormView = document.getElementById('donationFormView');
+        const showDonationFormBtn = document.getElementById('showDonationFormBtn');
+        const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+        const donationForm = document.getElementById('donationForm');
+        const donorsTableBody = document.getElementById('donorsTableBody');
+        const totalDonationEl = document.getElementById('totalDonation');
+        const donorCountEl = document.getElementById('donorCount');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const loadingMessage = document.getElementById('loadingMessage');
+        const notificationDateInput = document.getElementById('notificationDate'); // Get the notification date input
+        const transferDateInput = document.getElementById('transferDate'); // Get the transfer date input
+        const transferDateBuddhistDisplay = document.getElementById('transferDateBuddhistDisplay'); // Get the display span
+
+        // Single search input
+        const generalSearchInput = document.getElementById('generalSearchInput');
+
+        // Pagination elements
+        const entriesPerPageSelect = document.getElementById('entriesPerPage');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const paginationInfo = document.getElementById('paginationInfo');
+
+        // State variables for pagination and data
+        let allDonorsData = []; // To store all fetched data
+        let filteredDonorsData = []; // To store data after applying search filters
+        let currentPage = 1;
+        let entriesPerPage = parseInt(entriesPerPageSelect.value); // Initialize from select default
+        let totalDonorsAfterFilter = 0;
+
+        // --- Utility Functions ---
+
+        /**
+         * Shows the loading overlay with a given message.
+         * @param {string} message - The message to display.
+         */
+        function showLoading(message = 'กำลังดำเนินการ...') { // Default message changed here
+            loadingMessage.textContent = message;
+            loadingOverlay.classList.remove('hidden');
+        }
+
+        /**
+         * Hides the loading overlay.
+         */
+        function hideLoading() {
+            loadingOverlay.classList.add('hidden');
+        }
+
+        /**
+         * Converts a Date object or string to 'YYYY-MM-DD' format (for internal use, e.g., search or input value).
+         * @param {Date|string} date - The date object or string.
+         * @returns {string} The formatted date string.
+         */
+        function formatDateYYYYMMDD(date) {
+            let d;
+            if (date instanceof Date) {
+                d = date;
+            } else {
+                d = new Date(date);
+            }
+            if (isNaN(d.getTime())) return ''; // Return empty if date is invalid
+            const year = d.getFullYear();
+            const month = String(d.getMonth() + 1).padStart(2, '0');
+            const day = String(d.getDate()).padStart(2, '0');
+            return `${year}-${month}-${day}`;
+        }
+
+        /**
+         * Formats a date string to Thai Buddhist calendar format (e.g., "11 ส.ค. 2568") for display.
+         * @param {string} dateStr - The date string (e.g., 'YYYY-MM-DD').
+         * @returns {string} The formatted Thai date string.
+         */
+        function formatDateThaiBuddhist(dateStr) {
+            const d = new Date(dateStr);
+            if (isNaN(d.getTime())) return '';
+
+            const thaiMonths = [
+                'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+                'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
+            ];
+
+            const day = d.getDate();
+            const month = thaiMonths[d.getMonth()];
+            const yearBuddhist = d.getFullYear() + 543; // Convert Gregorian to Buddhist calendar year
+
+            return `${day} ${month} ${yearBuddhist}`;
+        }
+
+        /**
+         * Formats a number as currency.
+         * @param {number} amount - The amount to format.
+         * @returns {string} The formatted currency string.
+         */
+        function formatCurrency(amount) {
+            return parseFloat(amount).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        // --- View Switching ---
+
+        /**
+         * Displays the dashboard view and hides the donation form.
+         */
+        function showDashboard() {
+            dashboardView.classList.remove('hidden');
+            donationFormView.classList.add('hidden');
+            fetchDonations(); // Refresh data when returning to dashboard
+        }
+
+        /**
+         * Displays the donation form view and hides the dashboard.
+         */
+        function showDonationForm() {
+            dashboardView.classList.add('hidden');
+            donationFormView.classList.remove('hidden');
+            donationForm.reset(); // Clear form fields
+
+            // Set current date for notification date and format it to Thai Buddhist
+            const today = new Date();
+            notificationDateInput.value = formatDateThaiBuddhist(today); // Set display value
+            notificationDateInput.dataset.gregorianValue = formatDateYYYYMMDD(today); // Store Gregorian value for submission if needed, though this field is readonly and will use this value implicitly
+
+            // Set current date for transfer date input and update its Buddhist display
+            transferDateInput.valueAsDate = today; // Sets the Gregorian value for the native picker
+            transferDateBuddhistDisplay.textContent = `(${formatDateThaiBuddhist(today)})`; // Update display span
+        }
+
+        // --- Data Fetching and Display ---
+
+        /**
+         * Fetches donation data from Google Apps Script and updates the table.
+         */
+        async function fetchDonations() {
+            showLoading('กำลังโหลดข้อมูลผู้บริจาค...'); // Specific message for fetching
+            try {
+                const response = await fetch(`${APPS_SCRIPT_URL}?action=getData`);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const data = await response.json();
+                allDonorsData = data.data || [];
+                
+                currentPage = 1; // Reset current page
+                entriesPerPage = parseInt(entriesPerPageSelect.value); // Ensure entriesPerPage is set from select
+                applyFiltersAndPagination(); // Apply initial filter and pagination
+            } catch (error) {
+                console.error('Error fetching donations:', error);
+                donorsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}</td></tr>`;
+                totalDonationEl.textContent = '฿ 0.00';
+                donorCountEl.textContent = '0 คน';
+                paginationInfo.textContent = 'ไม่พบข้อมูล';
+                prevPageBtn.disabled = true;
+                nextPageBtn.disabled = true;
+            } finally {
+                hideLoading();
+            }
+        }
+
+        /**
+         * Applies search filters to allDonorsData and then triggers pagination display.
+         */
+        function applyFiltersAndPagination() {
+            let tempFilteredData = [...allDonorsData]; // Start with all data
+
+            const searchTerm = generalSearchInput.value.toLowerCase().trim();
+
+            // Apply filter based on single search term across multiple fields
+            if (searchTerm !== '') {
+                tempFilteredData = tempFilteredData.filter(donor => {
+                    // Ensure these fields are treated as strings before calling toLowerCase()
+                    const fullName = String(donor['ชื่อ-นามสกุล'] || '').toLowerCase();
+                    const batchOccupation = String(donor['รุ่น/อาชีพ'] || '').toLowerCase();
+                    
+                    let amountMatch = false;
+                    if (donor['จำนวนเงิน'] !== undefined) {
+                        const donorAmount = parseFloat(donor['จำนวนเงิน']);
+                        if (!isNaN(donorAmount)) {
+                            // 1. Raw number string (e.g., "1000")
+                            const rawAmountString = String(donorAmount);
+                            // 2. Formatted currency string (e.g., "฿ 1,000.00")
+                            const formattedAmountString = formatCurrency(donorAmount).toLowerCase();
+                            // 3. Formatted currency string without currency symbol (e.g., "1,000.00")
+                            //    Also replace comma for better matching if user types without comma
+                            const formattedAmountWithoutSymbol = formattedAmountString.replace('฿', '').replace(/,/g, '').trim(); 
+                            // 4. Raw number string without decimal if it's .00 (e.g., "1000" from "1000.00")
+                            const integerPartAmount = String(Math.floor(donorAmount));
+
+
+                            amountMatch = rawAmountString.includes(searchTerm) ||
+                                          formattedAmountString.includes(searchTerm) ||
+                                          formattedAmountWithoutSymbol.includes(searchTerm) ||
+                                          integerPartAmount.includes(searchTerm);
+                        }
+                    }
+
+                    // Ensure date is formatted consistently and then converted to string for search
+                    const notificationDateSearch = String(formatDateYYYYMMDD(donor['วันที่แจ้งโอนเงิน']) || '').toLowerCase();
+                    // Also check against Thai Buddhist format if user searches that way
+                    const notificationDateThaiSearch = String(formatDateThaiBuddhist(donor['วันที่แจ้งโอนเงิน']) || '').toLowerCase();
+
+                    // Adding transferDate search (which is now in the sheet as 'วันที่โอนเงิน')
+                    const transferDateSearch = String(formatDateYYYYMMDD(donor['วันที่โอนเงิน']) || '').toLowerCase(); // Assuming 'วันที่โอนเงิน' is the column name for transfer date in the sheet
+                    const transferDateThaiSearch = String(formatDateThaiBuddhist(donor['วันที่โอนเงิน']) || '').toLowerCase();
+
+
+                    return fullName.includes(searchTerm) || 
+                           batchOccupation.includes(searchTerm) || 
+                           amountMatch || 
+                           notificationDateSearch.includes(searchTerm) ||
+                           notificationDateThaiSearch.includes(searchTerm) ||
+                           transferDateSearch.includes(searchTerm) ||
+                           transferDateThaiSearch.includes(searchTerm);
+                });
+            }
+            
+            filteredDonorsData = tempFilteredData; // Store the filtered data
+            totalDonorsAfterFilter = filteredDonorsData.length;
+
+            // Always reset to page 1 when filters are applied/changed
+            currentPage = 1;
+
+            displayPaginatedDonations();
+            updateSummary(filteredDonorsData); // Update summary based on filtered data
+        }
+
+        /**
+         * Displays paginated donation data in the table.
+         */
+        function displayPaginatedDonations() {
+            donorsTableBody.innerHTML = ''; // Clear existing rows
+
+            // Sort by notification date in descending order (latest first) before pagination
+            const sortedAndFilteredData = [...filteredDonorsData].sort((a, b) => {
+                const dateA = new Date(a['วันที่แจ้งโอนเงิน']);
+                const dateB = new Date(b['วันที่แจ้งโอนเงิน']);
+                return dateB - dateA; // Descending order
+            });
+
+            const startIndex = (currentPage - 1) * entriesPerPage;
+            const endIndex = startIndex + entriesPerPage;
+            const paginatedData = sortedAndFilteredData.slice(startIndex, endIndex);
+
+            if (paginatedData.length === 0) {
+                donorsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">ไม่มีข้อมูลผู้บริจาค</td></tr>`;
+                paginationInfo.textContent = 'ไม่พบข้อมูล';
+                prevPageBtn.disabled = true;
+                nextPageBtn.disabled = true;
+                return;
+            }
+
+            paginatedData.forEach((donor, index) => {
+                const row = document.createElement('tr');
+                row.classList.add('hover:bg-blue-100', 'odd:bg-white', 'even:bg-blue-50');
+                row.innerHTML = `
+                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${startIndex + index + 1}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${donor['ชื่อ-นามสกุล']}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${donor['รุ่น/อาชีพ'] || '-'}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-green-700 font-semibold">${formatCurrency(donor['จำนวนเงิน'])}</td>
+                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${formatDateThaiBuddhist(donor['วันที่แจ้งโอนเงิน'])}</td> <!-- Displaying วันที่แจ้งโอนเงิน in Thai Buddhist calendar -->
+                `;
+                donorsTableBody.appendChild(row);
+            });
+
+            updatePaginationControls();
+        }
+
+        /**
+         * Updates the total donation amount and donor count.
+         * @param {Array<Object>} data - The array of data (could be all or filtered).
+         */
+        function updateSummary(data) {
+            const total = data.reduce((sum, donor) => sum + parseFloat(donor['จำนวนเงิน'] || 0), 0);
+            totalDonationEl.textContent = `฿ ${formatCurrency(total)}`;
+            donorCountEl.textContent = `${data.length} คน`;
+        }
+
+        /**
+         * Updates the pagination information text and button states.
+         */
+        function updatePaginationControls() {
+            const totalPages = Math.ceil(totalDonorsAfterFilter / entriesPerPage);
+            const startEntry = totalDonorsAfterFilter === 0 ? 0 : (currentPage - 1) * entriesPerPage + 1;
+            const endEntry = Math.min(currentPage * entriesPerPage, totalDonorsAfterFilter);
+
+            paginationInfo.textContent = `แสดง ${startEntry} ถึง ${endEntry} จาก ${totalDonorsAfterFilter} รายการ (หน้า ${currentPage} จาก ${totalPages || 1})`;
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        // --- Form Submission ---
+
+        /**
+         * Handles the form submission, converts file to Base64, and sends data to Apps Script.
+         * @param {Event} event - The form submission event.
+         */
+        async function handleFormSubmit(event) {
+            event.preventDefault();
+
+            // notificationDate is now readonly text, its value is already Buddhist year
+            const notificationDate = notificationDateInput.dataset.gregorianValue || formatDateYYYYMMDD(new Date()); // Use stored Gregorian value, or current date if somehow missing
+            const fullName = document.getElementById('fullName').value;
+            const batchOccupation = document.getElementById('batchOccupation').value;
+            const phoneNumber = document.getElementById('phoneNumber').value;
+            const amount = document.getElementById('amount').value;
+            const transferDate = document.getElementById('transferDate').value; // This is already in YYYY-MM-DD from native date picker
+
+
+            const slipFile = document.getElementById('slipFile').files[0];
+
+            if (!slipFile) {
+                // เปลี่ยน alert() เป็น custom message box
+                const customAlertDialog = document.createElement('div');
+                customAlertDialog.innerHTML = `
+                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+                        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                            <p class="text-lg font-semibold text-red-600 mb-4">แจ้งเตือน!</p>
+                            <p class="text-gray-800 mb-6">กรุณาแนบสลิปโอนเงิน</p>
+                            <button id="closeAlertDialog" class="btn-primary">ตกลง</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(customAlertDialog);
+                document.getElementById('closeAlertDialog').addEventListener('click', () => {
+                    document.body.removeChild(customAlertDialog);
+                });
+                return;
+            }
+
+            showLoading('กำลังอัปโหลดสลิปและบันทึกข้อมูล...'); // Specific message for form submission
+
+            try {
+                // Convert file to Base64
+                const reader = new FileReader();
+                reader.readAsDataURL(slipFile);
+
+                reader.onload = async () => {
+                    const base64Data = reader.result.split(',')[1]; // Get only the base64 part
+                    const fileName = slipFile.name;
+                    const mimeType = slipFile.type;
+
+                    // Prepare data for Apps Script using URLSearchParams
+                    const params = new URLSearchParams();
+                    params.append('action', 'addData');
+                    params.append('notificationDate', notificationDate); // Send Gregorian notification date
+                    params.append('fullName', fullName);
+                    params.append('batchOccupation', batchOccupation);
+                    params.append('phoneNumber', phoneNumber);
+                    params.append('amount', amount);
+                    params.append('transferDate', transferDate); // Send Gregorian transfer date
+                    params.append('base64Data', base64Data);
+                    params.append('fileName', fileName);
+                    params.append('mimeType', mimeType);
+
+                    const response = await fetch(APPS_SCRIPT_URL, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: params.toString(),
+                    });
+
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+
+                    const result = await response.json();
+                    if (result.status === 'SUCCESS') {
+                        loadingMessage.textContent = 'บันทึกข้อมูลสำเร็จ!';
+                        setTimeout(() => {
+                            hideLoading();
+                            showDashboard(); // Go back to dashboard after successful save
+                        }, 1500);
+                    } else {
+                        throw new Error(result.message || 'การบันทึกข้อมูลล้มเหลว');
+                    }
+                };
+
+                reader.onerror = (error) => {
+                    throw new Error('ไม่สามารถอ่านไฟล์ได้: ' + error.message);
+                };
+
+            } catch (error) {
+                console.error('Error submitting form:', error);
+                loadingMessage.textContent = `เกิดข้อผิดพลาด: ${error.message}`;
+                setTimeout(hideLoading, 3000); // Hide after showing error message
+            }
+        }
+
+        // --- Event Listeners ---
+        showDonationFormBtn.addEventListener('click', showDonationForm);
+        backToDashboardBtn.addEventListener('click', showDashboard);
+        donationForm.addEventListener('submit', handleFormSubmit);
+
+        // Event listener for the single search input
+        generalSearchInput.addEventListener('input', applyFiltersAndPagination);
+
+        // Event listener for transferDate input to update Buddhist display
+        transferDateInput.addEventListener('input', (event) => {
+            transferDateBuddhistDisplay.textContent = `(${formatDateThaiBuddhist(event.target.value)})`;
+        });
+
+        // Event listeners for pagination controls
+        entriesPerPageSelect.addEventListener('change', (event) => {
+            entriesPerPage = parseInt(event.target.value);
+            currentPage = 1; // Reset to first page when entries per page changes
+            applyFiltersAndPagination();
+        });
+
+        prevPageBtn.addEventListener('click', () => {
+            if (currentPage > 1) {
+                currentPage--;
+                displayPaginatedDonations();
+            }
+        });
+
+        nextPageBtn.addEventListener('click', () => {
+            const totalPages = Math.ceil(totalDonorsAfterFilter / entriesPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                displayPaginatedDonations();
+            }
+        });
+
+        // Initial load
+        window.onload = showDashboard; // Show dashboard on page load
+    </script>
+</body>
+</html>
