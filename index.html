@@ -25,11 +25,12 @@
         .container {
             max-width: 1000px;
             width: 100%;
-            background-color: rgba(255, 255, 255, 0.9); /* Slightly opaque white */
-            backdrop-filter: blur(10px); /* Frosted glass effect */
-            border-radius: 1.5rem; /* More rounded corners */
-            padding: 2.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            /* Changed to transparent background and removed backdrop-filter for full transparency */
+            background-color: transparent; /* Fully transparent */
+            backdrop-filter: none; /* Removed blur effect */
+            border-radius: 0; /* No rounded corners */
+            padding: 0; /* No inner padding */
+            box-shadow: none; /* No box shadow */
         }
         .summary-card {
             background-color: #E0F2F7; /* Light blue */
@@ -122,18 +123,21 @@
             z-index: 1000;
             flex-direction: column;
         }
-        .spinner {
-            border: 8px solid #f3f3f3;
-            border-top: 8px solid #3B82F6;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
+        /* Removed .spinner CSS */
+        .loading-dots span {
+            opacity: 0;
+            animation: fadeInOut 1.5s infinite;
         }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .loading-dots span:nth-child(1) { animation-delay: 0s; }
+        .loading-dots span:nth-child(2) { animation-delay: 0.5s; }
+        .loading-dots span:nth-child(3) { animation-delay: 1s; }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
         }
+
         .status-message {
             margin-top: 1rem;
             font-size: 1.125rem;
@@ -162,17 +166,9 @@
             .container {
                 padding: 1.5rem;
             }
-            .summary-grid {
-                flex-direction: column; /* Stack summary cards on mobile */
-            }
-            .summary-card {
-                width: 100%; /* Full width for cards */
-                margin-bottom: 1rem; /* Space between stacked cards */
-                min-height: auto;
-            }
-            .summary-card:last-child {
-                margin-bottom: 0;
-            }
+            /* Removed flex-direction: column from .summary-grid and width: 100% from .summary-card */
+            /* These styles are removed to allow the summary cards to remain side-by-side on mobile */
+
             .header-buttons {
                 flex-direction: column; /* Stack buttons on mobile */
             }
@@ -210,8 +206,7 @@
 </head>
 <body>
     <div id="loadingOverlay" class="loading-overlay hidden">
-        <div class="spinner"></div>
-        <p id="loadingMessage" class="status-message">กำลังดำเนินการ...</p>
+        <p id="loadingMessage" class="status-message">กำลังดำเนินการ<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
     </div>
 
     <div class="container">
@@ -219,7 +214,7 @@
             <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">รายนามผู้บริจาคเงินสร้างโดม</h1>
 
             <!-- Summary Section -->
-            <div class="flex flex-col md:flex-row gap-4 mb-8 summary-grid">
+            <div class="flex flex-row justify-center items-stretch gap-4 mb-8 summary-grid">
                 <div class="summary-card flex-1">
                     <i class="fas fa-hand-holding-usd summary-icon"></i>
                     <div class="text-sm text-gray-600">ยอดบริจาครวม</div>
@@ -232,11 +227,24 @@
                 </div>
             </div>
 
+            <!-- Mobile Specific Section: Heading + Mobile Button -->
+            <!-- This section is shown only on small screens (mobile) -->
+            <div class="block sm:hidden mb-6">
+                <h2 class="text-2xl font-semibold text-blue-700 mb-4 text-center">รายนามผู้บริจาคเงิน</h2>
+                <div class="flex justify-center"> <!-- Changed to flex justify-center to center the button -->
+                    <button id="showDonationFormBtnMobile" class="btn-primary w-32">
+                        <i class="fas fa-plus-circle"></i> แจ้งข้อมูลโอนเงิน
+                    </button>
+                </div>
+            </div>
+
             <!-- Donor List Section -->
             <div class="data-table-container">
-                <div class="flex flex-col md:flex-row items-center justify-between mb-6 header-buttons">
-                    <h2 class="text-2xl font-semibold text-blue-700 mb-4 md:mb-0">รายนามผู้บริจาคเงิน</h2>
-                    <button id="showDonationFormBtn" class="btn-primary">
+                <div class="flex flex-col sm:flex-row items-center justify-between mb-6 header-buttons">
+                    <!-- Original heading, now hidden on mobile, visible on sm and up -->
+                    <h2 class="text-2xl font-semibold text-blue-700 mb-4 sm:mb-0 hidden sm:block">รายนามผู้บริจาคเงิน</h2>
+                    <!-- Original button, now hidden on mobile, visible on sm and up -->
+                    <button id="showDonationFormBtnDesktop" class="btn-primary hidden sm:inline-flex">
                         <i class="fas fa-plus-circle"></i> แจ้งข้อมูลโอนเงิน
                     </button>
                 </div>
@@ -291,9 +299,7 @@
 
         <div id="donationFormView" class="view hidden">
             <div class="data-table-container relative">
-                <button id="backToDashboardBtn" class="btn-primary absolute top-4 right-4">
-                    <i class="fas fa-arrow-left"></i> กลับหน้าหลัก
-                </button>
+                <!-- Removed the "backToDashboardBtn" -->
                 <h2 class="text-2xl font-semibold text-blue-700 mb-6 text-center">แจ้งข้อมูลการโอนเงิน</h2>
 
                 <form id="donationForm" class="grid grid-cols-1 gap-6">
@@ -326,9 +332,12 @@
                         <label for="slipFile" class="block text-sm font-medium text-gray-700 mb-1">แนบสลิปโอนเงิน</label>
                         <input type="file" id="slipFile" accept="image/*" required class="w-full p-2 border border-blue-200 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
                     </div>
-                    <div class="text-center mt-4">
+                    <div class="flex justify-center items-center gap-4 mt-4"> <!-- Flex container for buttons -->
                         <button type="submit" class="btn-primary">
                             <i class="fas fa-save"></i> บันทึกข้อมูล
+                        </button>
+                        <button type="button" id="cancelDonationBtn" class="btn-primary"> <!-- Changed to btn-primary -->
+                            <i class="fas fa-times-circle"></i> ยกเลิก
                         </button>
                     </div>
                 </form>
@@ -339,13 +348,14 @@
     <script>
         // Google Apps Script URL for deployment
         // ตรวจสอบให้แน่ใจว่า URL นี้เป็น URL ที่คุณได้จากการ Deploy Google Apps Script ในรูปแบบ Web app และตั้งค่าการเข้าถึงเป็น "Anyone"
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwVUyzidu01RujYqUrcSbqEyEl8nWPkvFaxv-s_4jrBjnmYLAFd9Hkk1sf-a5Llm6-/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwVUyzidu01RujYqUrcSbqEyEl8nWPkvFaxv-s_4jrBjnmYLAFd9Hkk1sf-a5Llm6-/exec'; // Corrected URL
 
         // Get DOM elements
         const dashboardView = document.getElementById('dashboardView');
         const donationFormView = document.getElementById('donationFormView');
-        const showDonationFormBtn = document.getElementById('showDonationFormBtn');
-        const backToDashboardBtn = document.getElementById('backToDashboardBtn');
+        // Get both mobile and desktop buttons
+        const showDonationFormBtnMobile = document.getElementById('showDonationFormBtnMobile');
+        const showDonationFormBtnDesktop = document.getElementById('showDonationFormBtnDesktop');
         const donationForm = document.getElementById('donationForm');
         const donorsTableBody = document.getElementById('donorsTableBody');
         const totalDonationEl = document.getElementById('totalDonation');
@@ -355,6 +365,7 @@
         const notificationDateInput = document.getElementById('notificationDate'); // Get the notification date input
         const transferDateInput = document.getElementById('transferDate'); // Get the transfer date input
         const transferDateBuddhistDisplay = document.getElementById('transferDateBuddhistDisplay'); // Get the display span
+        const cancelDonationBtn = document.getElementById('cancelDonationBtn'); // Get the new cancel button
 
         // Single search input
         const generalSearchInput = document.getElementById('generalSearchInput');
@@ -379,7 +390,8 @@
          * @param {string} message - The message to display.
          */
         function showLoading(message = 'กำลังดำเนินการ...') { // Default message changed here
-            loadingMessage.textContent = message;
+            loadingMessage.textContent = message.split('<span')[0]; // Reset text content without dots
+            loadingMessage.innerHTML = message + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>'; // Add dots back
             loadingOverlay.classList.remove('hidden');
         }
 
@@ -474,7 +486,7 @@
          * Fetches donation data from Google Apps Script and updates the table.
          */
         async function fetchDonations() {
-            showLoading('กำลังโหลดข้อมูลผู้บริจาค...'); // Specific message for fetching
+            // Removed showLoading('กำลังโหลดข้อมูลผู้บริจาค...'); from here
             try {
                 const response = await fetch(`${APPS_SCRIPT_URL}?action=getData`);
                 if (!response.ok) {
@@ -486,16 +498,30 @@
                 currentPage = 1; // Reset current page
                 entriesPerPage = parseInt(entriesPerPageSelect.value); // Ensure entriesPerPage is set from select
                 applyFiltersAndPagination(); // Apply initial filter and pagination
-            } catch (error) {
+            } catch (error) { 
                 console.error('Error fetching donations:', error);
-                donorsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-red-500">เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}</td></tr>`;
+                // Display error using the existing customAlertDialog mechanism
+                const customAlertDialog = document.createElement('div');
+                customAlertDialog.innerHTML = `
+                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
+                        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
+                            <p class="text-lg font-semibold text-red-600 mb-4">แจ้งเตือน!</p>
+                            <p class="text-gray-800 mb-6">เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}</p>
+                            <button id="closeAlertDialog" class="btn-primary">ตกลง</button>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(customAlertDialog);
+                document.getElementById('closeAlertDialog').addEventListener('click', () => {
+                    document.body.removeChild(customAlertDialog);
+                });
                 totalDonationEl.textContent = '฿ 0.00';
                 donorCountEl.textContent = '0 คน';
                 paginationInfo.textContent = 'ไม่พบข้อมูล';
                 prevPageBtn.disabled = true;
                 nextPageBtn.disabled = true;
             } finally {
-                hideLoading();
+                hideLoading(); // Still hide in finally, just in case
             }
         }
 
@@ -730,9 +756,13 @@
         }
 
         // --- Event Listeners ---
-        showDonationFormBtn.addEventListener('click', showDonationForm);
-        backToDashboardBtn.addEventListener('click', showDashboard);
+        // Listen to both mobile and desktop buttons
+        showDonationFormBtnMobile.addEventListener('click', showDonationForm);
+        showDonationFormBtnDesktop.addEventListener('click', showDonationForm);
+        
         donationForm.addEventListener('submit', handleFormSubmit);
+        cancelDonationBtn.addEventListener('click', showDashboard); // Event listener for the new cancel button
+
 
         // Event listener for the single search input
         generalSearchInput.addEventListener('input', applyFiltersAndPagination);
