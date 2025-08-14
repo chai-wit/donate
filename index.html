@@ -29,8 +29,13 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 20px;
+            padding: 0; /* Changed from 20px to 0 for full screen on mobile */
             font-family: 'Sarabun', sans-serif; /* Applied Sarabun font */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+        .container-fluid {
+            padding: 0 !important; /* Remove default container padding */
+            max-width: 100%; /* Ensure it doesn't limit width on large screens unnaturally */
         }
         .card {
             background-color: rgba(255, 255, 255, 0.9) !important; /* Light white with transparency */
@@ -39,6 +44,22 @@
             backdrop-filter: blur(5px); /* Add a subtle blur for transparency effect */
             -webkit-backdrop-filter: blur(5px);
             width: 100%; /* Ensure card takes full width of its parent */
+            padding: 20px; /* Keep padding inside the card for content spacing */
+            margin: 20px; /* Add some margin for visual spacing from edge on larger screens */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        @media (max-width: 767.98px) { /* Adjust for small screens (mobile) */
+            .card {
+                margin: 0; /* Remove margin on small screens to be truly full width */
+                border-radius: 0; /* Remove rounded corners to blend with full screen */
+                min-height: 100vh; /* Make card fill the entire height on mobile */
+                display: flex; /* Ensure flex properties apply to card content */
+                flex-direction: column; /* Stack content vertically */
+                justify-content: center; /* Center content vertically */
+            }
+            body {
+                padding: 0; /* Ensure no padding on body for mobile */
+            }
         }
         .text-primary {
             color: var(--app-primary-color) !important;
@@ -255,7 +276,7 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
         // Google Apps Script URL for data submission and retrieval
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJpnhg35l4xVOHq4KfUgpSQNDa6xWlcsZn4GOPlCDjfmtdXWwVxWZ7aKcE6o_6w1s/exec';
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzFoi305OxtG2bcaYKEpf3caXd8309L62oPCrexC2xu5PfbT4vJ2xpvFO4AihXQ5tuJ/exec';
 
         // Get DOM elements
         const homePage = document.getElementById('homePage');
@@ -563,30 +584,32 @@
                         const result = await response.json();
 
                         if (result.status === 'success') {
-                            Swal.close(); // Close the initial saving alert
-
-                            // Combined alert for success and returning to home page
-                            Swal.fire({
+                            // Close any existing SweetAlert (like the "กำลังบันทึกข้อมูล...")
+                            Swal.close(); 
+                            
+                            // Show the combined success and redirect message
+                            await Swal.fire({
                                 title: 'บันทึกข้อมูลเรียบร้อย! กำลังกลับไปหน้าหลัก...',
                                 icon: 'success', // Show success icon
                                 showConfirmButton: false,
                                 allowOutsideClick: false,
                                 allowEscapeKey: false,
-                                timerProgressBar: false,
+                                timer: 2000, // Optional: You can set a short timer here if desired, or let it close manually after fetch completes
+                                timerProgressBar: true,
                                 didOpen: () => {
-                                    Swal.showLoading(); // Show loading spinner with success icon
+                                    Swal.showLoading(); // Show loading spinner
                                 }
                             });
 
                             donationForm.reset(); // Clear the form after successful submission
                             setCurrentTransferDate(); // Set current date and time (with seconds) for next entry
 
-                            // Fetch data and go back to home page immediately (don't show loading for this fetch)
-                            const updatedData = await fetchDonors(3, false);
+                            // Fetch data and go back to home page immediately
+                            const updatedData = await fetchDonors(3, false); // Fetch without showing a separate loading alert
                             allDonorsData = updatedData;
                             renderTable(allDonorsData); // Re-render table with new data
                             showPage(homePage); // Go back to home page after submission
-                            Swal.close(); // Close the combined loading alert
+                            Swal.close(); // Close the combined loading alert if it's still open
                             
                             success = true;
                             break; // Exit retry loop on success
