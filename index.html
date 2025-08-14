@@ -43,9 +43,10 @@
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
             backdrop-filter: blur(5px); /* Add a subtle blur for transparency effect */
             -webkit-backdrop-filter: blur(5px);
-            width: 100%; /* Ensure card takes full width of its parent */
+            width: 90%; /* Use a percentage for width, allowing some space */
+            max-width: 700px; /* Max width for larger screens */
             padding: 20px; /* Keep padding inside the card for content spacing */
-            margin: 20px; /* Add some margin for visual spacing from edge on larger screens */
+            margin: 20px auto; /* Center horizontally with auto margins, add 20px top/bottom margin */
             box-sizing: border-box; /* Include padding and border in the element's total width and height */
         }
         @media (max-width: 767.98px) { /* Adjust for small screens (mobile) */
@@ -56,6 +57,7 @@
                 display: flex; /* Ensure flex properties apply to card content */
                 flex-direction: column; /* Stack content vertically */
                 justify-content: center; /* Center content vertically */
+                width: 100%; /* Ensure full width on mobile */
             }
             body {
                 padding: 0; /* Ensure no padding on body for mobile */
@@ -195,7 +197,7 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid my-4">
+    <div class="container-fluid"> <!-- Removed my-4 as card itself now handles vertical margins -->
         <!-- Status Message (This div is now effectively unused as SweetAlert handles messages) -->
         <div id="statusMessage" class="alert d-none text-center my-3" role="alert"></div>
 
