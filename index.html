@@ -115,6 +115,10 @@
             border-color: #d0d0d0; /* Light gray border for cells */
             padding: 0.75rem; /* Adjust padding for better spacing with larger font */
         }
+        /* Added to prevent text wrapping in table headers */
+        .table thead th {
+            white-space: nowrap;
+        }
         .form-control.border-primary {
             border-color: var(--app-primary-color) !important;
         }
