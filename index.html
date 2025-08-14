@@ -155,8 +155,42 @@
             margin-bottom: 20px;
         }
         .logo-container img {
-            max-width: 100px; /* Adjust max-width as needed - Changed from 150px to 100px */
+            max-width: 100px; /* Adjust max-width as needed */
             height: auto;
+        }
+
+        /* Styles for summary value boxes */
+        .summary-value-box {
+            padding: 1rem; /* Default padding */
+            display: flex; /* Flex display for horizontal alignment */
+            align-items: center; /* Vertically align items in the center */
+            justify-content: center; /* Horizontally align items in the center */
+            flex-direction: row; /* Ensure content is in a row */
+            color: black; /* Ensure text color is black */
+        }
+
+        .summary-value-box .fw-bold.fs-2 {
+            white-space: nowrap; /* Prevent numbers/text from wrapping */
+            overflow: hidden; /* Hide overflow if text is too long */
+            text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+            line-height: 1.2; /* Ensure tight line height */
+        }
+
+        .summary-value-box .bi {
+            font-size: 1.8rem; /* Default icon size */
+            color: black; /* Explicitly set icon color to black */
+        }
+
+        @media (max-width: 575.98px) { /* For extra small devices (portrait phones) */
+            .summary-value-box .fw-bold.fs-2 {
+                font-size: 1.4rem !important; /* Adjusted font size for numbers/text on mobile */
+            }
+            .summary-value-box .bi {
+                font-size: 1.4rem !important; /* Also adjust icon size to match smaller text */
+            }
+            .summary-value-box {
+                padding: 0.6rem !important; /* More compact padding for mobile */
+            }
         }
     </style>
 </head>
@@ -175,16 +209,14 @@
             <!-- Summary Section - Responsive layout for mobile -->
             <div class="row mb-4 g-3">
                 <div class="col-6">
-                    <div class="card bg-success text-black rounded-4 shadow-sm p-3 d-flex align-items-center justify-content-center">
-                        <i class="bi bi-cash-coin me-2" style="font-size: 1.8rem;"></i>
-                        <!-- Applied font-sriracha class to number, and font-sarabun to currency symbol -->
+                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
+                        <i class="bi bi-cash-coin me-2"></i>
                         <span class="fw-bold fs-2"><span id="totalAmount" class="font-sriracha">0</span> <span class="font-sarabun">฿</span></span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="card bg-info text-black rounded-4 shadow-sm p-3 d-flex align-items-center justify-content-center">
-                        <i class="bi bi-people-fill me-2" style="font-size: 1.8rem;"></i>
-                        <!-- Applied font-sriracha class here -->
+                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
+                        <i class="bi bi-people-fill me-2"></i>
                         <span class="fw-bold fs-2 font-sriracha"><span id="totalDonors">0</span> คน</span>
                     </div>
                 </div>
