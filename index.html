@@ -224,11 +224,11 @@
             <h2 class="text-center mb-4 text-primary">บันทึกแจ้งโอนเงิน</h2>
             <form id="donationForm">
                 <div class="row"> <!-- Use Bootstrap row for horizontal alignment -->
-                    <div class="col-md-6 mb-3"> <!-- Half width for date on medium+ screens -->
+                    <div class="col-6 mb-3"> <!-- Changed from col-md-6 to col-6 for side-by-side on all screens -->
                         <label for="transferDate" class="form-label fw-bold">วันที่แจ้งโอนเงิน:</label>
                         <input type="date" class="form-control border-secondary" id="transferDate" required readonly>
                     </div>
-                    <div class="col-md-6 mb-3"> <!-- Half width for time on medium+ screens -->
+                    <div class="col-6 mb-3"> <!-- Changed from col-md-6 to col-6 for side-by-side on all screens -->
                         <label for="transferTime" class="form-label fw-bold">เวลาแจ้งโอนเงิน:</label>
                         <input type="text" class="form-control border-secondary" id="transferTime" required readonly>
                     </div>
