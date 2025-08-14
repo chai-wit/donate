@@ -4,798 +4,627 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>รายนามผู้บริจาคเงินสร้างโดม</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Sarabun Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Bootstrap 5.3.3 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+    <!-- Bootstrap Icons (for currency and people icons) -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <!-- Google Fonts - Sarabun -->
+    <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts - Sriracha (Added) -->
+    <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
+        :root {
+            --app-primary-color: #A92020; /* A rich, deep red */
+            --app-primary-rgb: 169, 32, 32; /* RGB values for rgba */
+            --app-success-color: #004085; /* Dark blue for success button */
+            --app-success-rgb: 0, 64, 133; /* RGB for dark blue */
+        }
+
         body {
-            font-family: 'Sarabun', sans-serif; /* Changed font to Sarabun */
-            background: linear-gradient(135deg, rgba(230, 240, 255, 0.8), rgba(200, 220, 255, 0.8)), url('https://placehold.co/1920x1080/E0F2F7/2C3E50?text=Transparent+Background');
-            background-size: cover;
-            background-attachment: fixed;
-            display: flex;
-            justify-content: center;
-            align-items: flex-start; /* Align to top */
+            /* Set a beautiful, vibrant and modern background */
+            background: linear-gradient(135deg, #8A2BE2, #FF7F50); /* Blue Violet to Coral */
             min-height: 100vh;
-            padding: 2rem 1rem; /* Add padding for overall layout */
-        }
-        .container {
-            max-width: 1000px;
-            width: 100%;
-            /* Changed to transparent background and removed backdrop-filter for full transparency */
-            background-color: transparent; /* Fully transparent */
-            backdrop-filter: none; /* Removed blur effect */
-            border-radius: 0; /* No rounded corners */
-            padding: 0; /* No inner padding */
-            box-shadow: none; /* No box shadow */
-        }
-        .summary-card {
-            background-color: #E0F2F7; /* Light blue */
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
-            text-align: center;
-            min-height: 120px; /* Ensure consistent height */
+            padding: 20px;
+            font-family: 'Sarabun', sans-serif; /* Applied Sarabun font */
         }
-        .summary-icon {
-            font-size: 2.5rem;
-            color: #3B82F6; /* Primary blue */
-            margin-bottom: 0.5rem;
+        .card {
+            background-color: rgba(255, 255, 255, 0.9) !important; /* Light white with transparency */
+            border-radius: 1.25rem; /* More rounded corners */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            backdrop-filter: blur(5px); /* Add a subtle blur for transparency effect */
+            -webkit-backdrop-filter: blur(5px);
+            width: 100%; /* Ensure card takes full width of its parent */
         }
-        .data-table-container {
-            background-color: #F8FAFC; /* Off-white */
-            border-radius: 1rem;
-            padding: 1.5rem;
-            box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05); /* Inner shadow */
+        .text-primary {
+            color: var(--app-primary-color) !important;
         }
-        /* Removed .table-header as classes are applied directly to thead */
+        .table thead {
+            background-color: var(--app-primary-color) !important; /* Primary color for table header */
+            color: #ffffff; /* Ensure text is white on colored header */
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--app-primary-rgb), 0.1) !important; /* Light hover effect using RGB for transparency */
+        }
         .btn-primary {
-            background-color: #3B82F6; /* Primary blue */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            transition: background-color 0.2s, transform 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+            background-color: var(--app-primary-color) !important;
+            border-color: var(--app-primary-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-primary-rgb), 0.3); /* Stronger shadow */
+            transition: all 0.2s ease-in-out; /* Smooth transition for hover */
         }
         .btn-primary:hover {
-            background-color: #2563EB; /* Darker blue on hover */
-            transform: translateY(-2px);
+            background-color: #8B0000 !important; /* Darker red on hover */
+            border-color: #8B0000 !important;
+            box-shadow: 0 6px 12px rgba(var(--app-primary-rgb), 0.4); /* Deeper shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
         }
-        .btn-primary:active {
-            transform: translateY(0);
+        .btn-success {
+            background-color: var(--app-success-color) !important;
+            border-color: var(--app-success-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-success-rgb), 0.3); /* Stronger shadow for dark blue */
+            transition: all 0.2s ease-in-out; /* Smooth transition for hover */
+            color: #ffffff; /* Ensure text is white on dark blue */
         }
-        .btn-secondary {
-            background-color: #BFDBFE; /* Light blue */
-            color: #1E40AF; /* Darker blue */
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            transition: background-color 0.2s, transform 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
+        .btn-success:hover {
+            background-color: #002b5e !important; /* Darker shade of blue on hover */
+            border-color: #002b5e !important;
+            box-shadow: 0 6px 12px rgba(var(--app-success-rgb), 0.4); /* Deeper shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
         }
-        .btn-secondary:hover {
-            background-color: #93C5FD; /* Lighter blue on hover */
-            transform: translateY(-2px);
+        .btn {
+            font-weight: 500;
         }
-        .btn-secondary:active {
-            transform: translateY(0);
+        .rounded-pill {
+            border-radius: 50rem !important;
         }
-        input[type="text"], input[type="number"], input[type="date"], input[type="file"], select, textarea {
-            border: 1px solid #BFDBFE; /* Light blue border */
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            width: 100%;
-            transition: border-color 0.2s, box-shadow 0.2s;
+        /* Custom scrollbar for table if it overflows */
+        .table-responsive {
+            max-height: 60vh; /* Limit height to allow scrolling */
+            overflow-y: auto;
         }
-        input:focus, select:focus, textarea:focus {
-            outline: none;
-            border-color: #60A5FA; /* Brighter blue on focus */
-            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+        .table {
+            border: none !important; /* Ensure no borders on the table itself */
+            font-size: 1.1rem; /* Reverted font size for the entire table */
         }
-        /* Style for readonly input to make it visually clear it's not editable */
-        input[readonly] {
-            background-color: #e2e8f0; /* bg-gray-200 */
-            cursor: not-allowed;
-            opacity: 0.8;
+        .table th, .table td {
+            border-color: #d0d0d0; /* Light gray border for cells */
+            padding: 0.75rem; /* Adjust padding for better spacing with larger font */
         }
-        .loading-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.7);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            flex-direction: column;
+        .form-control.border-primary {
+            border-color: var(--app-primary-color) !important;
         }
-        /* Removed .spinner CSS */
-        .loading-dots span {
-            opacity: 0;
-            animation: fadeInOut 1.5s infinite;
+        /* Specific style for the "แจ้งข้อมูลการโอนเงิน" button */
+        #showDonationFormBtn {
+            font-size: 1.2rem; /* Adjusted text to 1.2rem */
+            padding: 0.75rem 1.5rem; /* Padding for better fit */
         }
-        .loading-dots span:nth-child(1) { animation-delay: 0s; }
-        .loading-dots span:nth-child(2) { animation-delay: 0.5s; }
-        .loading-dots span:nth-child(3) { animation-delay: 1s; }
-
-        @keyframes fadeInOut {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
+        /* Style for the readonly "วันที่แจ้งโอนเงิน" input */
+        #transferDate[readonly] {
+            background-color: #e9ecef; /* Lighter background for readonly fields */
+            color: #6c757d; /* Grey text color for readonly fields */
         }
-
-        .status-message {
-            margin-top: 1rem;
-            font-size: 1.125rem;
-            color: #3B82F6;
-            font-weight: 600;
+        /* Style for the readonly "เวลาแจ้งโอนเงิน" input */
+        #transferTime[readonly] { /* Added style for transferTime */
+            background-color: #e9ecef; /* Lighter background for readonly fields */
+            color: #6c757d; /* Grey text color for readonly fields */
         }
-
-        /* Custom scrollbar for table */
-        .overflow-x-auto::-webkit-scrollbar {
-            height: 8px;
+        /* Custom style for all form-control inputs to have rounded corners */
+        .form-control {
+            border-radius: 0.5rem !important; /* Slightly rounded corners for input fields */
         }
-        .overflow-x-auto::-webkit-scrollbar-track {
-            background: #f1f1f1;
-            border-radius: 10px;
+        /* New style for Sriracha font */
+        .font-sriracha {
+            font-family: 'Sriracha', cursive;
         }
-        .overflow-x-auto::-webkit-scrollbar-thumb {
-            background: #BFDBFE;
-            border-radius: 10px;
+        /* New style for Sarabun font (for specific elements like currency symbol) */
+        .font-sarabun {
+            font-family: 'Sarabun', sans-serif;
         }
-        .overflow-x-auto::-webkit-scrollbar-thumb:hover {
-            background: #93C5FD;
+        /* Styles for the logo image */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
         }
-
-        /* Responsive adjustments for mobile */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1.5rem;
-            }
-            /* Removed flex-direction: column from .summary-grid and width: 100% from .summary-card */
-            /* These styles are removed to allow the summary cards to remain side-by-side on mobile */
-
-            .header-buttons {
-                flex-direction: column; /* Stack buttons on mobile */
-            }
-            .header-buttons .btn-primary,
-            .header-buttons .btn-secondary {
-                width: 100%; /* Full width for buttons */
-                margin-bottom: 0.75rem; /* Space between stacked buttons */
-            }
-            .header-buttons .btn-primary:last-child,
-            .header-buttons .btn-secondary:last-child {
-                margin-bottom: 0;
-            }
-            /* Adjust search and pagination for mobile */
-            .top-controls {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem; /* Add gap between stacked elements */
-            }
-            .top-controls > div {
-                width: 100%;
-            }
-            .search-input-container {
-                flex-direction: column; /* Stack search inputs vertically on mobile */
-                align-items: flex-start; /* Align search inputs to left */
-            }
-            .search-input-container > div {
-                width: 100%;
-            }
-            table th, table td {
-                font-size: 0.875rem; /* Smaller font for table on mobile */
-                padding: 0.75rem 0.5rem;
-            }
+        .logo-container img {
+            max-width: 150px; /* Adjust max-width as needed */
+            height: auto;
         }
     </style>
 </head>
 <body>
-    <div id="loadingOverlay" class="loading-overlay hidden">
-        <p id="loadingMessage" class="status-message">กำลังดำเนินการ<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span></p>
-    </div>
+    <div class="container-fluid my-4">
+        <!-- Status Message (This div is now effectively unused as SweetAlert handles messages) -->
+        <div id="statusMessage" class="alert d-none text-center my-3" role="alert"></div>
 
-    <div class="container">
-        <div id="dashboardView" class="view">
-            <h1 class="text-3xl font-bold text-center text-blue-800 mb-8">รายนามผู้บริจาคเงินสร้างโดม</h1>
+        <!-- Home Page -->
+        <div id="homePage" class="card p-4 mx-auto">
+            <div class="logo-container">
+                <img src="https://www.chaiwit.ac.th/web/wp-content/uploads/2022/06/chaiwitlogo.png" alt="Chaiwit Logo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/cccccc/333333?text=Logo';" loading="lazy">
+            </div>
+            <h2 class="text-center mb-4 text-primary">รายนามผู้บริจาคเงินสร้างโดม</h2>
 
-            <!-- Summary Section -->
-            <div class="flex flex-row justify-center items-stretch gap-4 mb-8 summary-grid">
-                <div class="summary-card flex-1">
-                    <i class="fas fa-hand-holding-usd summary-icon"></i>
-                    <div class="text-sm text-gray-600">ยอดบริจาครวม</div>
-                    <div id="totalDonation" class="text-3xl font-bold text-blue-600 mt-2">฿ 0.00</div>
+            <!-- Summary Section - Responsive layout for mobile -->
+            <div class="row mb-4 g-3">
+                <div class="col-6">
+                    <div class="card bg-success text-black rounded-4 shadow-sm p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-cash-coin me-2" style="font-size: 1.8rem;"></i>
+                        <!-- Applied font-sriracha class to number, and font-sarabun to currency symbol -->
+                        <span class="fw-bold fs-2"><span id="totalAmount" class="font-sriracha">0</span> <span class="font-sarabun">฿</span></span>
+                    </div>
                 </div>
-                <div class="summary-card flex-1">
-                    <i class="fas fa-users summary-icon"></i>
-                    <div class="text-sm text-gray-600">จำนวนผู้บริจาค</div>
-                    <div id="donorCount" class="text-3xl font-bold text-blue-600 mt-2">0 คน</div>
+                <div class="col-6">
+                    <div class="card bg-info text-black rounded-4 shadow-sm p-3 d-flex align-items-center justify-content-center">
+                        <i class="bi bi-people-fill me-2" style="font-size: 1.8rem;"></i>
+                        <!-- Applied font-sriracha class here -->
+                        <span class="fw-bold fs-2 font-sriracha"><span id="totalDonors">0</span> คน</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Mobile Specific Section: Heading + Mobile Button -->
-            <!-- This section is shown only on small screens (mobile) -->
-            <div class="block sm:hidden mb-6">
-                <h2 class="text-2xl font-semibold text-blue-700 mb-4 text-center">รายนามผู้บริจาคเงิน</h2>
-                <div class="flex justify-center"> <!-- Changed to flex justify-center to center the button -->
-                    <button id="showDonationFormBtnMobile" class="btn-primary w-32">
-                        <i class="fas fa-plus-circle"></i> แจ้งข้อมูลโอนเงิน
-                    </button>
+            <!-- Search and Add Button - Responsive layout for mobile -->
+            <div class="row mb-3 g-3 align-items-center">
+                <!-- Button for mobile (top), then for desktop (right) -->
+                <div class="col-12 col-md-4 text-center text-md-end order-md-last">
+                    <!-- Changed class from btn-primary to btn-success for dark blue color -->
+                    <button id="showDonationFormBtn" class="btn btn-success rounded-pill shadow-sm text-nowrap w-100">แจ้งข้อมูลการโอนเงิน</button>
+                </div>
+                <!-- Search input for mobile (bottom), then for desktop (left) -->
+                <div class="col-12 col-md-8 order-md-first">
+                    <input type="text" id="searchInput" class="form-control border-primary shadow-sm" placeholder="ค้นหาด้วย ผู้บริจาคเงิน, วันที่โอนเงิน, จำนวนเงิน...">
                 </div>
             </div>
 
-            <!-- Donor List Section -->
-            <div class="data-table-container">
-                <div class="flex flex-col sm:flex-row items-center justify-between mb-6 header-buttons">
-                    <!-- Original heading, now hidden on mobile, visible on sm and up -->
-                    <h2 class="text-2xl font-semibold text-blue-700 mb-4 sm:mb-0 hidden sm:block">รายนามผู้บริจาคเงิน</h2>
-                    <!-- Original button, now hidden on mobile, visible on sm and up -->
-                    <button id="showDonationFormBtnDesktop" class="btn-primary hidden sm:inline-flex">
-                        <i class="fas fa-plus-circle"></i> แจ้งข้อมูลโอนเงิน
-                    </button>
-                </div>
-
-                <!-- Top controls: Entries per page (left) and Single Search (right) -->
-                <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-4 top-controls">
-                    <!-- Left: Entries per page - short width -->
-                    <div class="flex items-center gap-2 mb-4 md:mb-0 md:w-24">
-                        <select id="entriesPerPage" class="p-1 border border-blue-300 rounded-md text-sm focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50 w-full">
-                            <option value="10">10</option>
-                            <option value="25">25</option>
-                            <option value="50">50</option>
-                            <option value="100" selected>100</option> <!-- Set 100 as default selected -->
-                        </select>
-                    </div>
-
-                    <!-- Right: Single search input - adjustable width -->
-                    <div class="flex items-end gap-3 w-full md:w-64 justify-end">
-                        <input type="text" id="generalSearchInput" placeholder="ค้นหาชื่อ, อาชีพ, จำนวนเงิน, วันที่..." class="w-full text-sm p-2 rounded-md border border-blue-300 focus:border-blue-500 focus:ring focus:ring-blue-200 focus:ring-opacity-50">
-                    </div>
-                </div>
-
-                <!-- Data Table -->
-                <div class="overflow-x-auto rounded-lg shadow-md border border-blue-200">
-                    <table class="min-w-full divide-y divide-blue-200">
-                        <thead class="bg-blue-100"> <!-- Lighter blue for header background -->
-                            <tr>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700 rounded-tl-lg">ลำดับที่</th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">ชื่อ-นามสกุล</th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">รุ่น/อาชีพ</th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700">จำนวนเงิน (บาท)</th>
-                                <th scope="col" class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider text-blue-700 rounded-tr-lg">วันที่แจ้งโอนเงิน</th>
-                            </tr>
-                        </thead>
-                        <tbody id="donorsTableBody" class="divide-y divide-gray-200">
-                            <!-- Data will be loaded here -->
-                            <tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">ไม่มีข้อมูลผู้บริจาค</td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <!-- Pagination controls (bottom-right) -->
-                <div class="flex justify-between items-center mt-4">
-                    <div id="paginationInfo" class="text-sm text-gray-600"></div>
-                    <div class="flex gap-2">
-                        <button id="prevPageBtn" class="btn-secondary px-3 py-1 text-sm rounded-md disabled:opacity-50 disabled:cursor-not-allowed"><i class="fas fa-chevron-left"></i> ก่อนหน้า</button>
-                        <button id="nextPageBtn" class="btn-secondary px-3 py-1 text-sm rounded-md disabled:opacity-50 disabled:cursor-not-allowed">ถัดไป <i class="fas fa-chevron-right"></i></button>
-                    </div>
-                </div>
+            <!-- Data Table -->
+            <div class="table-responsive rounded-4 shadow-sm">
+                <table id="donorsTable" class="table table-hover table-striped mb-0">
+                    <thead class="bg-primary text-white">
+                        <tr>
+                            <th scope="col">ที่</th>
+                            <th scope="col">ผู้บริจาคเงิน</th>
+                            <th scope="col">รุ่น/อาชีพ</th>
+                            <th scope="col">จำนวนเงิน</th>
+                            <th scope="col">วันที่แจ้งโอนเงิน</th>
+                            <!-- Removed the "เวลาแจ้งโอนเงิน" column header from the table display -->
+                        </tr>
+                    </thead>
+                    <tbody id="donorsTableBody">
+                        <!-- Data will be populated here by JavaScript -->
+                    </tbody>
+                </table>
             </div>
         </div>
 
-        <div id="donationFormView" class="view hidden">
-            <div class="data-table-container relative">
-                <!-- Removed the "backToDashboardBtn" -->
-                <h2 class="text-2xl font-semibold text-blue-700 mb-6 text-center">แจ้งข้อมูลการโอนเงิน</h2>
-
-                <form id="donationForm" class="grid grid-cols-1 gap-6">
-                    <div>
-                        <label for="notificationDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่แจ้งโอนเงิน</label>
-                        <input type="text" id="notificationDate" required class="w-full" readonly> <!-- Changed to type="text" and readonly -->
+        <!-- Donation Form Page -->
+        <div id="donationFormPage" class="card p-4 mx-auto d-none">
+            <h2 class="text-center mb-4 text-primary">บันทึกแจ้งโอนเงิน</h2>
+            <form id="donationForm">
+                <div class="row"> <!-- Use Bootstrap row for horizontal alignment -->
+                    <div class="col-md-6 mb-3"> <!-- Half width for date on medium+ screens -->
+                        <label for="transferDate" class="form-label fw-bold">วันที่แจ้งโอนเงิน:</label>
+                        <input type="date" class="form-control border-secondary" id="transferDate" required readonly>
                     </div>
-                    <div>
-                        <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">ชื่อ-นามสกุล</label>
-                        <input type="text" id="fullName" placeholder="ชื่อ-นามสกุล" required class="w-full">
+                    <div class="col-md-6 mb-3"> <!-- Half width for time on medium+ screens -->
+                        <label for="transferTime" class="form-label fw-bold">เวลาแจ้งโอนเงิน:</label>
+                        <input type="text" class="form-control border-secondary" id="transferTime" required readonly>
                     </div>
-                    <div>
-                        <label for="batchOccupation" class="block text-sm font-medium text-gray-700 mb-1">รุ่น/อาชีพ</label>
-                        <input type="text" id="batchOccupation" placeholder="รุ่น/อาชีพ" class="w-full">
+                </div>
+                <div class="mb-3">
+                    <label for="fullName" class="form-label fw-bold">ชื่อ-นามสกุล:</label>
+                    <input type="text" class="form-control border-secondary" id="fullName" placeholder="กรอกชื่อ-นามสกุล" required>
+                </div>
+                <div class="mb-3">
+                    <label for="occupation" class="form-label fw-bold">รุ่น/อาชีพ:</label>
+                    <input type="text" class="form-control border-secondary" id="occupation" placeholder="กรอกรุ่น/อาชีพ" required>
+                </div>
+                <div class="mb-3">
+                    <label for="phoneNumber" class="form-label fw-bold">เบอร์โทร:</label>
+                    <input type="tel" class="form-control border-secondary" id="phoneNumber" placeholder="กรอกเบอร์โทร" required>
+                </div>
+                <div class="mb-3">
+                    <label for="amount" class="form-label fw-bold">จำนวนเงิน:</label>
+                    <input type="number" class="form-control border-secondary" id="amount" placeholder="กรอกจำนวนเงิน" required min="1">
+                </div>
+                <div class="mb-3">
+                    <label for="donationDate" class="form-label fw-bold">วันที่โอนเงิน:</label>
+                    <input type="date" class="form-control border-secondary" id="donationDate" required>
+                </div>
+                <div class="mb-4">
+                    <label for="slipImage" class="form-label fw-bold">แนบสลิปโอนเงิน:</label>
+                    <input type="file" class="form-control border-secondary" id="slipImage" accept="image/*" required>
+                    <small class="form-text text-muted ms-2">รองรับไฟล์รูปภาพเท่านั้น</small>
+                </div>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <button type="submit" class="btn btn-success btn-lg rounded-pill shadow-sm w-100">บันทึกข้อมูล</button>
                     </div>
-                    <div>
-                        <label for="phoneNumber" class="block text-sm font-medium text-gray-700 mb-1">เบอร์โทร</label>
-                        <input type="text" id="phoneNumber" placeholder="เช่น 0812345678" class="w-full">
+                    <div class="col-6">
+                        <button type="button" id="backToHomeBtn" class="btn btn-primary btn-lg rounded-pill shadow-sm w-100">ยกเลิก</button>
                     </div>
-                    <div>
-                        <label for="amount" class="block text-sm font-medium text-gray-700 mb-1">จำนวนเงิน (บาท)</label>
-                        <input type="number" id="amount" placeholder="0.00" step="0.01" min="0" required class="w-full">
-                    </div>
-                    <div>
-                        <label for="transferDate" class="block text-sm font-medium text-gray-700 mb-1">วันที่โอนเงิน</label>
-                        <input type="date" id="transferDate" required class="w-full">
-                        <p id="transferDateBuddhistDisplay" class="text-xs text-gray-500 mt-1"></p> <!-- Added for Buddhist year display -->
-                    </div>
-                    <div>
-                        <label for="slipFile" class="block text-sm font-medium text-gray-700 mb-1">แนบสลิปโอนเงิน</label>
-                        <input type="file" id="slipFile" accept="image/*" required class="w-full p-2 border border-blue-200 rounded-md file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
-                    </div>
-                    <div class="flex justify-center items-center gap-4 mt-4"> <!-- Flex container for buttons -->
-                        <button type="submit" class="btn-primary">
-                            <i class="fas fa-save"></i> บันทึกข้อมูล
-                        </button>
-                        <button type="button" id="cancelDonationBtn" class="btn-primary"> <!-- Changed to btn-primary -->
-                            <i class="fas fa-times-circle"></i> ยกเลิก
-                        </button>
-                    </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
     </div>
 
+    <!-- Bootstrap 5.3.3 JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <!-- SweetAlert2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
-        // Google Apps Script URL for deployment
-        // ตรวจสอบให้แน่ใจว่า URL นี้เป็น URL ที่คุณได้จากการ Deploy Google Apps Script ในรูปแบบ Web app และตั้งค่าการเข้าถึงเป็น "Anyone"
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzwVUyzidu01RujYqUrcSbqEyEl8nWPkvFaxv-s_4jrBjnmYLAFd9Hkk1sf-a5Llm6-/exec'; // Corrected URL
+        // Google Apps Script URL for data submission and retrieval
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJpnhg35l4xVOHq4KfUgpSQNDa6xWlcsZn4GOPlCDjfmtdXWwVxWZ7aKcE6o_6w1s/exec';
 
         // Get DOM elements
-        const dashboardView = document.getElementById('dashboardView');
-        const donationFormView = document.getElementById('donationFormView');
-        // Get both mobile and desktop buttons
-        const showDonationFormBtnMobile = document.getElementById('showDonationFormBtnMobile');
-        const showDonationFormBtnDesktop = document.getElementById('showDonationFormBtnDesktop');
+        const homePage = document.getElementById('homePage');
+        const donationFormPage = document.getElementById('donationFormPage');
+        const showDonationFormBtn = document.getElementById('showDonationFormBtn');
+        const backToHomeBtn = document.getElementById('backToHomeBtn');
         const donationForm = document.getElementById('donationForm');
+        const searchInput = document.getElementById('searchInput');
         const donorsTableBody = document.getElementById('donorsTableBody');
-        const totalDonationEl = document.getElementById('totalDonation');
-        const donorCountEl = document.getElementById('donorCount');
-        const loadingOverlay = document.getElementById('loadingOverlay');
-        const loadingMessage = document.getElementById('loadingMessage');
-        const notificationDateInput = document.getElementById('notificationDate'); // Get the notification date input
-        const transferDateInput = document.getElementById('transferDate'); // Get the transfer date input
-        const transferDateBuddhistDisplay = document.getElementById('transferDateBuddhistDisplay'); // Get the display span
-        const cancelDonationBtn = document.getElementById('cancelDonationBtn'); // Get the new cancel button
+        const totalAmountSpan = document.getElementById('totalAmount');
+        const totalDonorsSpan = document.getElementById('totalDonors');
+        const transferDateInput = document.getElementById('transferDate');
+        const transferTimeInput = document.getElementById('transferTime'); // Get transfer time input
 
-        // Single search input
-        const generalSearchInput = document.getElementById('generalSearchInput');
-
-        // Pagination elements
-        const entriesPerPageSelect = document.getElementById('entriesPerPage');
-        const prevPageBtn = document.getElementById('prevPageBtn');
-        const nextPageBtn = document.getElementById('nextPageBtn');
-        const paginationInfo = document.getElementById('paginationInfo');
-
-        // State variables for pagination and data
-        let allDonorsData = []; // To store all fetched data
-        let filteredDonorsData = []; // To store data after applying search filters
-        let currentPage = 1;
-        let entriesPerPage = parseInt(entriesPerPageSelect.value); // Initialize from select default
-        let totalDonorsAfterFilter = 0;
-
-        // --- Utility Functions ---
+        let allDonorsData = []; // To store all fetched donor data
 
         /**
-         * Shows the loading overlay with a given message.
-         * @param {string} message - The message to display.
+         * Function to show a specific page and hide others.
+         * @param {HTMLElement} pageToShow - The page element to show.
          */
-        function showLoading(message = 'กำลังดำเนินการ...') { // Default message changed here
-            loadingMessage.textContent = message.split('<span')[0]; // Reset text content without dots
-            loadingMessage.innerHTML = message + '<span class="loading-dots"><span>.</span><span>.</span><span>.</span></span>'; // Add dots back
-            loadingOverlay.classList.remove('hidden');
+        function showPage(pageToShow) {
+            homePage.classList.add('d-none');
+            donationFormPage.classList.add('d-none');
+            pageToShow.classList.remove('d-none');
         }
 
         /**
-         * Hides the loading overlay.
+         * Sets the transferDate and transferTime inputs to the current date and time (with seconds).
          */
-        function hideLoading() {
-            loadingOverlay.classList.add('hidden');
-        }
-
-        /**
-         * Converts a Date object or string to 'YYYY-MM-DD' format (for internal use, e.g., search or input value).
-         * @param {Date|string} date - The date object or string.
-         * @returns {string} The formatted date string.
-         */
-        function formatDateYYYYMMDD(date) {
-            let d;
-            if (date instanceof Date) {
-                d = date;
-            } else {
-                d = new Date(date);
-            }
-            if (isNaN(d.getTime())) return ''; // Return empty if date is invalid
-            const year = d.getFullYear();
-            const month = String(d.getMonth() + 1).padStart(2, '0');
-            const day = String(d.getDate()).padStart(2, '0');
-            return `${year}-${month}-${day}`;
-        }
-
-        /**
-         * Formats a date string to Thai Buddhist calendar format (e.g., "11 ส.ค. 2568") for display.
-         * @param {string} dateStr - The date string (e.g., 'YYYY-MM-DD').
-         * @returns {string} The formatted Thai date string.
-         */
-        function formatDateThaiBuddhist(dateStr) {
-            const d = new Date(dateStr);
-            if (isNaN(d.getTime())) return '';
-
-            const thaiMonths = [
-                'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
-                'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
-            ];
-
-            const day = d.getDate();
-            const month = thaiMonths[d.getMonth()];
-            const yearBuddhist = d.getFullYear() + 543; // Convert Gregorian to Buddhist calendar year
-
-            return `${day} ${month} ${yearBuddhist}`;
-        }
-
-        /**
-         * Formats a number as currency.
-         * @param {number} amount - The amount to format.
-         * @returns {string} The formatted currency string.
-         */
-        function formatCurrency(amount) {
-            return parseFloat(amount).toLocaleString('th-TH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-        }
-
-        // --- View Switching ---
-
-        /**
-         * Displays the dashboard view and hides the donation form.
-         */
-        function showDashboard() {
-            dashboardView.classList.remove('hidden');
-            donationFormView.classList.add('hidden');
-            fetchDonations(); // Refresh data when returning to dashboard
-        }
-
-        /**
-         * Displays the donation form view and hides the dashboard.
-         */
-        function showDonationForm() {
-            dashboardView.classList.add('hidden');
-            donationFormView.classList.remove('hidden');
-            donationForm.reset(); // Clear form fields
-
-            // Set current date for notification date and format it to Thai Buddhist
+        function setCurrentTransferDate() {
             const today = new Date();
-            notificationDateInput.value = formatDateThaiBuddhist(today); // Set display value
-            notificationDateInput.dataset.gregorianValue = formatDateYYYYMMDD(today); // Store Gregorian value for submission if needed, though this field is readonly and will use this value implicitly
+            const year = today.getFullYear();
+            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const day = String(today.getDate()).padStart(2, '0');
+            const hours = String(today.getHours()).padStart(2, '0');
+            const minutes = String(today.getMinutes()).padStart(2, '0');
+            const seconds = String(today.getSeconds()).padStart(2, '0'); // Get seconds
 
-            // Set current date for transfer date input and update its Buddhist display
-            transferDateInput.valueAsDate = today; // Sets the Gregorian value for the native picker
-            transferDateBuddhistDisplay.textContent = `(${formatDateThaiBuddhist(today)})`; // Update display span
+            transferDateInput.value = `${year}-${month}-${day}`;
+            transferTimeInput.value = `${hours}:${minutes}:${seconds}`; // Set current time with seconds
         }
 
-        // --- Data Fetching and Display ---
-
         /**
-         * Fetches donation data from Google Apps Script and updates the table.
+         * Displays a SweetAlert2 notification.
+         * @param {string} message - The message to display.
+         * @param {'success'|'error'|'info'|'warning'|'question'} icon - The icon type.
+         * @param {'toast'|'modal'} presentation - 'toast' for small, auto-closing, top-end; 'modal' for full screen, centered.
+         * @param {boolean} showLoadingSpinner - If true, shows a loading spinner (for 'info' icon).
+         * @returns {Promise<SweetAlertResult>} - A promise that resolves when the alert closes.
          */
-        async function fetchDonations() {
-            // Removed showLoading('กำลังโหลดข้อมูลผู้บริจาค...'); from here
-            try {
-                const response = await fetch(`${APPS_SCRIPT_URL}?action=getData`);
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
+        function showAppAlert(message, icon, presentation = 'toast', showLoadingSpinner = false) {
+            let options = {
+                title: message,
+                icon: icon,
+                showConfirmButton: false,
+                allowOutsideClick: false,
+                allowEscapeKey: false,
+                timerProgressBar: false,
+            };
+
+            if (presentation === 'toast') {
+                options.toast = true;
+                options.position = 'top-end';
+                options.timer = 3000; // Default toast duration
+                options.timerProgressBar = true;
+                options.showConfirmButton = false;
+                options.allowOutsideClick = true; // Toasts can be dismissed by clicking outside
+                options.allowEscapeKey = true; // Toasts can be dismissed by escape key
+            } else { // 'modal'
+                options.toast = false;
+                options.position = 'center';
+                options.allowOutsideClick = false;
+                options.allowEscapeKey = false;
+                if (icon === 'error') { // Error modals should have a confirm button and no timer
+                    options.showConfirmButton = true;
+                    options.timer = undefined;
+                    options.allowOutsideClick = true; // Allow closing explicitly
+                    options.allowEscapeKey = true; // Allow closing explicitly
+                } else if (icon === 'info' && showLoadingSpinner) {
+                    options.didOpen = () => {
+                        Swal.showLoading();
+                    };
+                    options.timer = undefined; // Loading modal should not auto-close
+                } else if (icon === 'success') { // Success modal should have a specific timer
+                    options.timer = 2000; // Show for 2 seconds (as requested)
+                    options.timerProgressBar = true;
                 }
-                const data = await response.json();
-                allDonorsData = data.data || [];
-                
-                currentPage = 1; // Reset current page
-                entriesPerPage = parseInt(entriesPerPageSelect.value); // Ensure entriesPerPage is set from select
-                applyFiltersAndPagination(); // Apply initial filter and pagination
-            } catch (error) { 
-                console.error('Error fetching donations:', error);
-                // Display error using the existing customAlertDialog mechanism
-                const customAlertDialog = document.createElement('div');
-                customAlertDialog.innerHTML = `
-                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-                        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
-                            <p class="text-lg font-semibold text-red-600 mb-4">แจ้งเตือน!</p>
-                            <p class="text-gray-800 mb-6">เกิดข้อผิดพลาดในการโหลดข้อมูล: ${error.message}</p>
-                            <button id="closeAlertDialog" class="btn-primary">ตกลง</button>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(customAlertDialog);
-                document.getElementById('closeAlertDialog').addEventListener('click', () => {
-                    document.body.removeChild(customAlertDialog);
-                });
-                totalDonationEl.textContent = '฿ 0.00';
-                donorCountEl.textContent = '0 คน';
-                paginationInfo.textContent = 'ไม่พบข้อมูล';
-                prevPageBtn.disabled = true;
-                nextPageBtn.disabled = true;
-            } finally {
-                hideLoading(); // Still hide in finally, just in case
             }
+            return Swal.fire(options);
         }
 
         /**
-         * Applies search filters to allDonorsData and then triggers pagination display.
+         * Fetches donor data from Google Apps Script.
+         * Implements exponential backoff for retries.
+         * @param {number} retries - Number of retry attempts.
+         * @param {boolean} showLoading - If true, shows a loading alert. Default is true.
+         * @returns {Promise<Array>} - A promise that resolves with the donor data.
          */
-        function applyFiltersAndPagination() {
-            let tempFilteredData = [...allDonorsData]; // Start with all data
+        async function fetchDonors(retries = 3, showLoading = true) {
+            if (showLoading) { // Only show loading if explicitly requested (e.g., not on initial page load or cancel button)
+                showAppAlert('กำลังโหลดข้อมูล...', 'info', 'modal', true);
+            }
+            try {
+                for (let i = 0; i < retries; i++) {
+                    try {
+                        const response = await fetch(APPS_SCRIPT_URL + '?action=getDonors');
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const rawData = await response.json(); // Get raw data
 
-            const searchTerm = generalSearchInput.value.toLowerCase().trim();
+                        // Explicitly check if rawData is an array or an error object
+                        if (typeof rawData === 'object' && rawData !== null && rawData.status === 'error') {
+                            console.error("Received error data from Apps Script:", rawData.message);
+                            // Display the specific error message from Apps Script to the user
+                            showAppAlert(`ข้อผิดพลาดจากเซิร์ฟเวอร์: ${rawData.message}`, 'error', 'modal');
+                            return []; // Return an empty array to prevent further errors
+                        }
+                        
+                        if (!Array.isArray(rawData)) {
+                            console.error("Received non-array data from Apps Script:", rawData);
+                            throw new Error("Invalid data format received from server.");
+                        }
 
-            // Apply filter based on single search term across multiple fields
-            if (searchTerm !== '') {
-                tempFilteredData = tempFilteredData.filter(donor => {
-                    // Ensure these fields are treated as strings before calling toLowerCase()
-                    const fullName = String(donor['ชื่อ-นามสกุล'] || '').toLowerCase();
-                    const batchOccupation = String(donor['รุ่น/อาชีพ'] || '').toLowerCase();
-                    
-                    let amountMatch = false;
-                    if (donor['จำนวนเงิน'] !== undefined) {
-                        const donorAmount = parseFloat(donor['จำนวนเงิน']);
-                        if (!isNaN(donorAmount)) {
-                            // 1. Raw number string (e.g., "1000")
-                            const rawAmountString = String(donorAmount);
-                            // 2. Formatted currency string (e.g., "฿ 1,000.00")
-                            const formattedAmountString = formatCurrency(donorAmount).toLowerCase();
-                            // 3. Formatted currency string without currency symbol (e.g., "1,000.00")
-                            //    Also replace comma for better matching if user types without comma
-                            const formattedAmountWithoutSymbol = formattedAmountString.replace('฿', '').replace(/,/g, '').trim(); 
-                            // 4. Raw number string without decimal if it's .00 (e.g., "1000" from "1000.00")
-                            const integerPartAmount = String(Math.floor(donorAmount));
-
-
-                            amountMatch = rawAmountString.includes(searchTerm) ||
-                                          formattedAmountString.includes(searchTerm) ||
-                                          formattedAmountWithoutSymbol.includes(searchTerm) ||
-                                          integerPartAmount.includes(searchTerm);
+                        if (showLoading) {
+                            Swal.close();
+                        }
+                        return rawData; // Return the array
+                    } catch (error) {
+                        console.error('Error fetching donors:', error);
+                        if (i < retries - 1) {
+                            const delay = Math.pow(2, i) * 1000; // Exponential backoff (1s, 2s, 4s)
+                            await new Promise(res => setTimeout(res, delay));
+                            console.log(`Retrying fetchDonors... Attempt ${i + 2}`);
+                        } else {
+                            // Only close loading if it was shown by this function call
+                            if (showLoading) {
+                                Swal.close();
+                            }
+                            showAppAlert('ไม่สามารถโหลดข้อมูลผู้บริจาคได้ กรุณาลองใหม่อีกครั้ง', 'error', 'modal');
+                            return []; // Always return an empty array on final failure
                         }
                     }
-
-                    // Ensure date is formatted consistently and then converted to string for search
-                    const notificationDateSearch = String(formatDateYYYYMMDD(donor['วันที่แจ้งโอนเงิน']) || '').toLowerCase();
-                    // Also check against Thai Buddhist format if user searches that way
-                    const notificationDateThaiSearch = String(formatDateThaiBuddhist(donor['วันที่แจ้งโอนเงิน']) || '').toLowerCase();
-
-                    // Adding transferDate search (which is now in the sheet as 'วันที่โอนเงิน')
-                    const transferDateSearch = String(formatDateYYYYMMDD(donor['วันที่โอนเงิน']) || '').toLowerCase(); // Assuming 'วันที่โอนเงิน' is the column name for transfer date in the sheet
-                    const transferDateThaiSearch = String(formatDateThaiBuddhist(donor['วันที่โอนเงิน']) || '').toLowerCase();
-
-
-                    return fullName.includes(searchTerm) || 
-                           batchOccupation.includes(searchTerm) || 
-                           amountMatch || 
-                           notificationDateSearch.includes(searchTerm) ||
-                           notificationDateThaiSearch.includes(searchTerm) ||
-                           transferDateSearch.includes(searchTerm) ||
-                           transferDateThaiSearch.includes(searchTerm);
-                });
+                }
+            } finally {
+                // Ensure SweetAlert is closed even if an unexpected error occurs outside the loop
+                if (Swal.isVisible()) {
+                    Swal.close();
+                }
             }
-            
-            filteredDonorsData = tempFilteredData; // Store the filtered data
-            totalDonorsAfterFilter = filteredDonorsData.length;
-
-            // Always reset to page 1 when filters are applied/changed
-            currentPage = 1;
-
-            displayPaginatedDonations();
-            updateSummary(filteredDonorsData); // Update summary based on filtered data
+            return []; // Should ideally not be reached, but as a safeguard.
         }
 
         /**
-         * Displays paginated donation data in the table.
+         * Renders the donor data into the table and updates summary.
+         * @param {Array} donors - Array of donor objects.
          */
-        function displayPaginatedDonations() {
+        function renderTable(donors) {
+            // Add a check to ensure donors is an array before attempting to sort
+            if (!Array.isArray(donors)) {
+                console.error("renderTable received non-array data:", donors);
+                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">ไม่สามารถแสดงข้อมูลได้เนื่องจากข้อมูลไม่ถูกต้อง</td></tr>';
+                totalAmountSpan.textContent = '0';
+                totalDonorsSpan.textContent = '0';
+                return; // Exit the function
+            }
+
             donorsTableBody.innerHTML = ''; // Clear existing rows
+            let totalAmount = 0;
+            let donorCount = 0;
 
-            // Sort by notification date in descending order (latest first) before pagination
-            const sortedAndFilteredData = [...filteredDonorsData].sort((a, b) => {
-                const dateA = new Date(a['วันที่แจ้งโอนเงิน']);
-                const dateB = new Date(b['วันที่แจ้งโอนเงิน']);
-                return dateB - dateA; // Descending order
-            });
-
-            const startIndex = (currentPage - 1) * entriesPerPage;
-            const endIndex = startIndex + entriesPerPage;
-            const paginatedData = sortedAndFilteredData.slice(startIndex, endIndex);
-
-            if (paginatedData.length === 0) {
-                donorsTableBody.innerHTML = `<tr><td colspan="5" class="px-6 py-4 whitespace-nowrap text-center text-sm text-gray-500">ไม่มีข้อมูลผู้บริจาค</td></tr>`;
-                paginationInfo.textContent = 'ไม่พบข้อมูล';
-                prevPageBtn.disabled = true;
-                nextPageBtn.disabled = true;
-                return;
+            if (donors.length === 0) {
+                // If the donors array is empty, display the "no data" message
+                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">ไม่มีข้อมูลผู้บริจาคเงิน</td></tr>';
+                totalAmountSpan.textContent = '0';
+                totalDonorsSpan.textContent = '0';
+                return; // Exit the function
             }
 
-            paginatedData.forEach((donor, index) => {
-                const row = document.createElement('tr');
-                row.classList.add('hover:bg-blue-100', 'odd:bg-white', 'even:bg-blue-50');
-                row.innerHTML = `
-                    <td class="px-4 py-3 whitespace-nowrap text-sm font-medium text-gray-900">${startIndex + index + 1}</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${donor['ชื่อ-นามสกุล']}</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${donor['รุ่น/อาชีพ'] || '-'}</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-green-700 font-semibold">${formatCurrency(donor['จำนวนเงิน'])}</td>
-                    <td class="px-4 py-3 whitespace-nowrap text-sm text-gray-800">${formatDateThaiBuddhist(donor['วันที่แจ้งโอนเงิน'])}</td> <!-- Displaying วันที่แจ้งโอนเงิน in Thai Buddhist calendar -->
-                `;
-                donorsTableBody.appendChild(row);
+            // Sort by 'วันที่แจ้งโอนเงิน' (transferDate) combined with 'เวลาแจ้งโอนเงิน' in descending order (latest first)
+            // This ensures correct chronological order when sorting by date and time
+            donors.sort((a, b) => {
+                const dateTimeA = new Date(`${b['วันที่แจ้งโอนเงิน']}T${b['เวลาแจ้งโอนเงิน'] || '00:00:00'}`); // Use 00:00:00 as default
+                const dateTimeB = new Date(`${a['วันที่แจ้งโอนเงิน']}T${a['เวลาแจ้งโอนเงิน'] || '00:00:00'}`); // Use 00:00:00 as default
+                return dateTimeA - dateTimeB;
             });
 
-            updatePaginationControls();
+
+            donors.forEach((donor, index) => {
+                const row = donorsTableBody.insertRow();
+                row.insertCell(0).textContent = index + 1; // ลำดับที่
+                row.insertCell(1).textContent = donor['ชื่อ-นามสกุล'] || '-'; // This now corresponds to 'ผู้บริจาคเงิน' in UI
+                row.insertCell(2).textContent = donor['รุ่น/อาชีพ'] || '-';
+                row.insertCell(3).textContent = parseFloat(donor['จำนวนเงิน']).toLocaleString('th-TH') || '0';
+                // Use 'วันที่แจ้งโอนเงิน' for the 5th column (index 4)
+                row.insertCell(4).textContent = donor['วันที่แจ้งโอนเงิน'] ? new Date(donor['วันที่แจ้งโอนเงิน']).toLocaleDateString('th-TH') : '-';
+                // Removed the line below which was displaying transfer time
+                // row.insertCell(5).textContent = donor['เวลาแจ้งโอนเงิน'] || '-'; 
+
+                totalAmount += parseFloat(donor['จำนวนเงิน']) || 0;
+                donorCount++;
+            });
+
+            totalAmountSpan.textContent = totalAmount.toLocaleString('th-TH');
+            totalDonorsSpan.textContent = donorCount;
         }
 
         /**
-         * Updates the total donation amount and donor count.
-         * @param {Array<Object>} data - The array of data (could be all or filtered).
+         * Filters the donor data based on search input.
          */
-        function updateSummary(data) {
-            const total = data.reduce((sum, donor) => sum + parseFloat(donor['จำนวนเงิน'] || 0), 0);
-            totalDonationEl.textContent = `฿ ${formatCurrency(total)}`;
-            donorCountEl.textContent = `${data.length} คน`;
+        function filterDonors() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredDonors = allDonorsData.filter(donor => {
+                // Ensure values are converted to string before calling toLowerCase()
+                const fullName = String(donor['ชื่อ-นามสกุล'] || '').toLowerCase();
+                const transferDate = String(donor['วันที่แจ้งโอนเงิน'] || '').toLowerCase(); // Use วันที่แจ้งโอนเงิน for search
+                const transferTime = String(donor['เวลาแจ้งโอนเงิน'] || '').toLowerCase(); // Include transfer time in search
+                const amount = String(donor['จำนวนเงิน'] || '');
+
+                // Check if any of the fields include the search term
+                return fullName.includes(searchTerm) ||
+                       transferDate.includes(searchTerm) ||
+                       transferTime.includes(searchTerm) || // Search by transfer time (now includes seconds)
+                       amount.includes(searchTerm);
+            });
+            renderTable(filteredDonors);
         }
 
-        /**
-         * Updates the pagination information text and button states.
-         */
-        function updatePaginationControls() {
-            const totalPages = Math.ceil(totalDonorsAfterFilter / entriesPerPage);
-            const startEntry = totalDonorsAfterFilter === 0 ? 0 : (currentPage - 1) * entriesPerPage + 1;
-            const endEntry = Math.min(currentPage * entriesPerPage, totalDonorsAfterFilter);
+        // Event Listeners
+        showDonationFormBtn.addEventListener('click', () => {
+            setCurrentTransferDate(); // Set current date and time (with seconds) when showing the form
+            showPage(donationFormPage);
+        });
 
-            paginationInfo.textContent = `แสดง ${startEntry} ถึง ${endEntry} จาก ${totalDonorsAfterFilter} รายการ (หน้า ${currentPage} จาก ${totalPages || 1})`;
-            prevPageBtn.disabled = currentPage === 1;
-            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
-        }
+        backToHomeBtn.addEventListener('click', () => {
+            showPage(homePage);
+            // Re-fetch data to ensure it's up-to-date when returning to home page
+            // Pass false to showLoading to prevent the loading alert when cancelling
+            fetchDonors(3, false).then(data => {
+                allDonorsData = data;
+                renderTable(allDonorsData);
+            });
+        });
 
-        // --- Form Submission ---
+        searchInput.addEventListener('keyup', filterDonors);
 
-        /**
-         * Handles the form submission, converts file to Base64, and sends data to Apps Script.
-         * @param {Event} event - The form submission event.
-         */
-        async function handleFormSubmit(event) {
-            event.preventDefault();
+        donationForm.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent default form submission
 
-            // notificationDate is now readonly text, its value is already Buddhist year
-            const notificationDate = notificationDateInput.dataset.gregorianValue || formatDateYYYYMMDD(new Date()); // Use stored Gregorian value, or current date if somehow missing
+            // Show loading message (modal)
+            showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true);
+
+            const transferDate = document.getElementById('transferDate').value;
+            const transferTime = document.getElementById('transferTime').value; // Get transfer time (now includes seconds)
             const fullName = document.getElementById('fullName').value;
-            const batchOccupation = document.getElementById('batchOccupation').value;
+            const occupation = document.getElementById('occupation').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
             const amount = document.getElementById('amount').value;
-            const transferDate = document.getElementById('transferDate').value; // This is already in YYYY-MM-DD from native date picker
-
-
-            const slipFile = document.getElementById('slipFile').files[0];
+            const donationDate = document.getElementById('donationDate').value; // Still need this for the backend logic
+            const slipImageInput = document.getElementById('slipImage');
+            const slipFile = slipImageInput.files[0];
 
             if (!slipFile) {
-                // เปลี่ยน alert() เป็น custom message box
-                const customAlertDialog = document.createElement('div');
-                customAlertDialog.innerHTML = `
-                    <div class="fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center z-50">
-                        <div class="bg-white p-6 rounded-lg shadow-xl text-center">
-                            <p class="text-lg font-semibold text-red-600 mb-4">แจ้งเตือน!</p>
-                            <p class="text-gray-800 mb-6">กรุณาแนบสลิปโอนเงิน</p>
-                            <button id="closeAlertDialog" class="btn-primary">ตกลง</button>
-                        </div>
-                    </div>
-                `;
-                document.body.appendChild(customAlertDialog);
-                document.getElementById('closeAlertDialog').addEventListener('click', () => {
-                    document.body.removeChild(customAlertDialog);
-                });
+                Swal.close(); // Close loading alert
+                showAppAlert('กรุณาแนบสลิปโอนเงิน', 'error', 'modal');
                 return;
             }
 
-            showLoading('กำลังอัปโหลดสลิปและบันทึกข้อมูล...'); // Specific message for form submission
+            const reader = new FileReader();
+            reader.readAsDataURL(slipFile);
 
-            try {
-                // Convert file to Base64
-                const reader = new FileReader();
-                reader.readAsDataURL(slipFile);
+            reader.onload = async () => {
+                const base64Image = reader.result.split(',')[1]; // Get only the base64 part
+                const mimeType = slipFile.type;
+                const fileName = slipFile.name;
 
-                reader.onload = async () => {
-                    const base64Data = reader.result.split(',')[1]; // Get only the base64 part
-                    const fileName = slipFile.name;
-                    const mimeType = slipFile.type;
+                const params = new URLSearchParams();
+                params.append('action', 'addDonation');
+                params.append('transferDate', transferDate); // This is now 'วันที่แจ้งโอนเงิน'
+                params.append('transferTime', transferTime); // Append transfer time (now includes seconds)
+                params.append('fullName', fullName);
+                params.append('occupation', occupation);
+                params.append('phoneNumber', phoneNumber);
+                params.append('amount', amount);
+                params.append('donationDate', donationDate); // This is still 'วันที่โอนเงิน' in the form
+                params.append('base64Image', base64Image);
+                params.append('mimeType', mimeType);
+                params.append('fileName', fileName);
 
-                    // Prepare data for Apps Script using URLSearchParams
-                    const params = new URLSearchParams();
-                    params.append('action', 'addData');
-                    params.append('notificationDate', notificationDate); // Send Gregorian notification date
-                    params.append('fullName', fullName);
-                    params.append('batchOccupation', batchOccupation);
-                    params.append('phoneNumber', phoneNumber);
-                    params.append('amount', amount);
-                    params.append('transferDate', transferDate); // Send Gregorian transfer date
-                    params.append('base64Data', base64Data);
-                    params.append('fileName', fileName);
-                    params.append('mimeType', mimeType);
-
-                    const response = await fetch(APPS_SCRIPT_URL, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: params.toString(),
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`HTTP error! status: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    if (result.status === 'SUCCESS') {
-                        loadingMessage.textContent = 'บันทึกข้อมูลสำเร็จ!';
-                        setTimeout(() => {
-                            hideLoading();
-                            showDashboard(); // Go back to dashboard after successful save
-                        }, 1500);
-                    } else {
-                        throw new Error(result.message || 'การบันทึกข้อมูลล้มเหลว');
+                const options = {
+                    method: 'POST',
+                    body: params.toString(),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
                     }
                 };
 
-                reader.onerror = (error) => {
-                    throw new Error('ไม่สามารถอ่านไฟล์ได้: ' + error.message);
-                };
+                let success = false;
+                for (let i = 0; i < 3; i++) { // 3 retry attempts
+                    try {
+                        const response = await fetch(APPS_SCRIPT_URL, options);
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const result = await response.json();
 
-            } catch (error) {
-                console.error('Error submitting form:', error);
-                loadingMessage.textContent = `เกิดข้อผิดพลาด: ${error.message}`;
-                setTimeout(hideLoading, 3000); // Hide after showing error message
-            }
-        }
+                        if (result.status === 'success') {
+                            Swal.close(); // Close the initial saving alert
 
-        // --- Event Listeners ---
-        // Listen to both mobile and desktop buttons
-        showDonationFormBtnMobile.addEventListener('click', showDonationForm);
-        showDonationFormBtnDesktop.addEventListener('click', showDonationForm);
-        
-        donationForm.addEventListener('submit', handleFormSubmit);
-        cancelDonationBtn.addEventListener('click', showDashboard); // Event listener for the new cancel button
+                            // Combined alert for success and returning to home page
+                            Swal.fire({
+                                title: 'บันทึกข้อมูลเรียบร้อย! กำลังกลับไปหน้าหลัก...',
+                                icon: 'success', // Show success icon
+                                showConfirmButton: false,
+                                allowOutsideClick: false,
+                                allowEscapeKey: false,
+                                timerProgressBar: false,
+                                didOpen: () => {
+                                    Swal.showLoading(); // Show loading spinner with success icon
+                                }
+                            });
 
+                            donationForm.reset(); // Clear the form after successful submission
+                            setCurrentTransferDate(); // Set current date and time (with seconds) for next entry
 
-        // Event listener for the single search input
-        generalSearchInput.addEventListener('input', applyFiltersAndPagination);
+                            // Fetch data and go back to home page immediately (don't show loading for this fetch)
+                            const updatedData = await fetchDonors(3, false);
+                            allDonorsData = updatedData;
+                            renderTable(allDonorsData); // Re-render table with new data
+                            showPage(homePage); // Go back to home page after submission
+                            Swal.close(); // Close the combined loading alert
+                            
+                            success = true;
+                            break; // Exit retry loop on success
+                        } else {
+                            // If Apps Script returns an error status in its JSON response
+                            throw new Error(result.message || 'บันทึกข้อมูลไม่สำเร็จ');
+                        }
+                    } catch (error) {
+                        console.error('Error submitting form:', error);
+                        if (i < 2) { // Not the last attempt
+                            const delay = Math.pow(2, i) * 1000; // Exponential backoff
+                            await new Promise(res => setTimeout(res, delay));
+                            console.log(`Retrying form submission... Attempt ${i + 2}`);
+                        } else {
+                            Swal.close(); // Close loading alert on final failure
+                            showAppAlert(`เกิดข้อผิดพลาดในการบันทึก: ${error.message}`, 'error', 'modal');
+                        }
+                    }
+                }
+            };
 
-        // Event listener for transferDate input to update Buddhist display
-        transferDateInput.addEventListener('input', (event) => {
-            transferDateBuddhistDisplay.textContent = `(${formatDateThaiBuddhist(event.target.value)})`;
+            reader.onerror = (error) => {
+                console.error('Error reading file:', error);
+                Swal.close(); // Close loading alert
+                showAppAlert('ไม่สามารถอ่านไฟล์รูปภาพได้', 'error', 'modal');
+            };
         });
 
-        // Event listeners for pagination controls
-        entriesPerPageSelect.addEventListener('change', (event) => {
-            entriesPerPage = parseInt(event.target.value);
-            currentPage = 1; // Reset to first page when entries per page changes
-            applyFiltersAndPagination();
+        // Initial load - data is fetched and rendered immediately WITHOUT showing loading
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchDonors(3, false).then(data => { // Pass false to hide loading indicator for this initial fetch
+                allDonorsData = data;
+                renderTable(allDonorsData);
+                // homePage is already visible by default due to removing d-none in HTML
+            });
+            // Ensure donationFormPage is hidden if it was somehow visible
+            donationFormPage.classList.add('d-none');
         });
-
-        prevPageBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                displayPaginatedDonations();
-            }
-        });
-
-        nextPageBtn.addEventListener('click', () => {
-            const totalPages = Math.ceil(totalDonorsAfterFilter / entriesPerPage);
-            if (currentPage < totalPages) {
-                currentPage++;
-                displayPaginatedDonations();
-            }
-        });
-
-        // Initial load
-        window.onload = showDashboard; // Show dashboard on page load
     </script>
 </body>
 </html>
