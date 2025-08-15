@@ -116,6 +116,7 @@
         .table th, .table td {
             border-color: #d0d0d0; /* Light gray border for cells */
             padding: 0.75rem; /* Adjust padding for better spacing with larger font */
+            white-space: nowrap; /* Ensure content stays on a single line */
         }
         /* Added to prevent text wrapping in table headers */
         .table thead th {
@@ -856,12 +857,12 @@
                         if (result.status === 'success') {
                             Swal.close(); // ปิด loading alert (modal) ทันที
                             
-                            // แสดง SweetAlert2 modal success alert (จะปิดตัวเองใน 2 วินาที)
-                            showAppAlert('บันทึกข้อมูลเรียบร้อยแล้ว กำลังกลับไปหน้าหลัก', 'success', 'modal', false, 2000);
-                            
                             // เปลี่ยนหน้ากลับไปหน้าหลักทันที
                             showPage(homePage);
 
+                            // แสดง SweetAlert2 modal success alert (จะปิดตัวเองใน 2 วินาที)
+                            showAppAlert('บันทึกข้อมูลเรียบร้อยแล้ว กำลังกลับไปหน้าหลัก', 'success', 'modal', false, 2000);
+                            
                             // ดำเนินการส่วนที่เหลือในเบื้องหลัง
                             donationForm.reset(); // Clear form fields
                             const updatedData = await fetchDonors(3, false); // Fetch updated data
