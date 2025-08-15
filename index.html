@@ -171,23 +171,26 @@
         /* Styles for summary value boxes */
         .summary-value-box {
             padding: 1rem; /* Default padding */
-            display: flex; /* Flex display for horizontal alignment */
-            align-items: center; /* Vertically align items in the center */
-            justify-content: center; /* Horizontally align items in the center */
-            flex-direction: row; /* Ensure content is in a row */
+            display: flex; /* Use flexbox */
+            flex-direction: column; /* Stack children vertically (icon above text) */
+            align-items: center; /* Center horizontally within the box */
+            justify-content: center; /* Center vertically */
             color: black; /* Ensure text color is black */
+            text-align: center; /* Center text content below icon */
         }
 
         .summary-value-box .fw-bold.fs-2 {
-            white-space: nowrap; /* Prevent numbers/text from wrapping */
-            overflow: hidden; /* Hide overflow if text is too long */
-            text-overflow: ellipsis; /* Add ellipsis for overflowed text */
+            /* Removed white-space: nowrap, overflow: hidden, text-overflow: ellipsis */
+            /* This ensures the number can wrap to new lines if needed to prevent cutting off */
             line-height: 1.2; /* Ensure tight line height */
+            margin-top: 0.5rem; /* Add some space between icon and text */
+            /* No white-space: nowrap here, so numbers can wrap if needed on small screens */
         }
 
         .summary-value-box .bi {
             font-size: 1.8rem; /* Default icon size */
             color: black; /* Explicitly set icon color to black */
+            margin-bottom: 0; /* Ensure no bottom margin pushes the text too far */
         }
 
         @media (max-width: 575.98px) { /* For extra small devices (portrait phones) */
