@@ -120,6 +120,12 @@
         /* Added to prevent text wrapping in table headers */
         .table thead th {
             white-space: nowrap;
+            cursor: pointer; /* Indicate sortable column */
+        }
+        .table thead th .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            vertical-align: middle;
         }
         .form-control.border-primary {
             border-color: var(--app-primary-color) !important;
@@ -260,9 +266,16 @@
                     <!-- Changed class from btn-primary to btn-success for dark blue color -->
                     <button id="showDonationFormBtn" class="btn btn-success rounded-pill shadow-sm text-nowrap w-100">แจ้งข้อมูลการโอนเงิน</button>
                 </div>
-                <!-- Search input for mobile (bottom), then for desktop (left) -->
-                <div class="col-12 col-md-8 order-md-first">
-                    <input type="text" id="searchInput" class="form-control border-primary shadow-sm" placeholder="ค้นหาด้วย ผู้บริจาคเงิน, วันที่โอนเงิน, จำนวนเงิน...">
+                <!-- Search input and category dropdown -->
+                <div class="col-12 col-md-8 order-md-first d-flex">
+                    <select id="searchCategory" class="form-select me-2 border-primary shadow-sm" style="width: auto;">
+                        <option value="all">ค้นหา: ทั้งหมด</option>
+                        <option value="fullName">ค้นหา: ชื่อผู้บริจาค</option>
+                        <option value="transferDate">ค้นหา: วันที่แจ้งโอนเงิน</option>
+                        <option value="amount">ค้นหา: จำนวนเงิน</option>
+                        <option value="occupation">ค้นหา: รุ่น/อาชีพ</option>
+                    </select>
+                    <input type="text" id="searchInput" class="form-control border-primary shadow-sm" placeholder="กรอกคำค้นหา...">
                 </div>
             </div>
 
@@ -272,22 +285,20 @@
                     <thead class="bg-primary text-white">
                         <tr>
                             <th scope="col">ที่</th>
-                            <th scope="col">ผู้บริจาคเงิน</th>
+                            <th scope="col" id="headerFullName" data-sort-key="ชื่อ-นามสกุล">ผู้บริจาคเงิน <span class="sort-icon"></span></th>
                             <th scope="col">รุ่น/อาชีพ</th>
-                            <th scope="col">จำนวนเงิน</th>
-                            <th scope="col">วันที่แจ้งโอนเงิน</th>
-                            <!-- Removed the "เวลาแจ้งโอนเงิน" column header from the table display -->
+                            <th scope="col" id="headerAmount" data-sort-key="จำนวนเงิน">จำนวนเงิน <span class="sort-icon"></span></th>
+                            <th scope="col" id="headerTransferDate" data-sort-key="วันที่แจ้งโอนเงิน">วันที่แจ้งโอนเงิน <span class="sort-icon"></span></th>
                         </tr>
                     </thead>
                     <tbody id="donorsTableBody">
-                        <!-- Data will be populated here by JavaScript -->
+                        <!-- Data will be populated here by JavaScript or loading message -->
                     </tbody>
                 </table>
             </div>
 
             <!-- Pagination Controls (Changed to number buttons) -->
             <div class="d-flex justify-content-center align-items-center flex-wrap mt-3">
-                <!-- Removed the pageInfo span -->
                 <div id="paginationButtons">
                     <!-- Page number buttons will be dynamically inserted here -->
                 </div>
@@ -298,14 +309,16 @@
         <div id="donationFormPage" class="card p-4 mx-auto d-none">
             <h2 class="text-center mb-4 text-primary">บันทึกแจ้งโอนเงิน</h2>
             <form id="donationForm">
-                <div class="row"> <!-- Use Bootstrap row for horizontal alignment -->
-                    <div class="col-6 mb-3"> <!-- Changed from col-md-6 to col-6 for side-by-side on all screens -->
+                <div class="row mb-3 g-2">
+                    <!-- Date Input -->
+                    <div class="col-md-6">
                         <label for="transferDate" class="form-label fw-bold">วันที่แจ้งโอนเงิน:</label>
-                        <input type="date" class="form-control border-secondary" id="transferDate" required readonly>
+                        <input type="date" class="form-control border-secondary" id="transferDate" readonly>
                     </div>
-                    <div class="col-6 mb-3"> <!-- Changed from col-md-6 to col-6 for side-by-side on all screens -->
+                    <!-- Time Input -->
+                    <div class="col-md-6">
                         <label for="transferTime" class="form-label fw-bold">เวลาแจ้งโอนเงิน:</label>
-                        <input type="text" class="form-control border-secondary" id="transferTime" required readonly>
+                        <input type="time" class="form-control border-secondary" id="transferTime" readonly>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -351,6 +364,8 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
         // Google Apps Script URL for data submission and retrieval
+        // ***สำคัญ***: กรุณาตรวจสอบให้แน่ใจว่า URL นี้ถูกต้อง และมีการตั้งค่าการใช้งานเป็น "Anyone" หรือ "anyone, even anonymous"
+        // คุณสามารถหา URL ที่ถูกต้องได้จาก Google Apps Script -> Deploy -> New deployment -> Web app -> Copy URL
         const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJpnhg35l4xVOHq4KfUgpSQNDa6xWlcsZn4GOPlCDjfmtdXWwVxWZ7aKcE6o_6w1s/exec';
 
         // Get DOM elements
@@ -360,19 +375,30 @@
         const backToHomeBtn = document.getElementById('backToHomeBtn');
         const donationForm = document.getElementById('donationForm');
         const searchInput = document.getElementById('searchInput');
+        const searchCategory = document.getElementById('searchCategory'); // Re-added: Search category dropdown
         const donorsTableBody = document.getElementById('donorsTableBody');
         const totalAmountSpan = document.getElementById('totalAmount');
         const totalDonorsSpan = document.getElementById('totalDonors');
+        const paginationButtonsContainer = document.getElementById('paginationButtons');
+
+        // Added references to new input fields
         const transferDateInput = document.getElementById('transferDate');
         const transferTimeInput = document.getElementById('transferTime');
-        const paginationButtonsContainer = document.getElementById('paginationButtons'); // New: Pagination buttons container
-        // Removed the pageInfoSpan as it's no longer needed
+
+        // Table header elements for sorting
+        const headerFullName = document.getElementById('headerFullName');
+        const headerAmount = document.getElementById('headerAmount');
+        const headerTransferDate = document.getElementById('headerTransferDate');
 
         let allDonorsData = []; // To store all fetched donor data (unfiltered)
         let filteredDonorsData = []; // To store filtered donor data (for pagination)
         let currentPage = 1;
-        const itemsPerPage = 25; // Changed from 3 to 25 rows per page
-        const maxPageButtons = 5; // Max number of visible page buttons (excluding ... and first/last)
+        const itemsPerPage = 25;
+        const maxPageButtons = 5;
+
+        // Sorting state
+        let currentSortColumn = 'วันที่แจ้งโอนเงิน'; // Default sort column (latest first)
+        let currentSortDirection = 'desc'; // Default sort direction
 
         /**
          * Function to show a specific page and hide others.
@@ -385,20 +411,37 @@
         }
 
         /**
-         * Sets the transferDate and transferTime inputs to the current date and time (with seconds).
+         * Generates current date and time in YYYY-MM-DD and HH:MM:SS format.
+         * @returns {{date: string, time: string}} - Current date and time.
          */
-        function setCurrentTransferDate() {
+        function getCurrentDateTime() {
             const today = new Date();
             const year = today.getFullYear();
-            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+            const month = String(today.getMonth() + 1).padStart(2, '0');
             const day = String(today.getDate()).padStart(2, '0');
             const hours = String(today.getHours()).padStart(2, '0');
             const minutes = String(today.getMinutes()).padStart(2, '0');
-            const seconds = String(today.getSeconds()).padStart(2, '0'); // Get seconds
+            const seconds = String(today.getSeconds()).padStart(2, '0');
 
-            transferDateInput.value = `${year}-${month}-${day}`;
-            transferTimeInput.value = `${hours}:${minutes}:${seconds}`; // Set current time with seconds
+            return {
+                date: `${year}-${month}-${day}`,
+                time: `${hours}:${minutes}:${seconds}`
+            };
         }
+
+        /**
+         * Sets the current date and time into the readonly input fields.
+         */
+        function setCurrentTransferDateTime() {
+            const currentDateTime = getCurrentDateTime();
+            if (transferDateInput) {
+                transferDateInput.value = currentDateTime.date;
+            }
+            if (transferTimeInput) {
+                transferTimeInput.value = currentDateTime.time;
+            }
+        }
+
 
         /**
          * Displays a SweetAlert2 notification.
@@ -406,9 +449,10 @@
          * @param {'success'|'error'|'info'|'warning'|'question'} icon - The icon type.
          * @param {'toast'|'modal'} presentation - 'toast' for small, auto-closing, top-end; 'modal' for full screen, centered.
          * @param {boolean} showLoadingSpinner - If true, shows a loading spinner (for 'info' icon).
+         * @param {number|undefined} timer - Timer in milliseconds, or undefined for no auto-close.
          * @returns {Promise<SweetAlertResult>} - A promise that resolves when the alert closes.
          */
-        function showAppAlert(message, icon, presentation = 'toast', showLoadingSpinner = false) {
+        function showAppAlert(message, icon, presentation = 'toast', showLoadingSpinner = false, timer = undefined) {
             let options = {
                 title: message,
                 icon: icon,
@@ -416,34 +460,30 @@
                 allowOutsideClick: false,
                 allowEscapeKey: false,
                 timerProgressBar: false,
+                timer: timer, // Set timer from parameter
             };
 
             if (presentation === 'toast') {
                 options.toast = true;
                 options.position = 'top-end';
-                options.timer = 3000; // Default toast duration
-                options.timerProgressBar = true;
                 options.showConfirmButton = false;
-                options.allowOutsideClick = true; // Toasts can be dismissed by clicking outside
-                options.allowEscapeKey = true; // Toasts can be dismissed by escape key
+                options.allowOutsideClick = true;
+                options.allowEscapeKey = true;
             } else { // 'modal'
                 options.toast = false;
                 options.position = 'center';
                 options.allowOutsideClick = false;
                 options.allowEscapeKey = false;
-                if (icon === 'error') { // Error modals should have a confirm button and no timer
+                if (icon === 'error') {
                     options.showConfirmButton = true;
                     options.timer = undefined;
-                    options.allowOutsideClick = true; // Allow closing explicitly
-                    options.allowEscapeKey = true; // Allow closing explicitly
+                    options.allowOutsideClick = true;
+                    options.allowEscapeKey = true;
                 } else if (icon === 'info' && showLoadingSpinner) {
                     options.didOpen = () => {
                         Swal.showLoading();
                     };
-                    options.timer = undefined; // Loading modal should not auto-close
-                } else if (icon === 'success') { // Success modal should have a specific timer
-                    options.timer = 2000; // Show for 2 seconds (as requested)
-                    options.timerProgressBar = true;
+                    options.timer = undefined;
                 }
             }
             return Swal.fire(options);
@@ -457,8 +497,8 @@
          * @returns {Promise<Array>} - A promise that resolves with the donor data.
          */
         async function fetchDonors(retries = 3, showLoading = true) {
-            if (showLoading) { // Only show loading if explicitly requested (e.g., not on initial page load or cancel button)
-                showAppAlert('กำลังโหลดข้อมูล...', 'info', 'modal', true);
+            if (showLoading) {
+                // Initial loading message is handled by DOMContentLoaded
             }
             try {
                 for (let i = 0; i < retries; i++) {
@@ -467,14 +507,12 @@
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                        const rawData = await response.json(); // Get raw data
+                        const rawData = await response.json();
 
-                        // Explicitly check if rawData is an array or an error object
                         if (typeof rawData === 'object' && rawData !== null && rawData.status === 'error') {
                             console.error("Received error data from Apps Script:", rawData.message);
-                            // Display the specific error message from Apps Script to the user
                             showAppAlert(`ข้อผิดพลาดจากเซิร์ฟเวอร์: ${rawData.message}`, 'error', 'modal');
-                            return []; // Return an empty array to prevent further errors
+                            return [];
                         }
                         
                         if (!Array.isArray(rawData)) {
@@ -485,30 +523,69 @@
                         if (showLoading) {
                             Swal.close();
                         }
-                        return rawData; // Return the array
+                        return rawData;
                     } catch (error) {
                         console.error('Error fetching donors:', error);
                         if (i < retries - 1) {
-                            const delay = Math.pow(2, i) * 1000; // Exponential backoff (1s, 2s, 4s)
+                            const delay = Math.pow(2, i) * 1000;
                             await new Promise(res => setTimeout(res, delay));
                             console.log(`Retrying fetchDonors... Attempt ${i + 2}`);
                         } else {
-                            // Only close loading if it was shown by this function call
                             if (showLoading) {
                                 Swal.close();
                             }
                             showAppAlert('ไม่สามารถโหลดข้อมูลผู้บริจาคได้ กรุณาลองใหม่อีกครั้ง', 'error', 'modal');
-                            return []; // Always return an empty array on final failure
+                            return [];
                         }
                     }
                 }
             } finally {
-                // Ensure SweetAlert is closed even if an unexpected error occurs outside the loop
                 if (Swal.isVisible()) {
                     Swal.close();
                 }
             }
-            return []; // Should ideally not be reached, but as a safeguard.
+            return [];
+        }
+
+        /**
+         * Sorts the filteredDonorsData based on the currentSortColumn and currentSortDirection.
+         * @param {string} columnKey - The key of the column to sort by.
+         */
+        function sortTable(columnKey) {
+            if (currentSortColumn === columnKey) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortColumn = columnKey;
+                // Default direction for 'จำนวนเงิน' and 'วันที่แจ้งโอนเงิน' is descending (largest/latest first)
+                // Default direction for 'ชื่อ-นามสกุล' is ascending (A-Z)
+                if (columnKey === 'จำนวนเงิน' || columnKey === 'วันที่แจ้งโอนเงิน') {
+                    currentSortDirection = 'desc';
+                } else {
+                    currentSortDirection = 'asc';
+                }
+            }
+
+            filteredDonorsData.sort((a, b) => {
+                let valA = a[columnKey];
+                let valB = b[columnKey];
+
+                if (columnKey === 'จำนวนเงิน') {
+                    valA = parseFloat(valA) || 0;
+                    valB = parseFloat(valB) || 0;
+                    return currentSortDirection === 'asc' ? valA - valB : valB - valA;
+                } else if (columnKey === 'วันที่แจ้งโอนเงิน') {
+                    // Combine date and time for accurate chronological sorting
+                    const dateTimeA = new Date(`${a['วันที่แจ้งโอนเงิน'] || '1970-01-01'}T${a['เวลาแจ้งโอนเงิน'] || '00:00:00'}`);
+                    const dateTimeB = new Date(`${b['วันที่แจ้งโอนเงิน'] || '1970-01-01'}T${b['เวลาแจ้งโอนเงิน'] || '00:00:00'}`);
+                    return currentSortDirection === 'asc' ? dateTimeA.getTime() - dateTimeB.getTime() : dateTimeB.getTime() - dateTimeA.getTime();
+                } else { // Default to string comparison for other columns
+                    const stringA = String(valA || '').toLowerCase();
+                    const stringB = String(valB || '').toLowerCase();
+                    return currentSortDirection === 'asc' ? stringA.localeCompare(stringB) : stringB.localeCompare(stringA);
+                }
+            });
+            currentPage = 1; // Reset to first page after sorting
+            renderTable(filteredDonorsData);
         }
 
         /**
@@ -518,66 +595,62 @@
         function renderTable(donors) {
             if (!Array.isArray(donors)) {
                 console.error("renderTable received non-array data:", donors);
-                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger">ไม่สามารถแสดงข้อมูลได้เนื่องจากข้อมูลไม่ถูกต้อง</td></tr>';
+                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-danger py-4">ไม่สามารถแสดงข้อมูลได้เนื่องจากข้อมูลไม่ถูกต้อง</td></tr>';
                 totalAmountSpan.textContent = '0';
                 totalDonorsSpan.textContent = '0';
-                paginationButtonsContainer.innerHTML = ''; // Clear pagination buttons
+                paginationButtonsContainer.innerHTML = '';
                 return;
             }
 
-            donorsTableBody.innerHTML = ''; // Clear existing rows
+            donorsTableBody.innerHTML = ''; // Clear loading message or previous data
             
-            // Sort by 'วันที่แจ้งโอนเงิน' (transferDate) combined with 'เวลาแจ้งโอนเงิน' in descending order (latest first)
-            donors.sort((a, b) => {
-                const dateTimeA = new Date(`${b['วันที่แจ้งโอนเงิน']}T${b['เวลาแจ้งโอนเงิน'] || '00:00:00'}`);
-                const dateTimeB = new Date(`${a['วันที่แจ้งโอนเงิน']}T${a['เวลาแจ้งโอนเงิน'] || '00:00:00'}`);
-                return dateTimeA - dateTimeB;
-            });
-
-            // Calculate total pages based on the provided 'donors' array (which might be filtered)
             const totalPages = Math.ceil(donors.length / itemsPerPage);
 
-            // Ensure currentPage is within valid bounds
             if (currentPage < 1) currentPage = 1;
             if (currentPage > totalPages && totalPages > 0) currentPage = totalPages;
-            if (totalPages === 0) currentPage = 0; // Handle no data case
+            if (totalPages === 0) currentPage = 0;
 
             const startIndex = (currentPage - 1) * itemsPerPage;
             const endIndex = startIndex + itemsPerPage;
             const paginatedDonors = donors.slice(startIndex, endIndex);
 
-            if (paginatedDonors.length === 0 && donors.length > 0) {
-                // This scenario happens if we land on an empty page after filtering/deleting,
-                // and there were still items previously. Go back one page if possible.
-                if (currentPage > 1) {
-                    currentPage--;
-                    renderTable(donors); // Recurse to render the previous valid page
-                    return;
+            // Update sort icons in table headers
+            document.querySelectorAll('.table thead th').forEach(th => {
+                const sortIcon = th.querySelector('.sort-icon');
+                if (sortIcon) {
+                    sortIcon.textContent = ''; // Clear existing icon
                 }
-            } else if (paginatedDonors.length === 0 && donors.length === 0) {
-                // Truly no data after filtering
-                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-muted py-4">ไม่มีข้อมูลผู้บริจาคเงิน</td></tr>';
-            }
-
-
-            paginatedDonors.forEach((donor, index) => {
-                const row = donorsTableBody.insertRow();
-                row.insertCell(0).textContent = startIndex + index + 1; // ลำดับที่
-                row.insertCell(1).textContent = donor['ชื่อ-นามสกุล'] || '-';
-                row.insertCell(2).textContent = donor['รุ่น/อาชีพ'] || '-';
-                row.insertCell(3).textContent = parseFloat(donor['จำนวนเงิน']).toLocaleString('th-TH') || '0';
-                row.insertCell(4).textContent = donor['วันที่แจ้งโอนเงิน'] ? new Date(donor['วันที่แจ้งโอนเงิน']).toLocaleDateString('th-TH') : '-';
+                const sortKey = th.getAttribute('data-sort-key');
+                if (sortKey === currentSortColumn) {
+                    if (sortIcon) {
+                        sortIcon.textContent = currentSortDirection === 'asc' ? ' ▲' : ' ▼';
+                    }
+                }
             });
 
-            // Calculate overall totals from the filtered data (or all data if not filtered)
-            const totalAmount = donors.reduce((sum, donor) => sum + (parseFloat(donor['จำนวนเงิน']) || 0), 0);
-            const donorCount = donors.length;
+            // Show loading message if no data (initial or after filter)
+            if (paginatedDonors.length === 0) {
+                donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border text-info spinner-border-sm me-2" role="status"><span class="visually-hidden">Loading...</span></div>กำลังโหลดข้อมูลผู้บริจาค...</td></tr>';
+            } else {
+                paginatedDonors.forEach((donor, index) => {
+                    const row = donorsTableBody.insertRow(); 
+                    row.insertCell(0).textContent = startIndex + index + 1;
+                    row.insertCell(1).textContent = donor['ชื่อ-นามสกุล'] || '-';
+                    row.insertCell(2).textContent = donor['รุ่น/อาชีพ'] || '-';
+                    row.insertCell(3).textContent = parseFloat(donor['จำนวนเงิน']).toLocaleString('th-TH') || '0';
+                    row.insertCell(4).textContent = donor['วันที่แจ้งโอนเงิน'] ? new Date(donor['วันที่แจ้งโอนเงิน']).toLocaleDateString('th-TH') : '-';
+                });
+            }
+
+            // Calculate overall totals from the FULL UNFILTERED DATA (allDonorsData)
+            const totalAmount = allDonorsData.reduce((sum, donor) => sum + (parseFloat(donor['จำนวนเงิน']) || 0), 0);
+            const donorCount = allDonorsData.length;
 
             totalAmountSpan.textContent = totalAmount.toLocaleString('th-TH');
             totalDonorsSpan.textContent = donorCount;
 
             // Update pagination controls (number buttons)
-            paginationButtonsContainer.innerHTML = ''; // Clear existing buttons
+            paginationButtonsContainer.innerHTML = '';
 
             if (totalPages > 0) {
                 const createButton = (page, text, disabled = false, isActive = false) => {
@@ -593,11 +666,9 @@
                     return button;
                 };
 
-                // Add "Previous" button
                 const prevButton = createButton(currentPage - 1, '« หน้าก่อนหน้า', currentPage === 1);
                 paginationButtonsContainer.appendChild(prevButton);
 
-                // Logic to display page numbers (e.g., 1 ... 5 6 7 ... 10)
                 const startPage = Math.max(1, currentPage - Math.floor(maxPageButtons / 2));
                 const endPage = Math.min(totalPages, startPage + maxPageButtons - 1);
 
@@ -625,57 +696,106 @@
                     paginationButtonsContainer.appendChild(createButton(totalPages, totalPages.toString()));
                 }
 
-                // Add "Next" button
                 const nextButton = createButton(currentPage + 1, 'หน้าถัดไป »', currentPage === totalPages);
                 paginationButtonsContainer.appendChild(nextButton);
             }
         }
 
         /**
-         * Filters the donor data based on search input and renders the first page of results.
+         * Filters the donor data based on search input and selected category, then renders the first page of results.
          */
         function filterDonors() {
-            const searchTerm = searchInput.value.toLowerCase();
+            const searchTerm = searchInput.value.toLowerCase().trim();
+            const category = searchCategory.value; // Get selected category
+
             filteredDonorsData = allDonorsData.filter(donor => {
                 const fullName = String(donor['ชื่อ-นามสกุล'] || '').toLowerCase();
-                const transferDate = String(donor['วันที่แจ้งโอนเงิน'] || '').toLowerCase();
+                const rawTransferDate = String(donor['วันที่แจ้งโอนเงิน'] || '');
+                let formattedTransferDate = '';
+                try {
+                    if (rawTransferDate) {
+                        const dateObj = new Date(rawTransferDate);
+                        if (!isNaN(dateObj.getTime())) {
+                            formattedTransferDate = dateObj.toLocaleDateString('th-TH').toLowerCase();
+                        }
+                    }
+                } catch (e) {
+                    console.error("Error formatting date for search:", e);
+                }
                 const transferTime = String(donor['เวลาแจ้งโอนเงิน'] || '').toLowerCase();
                 const amount = String(donor['จำนวนเงิน'] || '');
-                return fullName.includes(searchTerm) ||
-                       transferDate.includes(searchTerm) ||
-                       transferTime.includes(searchTerm) ||
-                       amount.includes(searchTerm);
+                const occupation = String(donor['รุ่น/อาชีพ'] || '').toLowerCase();
+
+                if (searchTerm === '') {
+                    return true; // If search term is empty, show all (filtered) data
+                }
+
+                switch (category) {
+                    case 'fullName':
+                        return fullName.includes(searchTerm);
+                    case 'transferDate':
+                        return rawTransferDate.includes(searchTerm) || formattedTransferDate.includes(searchTerm);
+                    case 'amount':
+                        return amount.includes(searchTerm);
+                    case 'occupation':
+                        return occupation.includes(searchTerm);
+                    case 'all':
+                    default:
+                        return fullName.includes(searchTerm) ||
+                               rawTransferDate.includes(searchTerm) ||
+                               formattedTransferDate.includes(searchTerm) ||
+                               transferTime.includes(searchTerm) ||
+                               amount.includes(searchTerm) ||
+                               occupation.includes(searchTerm);
+                }
             });
             currentPage = 1; // Reset to first page when filtering
-            renderTable(filteredDonorsData);
+            // Apply current sorting preference after filtering
+            sortTable(currentSortColumn);
         }
 
         // Event Listeners
         showDonationFormBtn.addEventListener('click', () => {
-            setCurrentTransferDate();
+            donationForm.reset(); // Clear form on opening
+            setCurrentTransferDateTime(); // Set current date and time when opening the form
             showPage(donationFormPage);
         });
 
         backToHomeBtn.addEventListener('click', () => {
             showPage(homePage);
-            // Re-fetch data to ensure it's up-to-date when returning to home page
             fetchDonors(3, false).then(data => {
                 allDonorsData = data;
-                filteredDonorsData = [...allDonorsData]; // Reset filtered data to all data
-                currentPage = 1; // Reset to first page
-                renderTable(filteredDonorsData);
+                // Reapply current sort after fetching new data
+                filteredDonorsData = [...allDonorsData];
+                sortTable(currentSortColumn); // This will also call renderTable
             });
         });
 
         searchInput.addEventListener('keyup', filterDonors);
+        searchCategory.addEventListener('change', () => {
+            // Update placeholder based on selected category
+            const selectedOptionText = searchCategory.options[searchCategory.selectedIndex].textContent;
+            searchInput.placeholder = `กรอกคำค้นหา: ${selectedOptionText.replace('ค้นหา: ', '')}...`;
+            filterDonors(); // Re-filter when category changes
+        });
+
+        // Add event listeners for table headers
+        headerFullName.addEventListener('click', () => sortTable('ชื่อ-นามสกุล'));
+        headerAmount.addEventListener('click', () => sortTable('จำนวนเงิน'));
+        headerTransferDate.addEventListener('click', () => sortTable('วันที่แจ้งโอนเงิน'));
 
         donationForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
+            // Show loading alert (modal)
             showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true);
 
-            const transferDate = document.getElementById('transferDate').value;
-            const transferTime = document.getElementById('transferTime').value;
+            // Get current date and time for transferDate and transferTime
+            // These values are already set in the readonly inputs, but we'll re-get them to be safe
+            const currentDateTime = getCurrentDateTime();
+            const transferDate = currentDateTime.date;
+            const transferTime = currentDateTime.time;
+
             const fullName = document.getElementById('fullName').value;
             const occupation = document.getElementById('occupation').value;
             const phoneNumber = document.getElementById('phoneNumber').value;
@@ -700,8 +820,8 @@
 
                 const params = new URLSearchParams();
                 params.append('action', 'addDonation');
-                params.append('transferDate', transferDate);
-                params.append('transferTime', transferTime);
+                params.append('transferDate', transferDate); // Use the dynamically set transfer date
+                params.append('transferTime', transferTime); // Use the dynamically set transfer time
                 params.append('fullName', fullName);
                 params.append('occupation', occupation);
                 params.append('phoneNumber', phoneNumber);
@@ -719,6 +839,11 @@
                     }
                 };
 
+                // For debugging: log the URL and parameters before fetching
+                console.log("APPS_SCRIPT_URL:", APPS_SCRIPT_URL);
+                console.log("Request parameters:", Object.fromEntries(params.entries()));
+
+
                 let success = false;
                 for (let i = 0; i < 3; i++) {
                     try {
@@ -729,34 +854,25 @@
                         const result = await response.json();
 
                         if (result.status === 'success') {
-                            Swal.close();
-                            await Swal.fire({
-                                title: 'บันทึกข้อมูลเรียบร้อย! กำลังกลับไปหน้าหลัก...',
-                                icon: 'success',
-                                showConfirmButton: false,
-                                allowOutsideClick: false,
-                                allowEscapeKey: false,
-                                timer: 2000,
-                                timerProgressBar: true,
-                                didOpen: () => {
-                                    Swal.showLoading();
-                                }
-                            });
-
-                            donationForm.reset();
-                            setCurrentTransferDate();
-
-                            // Re-fetch all data and then re-render with pagination from page 1
-                            const updatedData = await fetchDonors(3, false);
-                            allDonorsData = updatedData;
-                            filteredDonorsData = [...allDonorsData]; // Reset filtered data to all data
-                            currentPage = 1; // Always go back to the first page after successful submission
-                            renderTable(filteredDonorsData);
+                            Swal.close(); // ปิด loading alert (modal) ทันที
+                            
+                            // แสดง SweetAlert2 modal success alert (จะปิดตัวเองใน 2 วินาที)
+                            showAppAlert('บันทึกข้อมูลเรียบร้อยแล้ว กำลังกลับไปหน้าหลัก', 'success', 'modal', false, 2000);
+                            
+                            // เปลี่ยนหน้ากลับไปหน้าหลักทันที
                             showPage(homePage);
-                            Swal.close();
+
+                            // ดำเนินการส่วนที่เหลือในเบื้องหลัง
+                            donationForm.reset(); // Clear form fields
+                            const updatedData = await fetchDonors(3, false); // Fetch updated data
+                            allDonorsData = updatedData;
+                            filteredDonorsData = [...allDonorsData];
+                            currentPage = 1;
+                            // Reapply current sort after new data is added
+                            sortTable(currentSortColumn); // This will also call renderTable
                             
                             success = true;
-                            break;
+                            break; // Exit the retry loop as success
                         } else {
                             throw new Error(result.message || 'บันทึกข้อมูลไม่สำเร็จ');
                         }
@@ -781,14 +897,20 @@
             };
         });
 
-        // Initial load - data is fetched and rendered immediately WITHOUT showing loading
+        // Initial load
         document.addEventListener('DOMContentLoaded', () => {
+            // Display loading message immediately
+            donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border text-info spinner-border-sm me-2" role="status"><span class="visually-hidden">Loading...</span></div>กำลังโหลดข้อมูลผู้บริจาค...</td></tr>';
+            
             fetchDonors(3, false).then(data => {
                 allDonorsData = data;
-                filteredDonorsData = [...allDonorsData]; // Initialize filtered data with all data
-                renderTable(filteredDonorsData);
+                filteredDonorsData = [...allDonorsData];
+                // Apply initial sort order (latest first for date/time)
+                sortTable(currentSortColumn); // This will also call renderTable
             });
-            donationFormPage.classList.add('d-none'); // Ensure form page is hidden on initial load
+            donationFormPage.classList.add('d-none');
+            // Set initial placeholder for search input
+            searchCategory.dispatchEvent(new Event('change'));
         });
     </script>
 </body>
