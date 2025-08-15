@@ -251,13 +251,13 @@
             <div class="row mb-4 g-3">
                 <div class="col-6">
                     <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
-                        <i class="bi bi-cash-coin me-2"></i>
+                        <i class="bi bi-cash-coin"></i> <!-- Removed me-2 to allow stacking -->
                         <span class="fw-bold fs-2"><span id="totalAmount" class="font-sriracha">0</span> <span class="font-sarabun">฿</span></span>
                     </div>
                 </div>
                 <div class="col-6">
                     <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
-                        <i class="bi bi-people-fill me-2"></i>
+                        <i class="bi bi-people-fill"></i> <!-- Removed me-2 to allow stacking -->
                         <span class="fw-bold fs-2 font-sriracha"><span id="totalDonors">0</span> คน</span>
                     </div>
                 </div>
@@ -315,12 +315,12 @@
             <form id="donationForm">
                 <div class="row mb-3 g-2">
                     <!-- Date Input -->
-                    <div class="col-md-6">
+                    <div class="col-6 col-md-6"> <!-- Added col-6 here -->
                         <label for="transferDate" class="form-label fw-bold">วันที่แจ้งโอนเงิน:</label>
                         <input type="date" class="form-control border-secondary" id="transferDate" readonly>
                     </div>
                     <!-- Time Input -->
-                    <div class="col-md-6">
+                    <div class="col-6 col-md-6"> <!-- Added col-6 here -->
                         <label for="transferTime" class="form-label fw-bold">เวลาแจ้งโอนเงิน:</label>
                         <input type="time" class="form-control border-secondary" id="transferTime" readonly>
                     </div>
@@ -507,6 +507,8 @@
             try {
                 for (let i = 0; i < retries; i++) {
                     try {
+                        // Corrected URL: Ensure APPS_SCRIPT_URL is correct in the Google Apps Script project.
+                        // This error typically means the Apps Script is not deployed correctly for public access.
                         const response = await fetch(APPS_SCRIPT_URL + '?action=getDonors');
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
@@ -535,7 +537,7 @@
                             await new Promise(res => setTimeout(res, delay));
                             console.log(`Retrying fetchDonors... Attempt ${i + 2}`);
                         } else {
-                            if (showLoading) {
+                            if (Swal.isVisible()) { // Check if SweetAlert is still visible before trying to close
                                 Swal.close();
                             }
                             showAppAlert('ไม่สามารถโหลดข้อมูลผู้บริจาคได้ กรุณาลองใหม่อีกครั้ง', 'error', 'modal');
@@ -544,6 +546,7 @@
                     }
                 }
             } finally {
+                // Ensure SweetAlert is closed if it's still open from a loading state
                 if (Swal.isVisible()) {
                     Swal.close();
                 }
