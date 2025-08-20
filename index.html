@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <!-- Google Fonts - Sarabun -->
     <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Google Fonts - Sriracha -->
+    <!-- Google Fonts - Sriracha (Added) -->
     <link href="https://fonts.googleapis.com/css2?family=Sriracha&display=swap" rel="stylesheet">
     <!-- SweetAlert2 CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
@@ -374,7 +374,9 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
     <script>
         // Google Apps Script URL for data submission and retrieval
-        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzVopr9bMROlrfcalYoJtOoSUpomNQA4wuNq7fICtKiC9UysOrnFXRCsadQm80mw3ps/exec';
+        // ***สำคัญ***: กรุณาตรวจสอบให้แน่ใจว่า URL นี้ถูกต้อง และมีการตั้งค่าการใช้งานเป็น "Anyone" หรือ "anyone, even anonymous"
+        // คุณสามารถหา URL ที่ถูกต้องได้จาก Google Apps Script -> Deploy -> New deployment -> Web app -> Copy URL
+        const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxJpnhg35l4xVOHq4KfUgpSQNDa6xWlcsZn4GOPlCDjfmtdXWwVxWZ7aKcE6o_6w1s/exec';
 
         // Get DOM elements
         const homePage = document.getElementById('homePage');
@@ -408,6 +410,8 @@
         // Sorting state
         let currentSortColumn = 'วันที่แจ้งโอนเงิน'; // Default sort column (latest first)
         let currentSortDirection = 'desc'; // Default sort direction
+
+        let refreshIntervalId; // Variable to hold the interval ID for periodic refresh
 
         /**
          * Function to show a specific page and hide others.
@@ -502,13 +506,9 @@
          * Fetches donor data from Google Apps Script.
          * Implements exponential backoff for retries.
          * @param {number} retries - Number of retry attempts.
-         * @param {boolean} showLoading - If true, shows a loading alert (only for explicit calls like after form submission).
          * @returns {Promise<Array>} - A promise that resolves with the donor data.
          */
-        async function fetchDonors(retries = 3, showLoadingAlert = false) { // Renamed param to showLoadingAlert for clarity
-            if (showLoadingAlert) {
-                showAppAlert('กำลังโหลดข้อมูล...', 'info', 'modal', true);
-            }
+        async function fetchDonors(retries = 3) { 
             try {
                 for (let i = 0; i < retries; i++) {
                     try {
@@ -527,7 +527,6 @@
 
                         if (typeof rawData === 'object' && rawData !== null && rawData.status === 'error') {
                             console.error("Received error data from Apps Script:", rawData.message);
-                            Swal.close(); // Close any loading alert before showing error
                             showAppAlert(`ข้อผิดพลาดจากเซิร์ฟเวอร์: ${rawData.message}`, 'error', 'modal');
                             return [];
                         }
@@ -537,9 +536,6 @@
                             throw new Error("Invalid data format received from server. Expected an array.");
                         }
 
-                        if (showLoadingAlert) { // Check if loading alert was shown
-                            Swal.close();
-                        }
                         return rawData;
                     } catch (error) {
                         console.error('Error during fetchDonors attempt', i + 1, ':', error);
@@ -548,7 +544,7 @@
                             await new Promise(res => setTimeout(res, delay));
                             console.log(`Retrying fetchDonors... Attempt ${i + 2}`);
                         } else {
-                            if (Swal.isVisible()) {
+                            if (Swal.isVisible()) { // Close if any SweetAlert was opened by a previous function
                                 Swal.close();
                             }
                             const errorMessage = error.message.includes('การเข้าถึงถูกปฏิเสธ') ? error.message : 'ไม่สามารถโหลดข้อมูลผู้บริจาคได้ กรุณาลองใหม่อีกครั้ง หรือตรวจสอบการเชื่อมต่ออินเทอร์เน็ต';
@@ -558,7 +554,7 @@
                     }
                 }
             } finally {
-                if (Swal.isVisible()) {
+                if (Swal.isVisible()) { // Final check to close any lingering SweetAlert
                     Swal.close();
                 }
             }
@@ -623,8 +619,6 @@
                 paginationButtonsContainer.innerHTML = '';
                 return;
             }
-
-            donorsTableBody.innerHTML = ''; // Clear loading message or previous data
             
             const totalPages = Math.ceil(donors.length / itemsPerPage);
 
@@ -656,12 +650,16 @@
                 // If there's a search term and no results in the filtered data
                 if (searchInput.value.trim() !== '') {
                     messageContent = 'ไม่พบข้อมูลผู้บริจาคที่ตรงกับคำค้นหา';
+                    donorsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-info py-4">${messageContent}</td></tr>`;
                 } else {
-                    // No search term, and allDonorsData is also empty (meaning the sheet is empty)
-                    messageContent = 'ไม่มีข้อมูลผู้บริจาคในระบบ';
+                    // This handles the case where there's no search term and no data (sheet is empty).
+                    // As per user's request: "ไม่มีข้อมูล" to be shown
+                    messageContent = 'ไม่มีข้อมูล'; 
+                    donorsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-info py-4">${messageContent}</td></tr>`;
                 }
-                donorsTableBody.innerHTML = `<tr><td colspan="5" class="text-center text-info py-4">${messageContent}</td></tr>`;
             } else {
+                // Clear the loading message or previous content ONLY when actual data is about to be rendered
+                donorsTableBody.innerHTML = ''; 
                 paginatedDonors.forEach((donor, index) => {
                     const row = donorsTableBody.insertRow(); 
                     row.insertCell(0).textContent = startIndex + index + 1;
@@ -801,9 +799,9 @@
 
         backToHomeBtn.addEventListener('click', () => {
             showPage(homePage);
-            fetchDonors(3, false).then(data => { // showLoading is false for this specific call
+            // Immediately fetch data and re-render the table upon returning
+            fetchDonors(3).then(data => { 
                 allDonorsData = data;
-                // Reapply current sort after fetching new data
                 filteredDonorsData = [...allDonorsData];
                 sortTable(currentSortColumn); // This will also call renderTable
             });
@@ -826,7 +824,7 @@
         donationForm.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            // Show loading alert (modal)
+            // Show loading alert (modal) for saving
             showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true);
 
             // Get current date and time for transferDate and transferTime
@@ -909,8 +907,7 @@
                             
                             // ดำเนินการส่วนที่เหลือในเบื้องหลัง
                             donationForm.reset(); // Clear form fields
-                            // We explicitly do NOT want to show SweetAlert loading for this fetch after submission
-                            const updatedData = await fetchDonors(3, false); // Fetch updated data without showing SweetAlert loading
+                            const updatedData = await fetchDonors(3); // Fetch updated data
                             allDonorsData = updatedData;
                             filteredDonorsData = [...allDonorsData];
                             currentPage = 1;
@@ -944,20 +941,41 @@
             };
         });
 
-        // Initial load
+        // Initial load and periodic refresh setup
         document.addEventListener('DOMContentLoaded', () => {
+            // Clear any existing interval to prevent multiple intervals running
+            if (refreshIntervalId) {
+                clearInterval(refreshIntervalId);
+            }
+
             // Display loading message immediately in the table itself
             donorsTableBody.innerHTML = '<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border text-info spinner-border-sm me-2" role="status"><span class="visually-hidden">Loading...</span></div>กำลังโหลดข้อมูลผู้บริจาค...</td></tr>';
             
-            fetchDonors(3, false).then(data => { // Initial load: showLoadingAlert is false, so no SweetAlert
+            // Initial data fetch
+            fetchDonors(3).then(data => { 
                 allDonorsData = data;
                 filteredDonorsData = [...allDonorsData];
                 // Apply initial sort order (latest first for date/time)
                 sortTable(currentSortColumn); // This will also call renderTable
             });
+
             donationFormPage.classList.add('d-none');
             // Set initial placeholder for search input
             searchCategory.dispatchEvent(new Event('change'));
+
+            // Set up periodic refresh
+            refreshIntervalId = setInterval(async () => {
+                console.log("Refreshing data...");
+                const newData = await fetchDonors(3); // Fetch with retries
+                // Only update if data has actually changed
+                if (JSON.stringify(newData) !== JSON.stringify(allDonorsData)) { 
+                    allDonorsData = newData;
+                    // Reapply current filter and sort
+                    filterDonors(); // filterDonors calls sortTable which calls renderTable
+                } else {
+                    console.log("Data unchanged, skipping re-render.");
+                }
+            }, 2000); // Refresh every 2 seconds (2000 milliseconds)
         });
     </script>
 </body>
