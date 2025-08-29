@@ -188,6 +188,8 @@
             justify-content: center; /* Center vertically */
             color: black; /* Ensure text color is black */
             text-align: center; /* Center text content below icon */
+            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent white background */
+            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Subtle shadow */
         }
 
         .summary-value-box .fw-bold.fs-2 {
@@ -282,15 +284,17 @@
             <!--<h2 class="text-center mb-4 text-primary">รายนามผู้บริจาคเงินสร้างโดม</h2> -->
 
             <!-- Summary Section - Responsive layout for mobile -->
+             
+             
             <div class="row mb-4 g-3">
                 <div class="col-6">
-                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
+                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box rounded-4">
                         <i class="bi bi-cash-coin"></i> <!-- Removed me-2 to allow stacking -->
                         <span class="fw-bold fs-2"><span id="totalAmount" class="font-sriracha">0</span> <span class="font-sarabun">฿</span></span>
                     </div>
                 </div>
                 <div class="col-6">
-                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box">
+                    <div class="text-black d-flex align-items-center justify-content-center summary-value-box rounded-4">
                         <i class="bi bi-people-fill"></i> <!-- Removed me-2 to allow stacking -->
                         <span class="fw-bold fs-2 font-sriracha"><span id="totalDonors">0</span> คน</span>
                     </div>
