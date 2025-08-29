@@ -24,7 +24,7 @@
 
         body {
             /* Set a beautiful, vibrant and modern background */
-            background-image: url(BG.png); /* ใส่ URL รูปภาพของคุณที่นี่ */
+            background-image: url(BG2.jpg); /* ใส่ URL รูปภาพของคุณที่นี่ */
             background-size: 100% 100%; /* ครอบคลุมพื้นที่ทั้งหมด */
             background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลาง */
             background-attachment: fixed; /* ตรึงรูปภาพพื้นหลังเมื่อมีการเลื่อน */
@@ -240,6 +240,25 @@
             padding: 5px 0;
             color: #6c757d;
         }
+        /* Styles for the banner image */
+        .banner-container {
+            width: 100%;
+            overflow: hidden; /* Ensures rounded corners are applied correctly */
+            margin-bottom: 20px; /* Space between banner and card content */
+        }
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-top-left-radius: 1.25rem; /* Rounded top corners to match card */
+            border-top-right-radius: 1.25rem; /* Rounded top corners to match card */
+        }
+        /* Adjust for small screens (mobile): banner should not have rounded corners to blend with full width card */
+        @media (max-width: 767.98px) {
+            .banner-container img {
+                border-radius: 0 !important; /* Remove rounded corners on mobile */
+            }
+        }
     </style>
 </head>
 <body>
@@ -249,6 +268,9 @@
 
         <!-- Home Page -->
         <div id="homePage" class="card p-4 mx-auto">
+            <div class="banner-container">
+                <img src="BG-banner.png" alt="Banner" class="img-fluid rounded-top-4">
+            </div>
             <!--<div class="logo-container">
                 <img src="https://www.chaiwit.ac.th/web/wp-content/uploads/2022/06/chaiwitlogo.png" alt="Chaiwit Logo" onerror="this.onerror=null;this.src='https://placehold.co/150x150/cccccc/333333?text=Logo';" loading="lazy">
             </div>-->
