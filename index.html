@@ -49,9 +49,13 @@
             -webkit-backdrop-filter: blur(5px);
             width: 90%; /* Use a percentage for width, allowing some space */
             max-width: 700px; /* Max width for larger screens */
-            padding: 20px; /* Keep padding inside the card for content spacing */
+           /* padding: 20px;  Keep padding inside the card for content spacing */
             margin: 20px auto; /* Center horizontally with auto margins, add 20px top/bottom margin */
             box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        /* New style for content inside the card that needs padding */
+        .card-body-padded-content {
+            padding: 20px; /* Apply padding to the actual content area */
         }
         @media (max-width: 767.98px) { /* Adjust for small screens (mobile) */
             .card {
