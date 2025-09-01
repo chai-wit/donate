@@ -179,33 +179,33 @@
             height: auto;
         }
 
-        /* Styles for summary value boxes */
-        .summary-value-box {
-            padding: 1rem; /* Default padding */
-            display: flex; /* Use flexbox */
-            flex-direction: column; /* Stack children vertically (icon above text) */
-            align-items: center; /* Center horizontally within the box */
-            justify-content: center; /* Center vertically */
-            color: black; /* Ensure text color is black */
-            text-align: center; /* Center text content below icon */
-            background-color: rgba(255, 255, 255, 0.7); /* Slightly transparent white background */
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1); /* Subtle shadow */
+        /* --- New styles for summary boxes --- */
+        .summary-box {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 1.25rem;
+            transition: transform 0.2s ease-in-out;
         }
-
-        .summary-value-box .fw-bold.fs-2 {
-            /* Removed white-space: nowrap, overflow: hidden, text-overflow: ellipsis */
-            /* This ensures the number can wrap to new lines if needed to prevent cutting off */
-            line-height: 1.2; /* Ensure tight line height */
-            margin-top: 0.5rem; /* Add some space between icon and text */
-            /* No white-space: nowrap here, so numbers can wrap if needed on small screens */
+        .summary-box:hover {
+            transform: translateY(-5px);
         }
-
-        .summary-value-box .bi {
-            font-size: 1.8rem; /* Default icon size */
-            color: black; /* Explicitly set icon color to black */
-            margin-bottom: 0; /* Ensure no bottom margin pushes the text too far */
+        /* Style for the amount box (blue theme) */
+        .summary-amount-box {
+            background-color: rgba(var(--app-success-rgb), 0.1);
+            border: 1px solid rgba(var(--app-success-rgb), 0.3);
+            color: var(--app-success-color);
         }
-
+        /* Style for the donors box (red theme) */
+        .summary-donors-box {
+            background-color: rgba(var(--app-primary-rgb), 0.1);
+            border: 1px solid rgba(var(--app-primary-rgb), 0.3);
+            color: var(--app-primary-color);
+        }
         @media (max-width: 575.98px) { /* For extra small devices (portrait phones) */
             .summary-value-box .fw-bold.fs-2 {
                 font-size: 1.4rem !important; /* Adjusted font size for numbers/text on mobile */
