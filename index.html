@@ -356,7 +356,7 @@
                     <!-- Date Input -->
                     <div class="col-6 col-md-6"> <!-- Added col-6 here -->
                         <label for="transferDate" class="form-label fw-bold">วันที่แจ้งโอนเงิน:</label>
-                        <input type="date" class="form-control border-secondary" id="transferDate" readonly>
+                        <input type="text" class="form-control border-secondary" id="transferDate" readonly>
                     </div>
                     <!-- Time Input -->
                     <div class="col-6 col-md-6"> <!-- Added col-6 here -->
@@ -477,7 +477,7 @@
 
         /**
          * Sets the current date and time into the readonly input fields.
-         */
+         
         function setCurrentTransferDateTime() {
             const currentDateTime = getCurrentDateTime();
             if (transferDateInput) {
@@ -487,7 +487,28 @@
                 transferTimeInput.value = currentDateTime.time;
             }
         }
+        */
+       function setCurrentTransferDateTime() {
+            const today = new Date();
+            const day = today.getDate();
+            const month = today.getMonth();
+            const yearBE = today.getFullYear() + 543;
+            const hours = String(today.getHours()).padStart(2, '0');
+            const minutes = String(today.getMinutes()).padStart(2, '0');
+            const seconds = String(today.getSeconds()).padStart(2, '0');
 
+            const thaiMonths = [
+                'ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.',
+                'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'
+            ];
+
+            if (transferDateInput) {
+                transferDateInput.value = `${day} ${thaiMonths[month]} ${yearBE}`;
+            }
+            if (transferTimeInput) { 
+                transferTimeInput.value = `${hours}:${minutes}:${seconds}`;
+            }
+        }
 
         /**
          * Displays a SweetAlert2 notification.
