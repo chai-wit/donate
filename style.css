@@ -14,7 +14,7 @@
             min-height: 100vh;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             padding: 0; /* Changed from 20px to 0 for full screen on mobile */
             padding-top: 0;   /*เพิ่มระยะห่างด้านบน 10% ของความสูงหน้าจอ เพื่อขยับกรอบเว็บลงมา */
             font-family: 'Sarabun', sans-serif; /* Applied Sarabun font */
