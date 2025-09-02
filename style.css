@@ -47,7 +47,7 @@
                 min-height: 100vh; /* Make card fill the entire height on mobile */
                 display: flex; /* Ensure flex properties apply to card content */
                 flex-direction: column; /* Stack content vertically */
-                justify-content: center; /* Center content vertically */
+                justify-content: flex-start; /* Center content vertically */
                 width: 100%; /* Ensure full width on mobile */
             }
             body {
