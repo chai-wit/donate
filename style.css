@@ -1,1 +1,259 @@
+:root {
+            --app-primary-color: #A92020; /* A rich, deep red */
+            --app-primary-rgb: 169, 32, 32; /* RGB values for rgba */
+            --app-success-color: #004085; /* Dark blue for success button */
+            --app-success-rgb: 0, 64, 133; /* RGB for dark blue */
+        }
 
+        body {
+            /* Set a beautiful, vibrant and modern background */
+            background-image: url(img/BG-1.png); /* ใส่ URL รูปภาพของคุณที่นี่ */
+            background-size: 100% 100%; /* ครอบคลุมพื้นที่ทั้งหมด */
+            background-position: center; /* จัดตำแหน่งรูปภาพให้อยู่ตรงกลาง */
+            background-attachment: fixed; /* ตรึงรูปภาพพื้นหลังเมื่อมีการเลื่อน */
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0; /* Changed from 20px to 0 for full screen on mobile */
+            /*padding-top: 20vh;   เพิ่มระยะห่างด้านบน 10% ของความสูงหน้าจอ เพื่อขยับกรอบเว็บลงมา */
+            font-family: 'Sarabun', sans-serif; /* Applied Sarabun font */
+            overflow-x: hidden; /* Prevent horizontal scrollbar */
+        }
+        .container-fluid {
+            padding: 0 !important; /* Remove default container padding */
+            max-width: 100%; /* Ensure it doesn't limit width on large screens unnaturally */
+        }
+        .card {
+            background-color: rgba(255, 255, 255, 0.9) !important; /* Light white with transparency */
+            border-radius: 1.25rem; /* More rounded corners */
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            backdrop-filter: blur(5px); /* Add a subtle blur for transparency effect */
+            -webkit-backdrop-filter: blur(5px);
+            width: 90%; /* Use a percentage for width, allowing some space */
+            max-width: 800px; /* Max width for larger screens */
+           /* padding: 20px;  Keep padding inside the card for content spacing */
+            margin: 20px auto; /* Center horizontally with auto margins, add 20px top/bottom margin */
+            box-sizing: border-box; /* Include padding and border in the element's total width and height */
+        }
+        /* New style for content inside the card that needs padding */
+        .card-body-padded-content {
+            padding: 20px; /* Apply padding to the actual content area */
+        }
+        @media (max-width: 767.98px) { /* Adjust for small screens (mobile) */
+            .card {
+                margin: 0; /* Remove margin on small screens to be truly full width */
+                border-radius: 0; /* Remove rounded corners to blend with full screen */
+                min-height: 100vh; /* Make card fill the entire height on mobile */
+                display: flex; /* Ensure flex properties apply to card content */
+                flex-direction: column; /* Stack content vertically */
+                justify-content: center; /* Center content vertically */
+                width: 100%; /* Ensure full width on mobile */
+            }
+            body {
+                padding: 0; /* Ensure no padding on body for mobile */
+            }
+        }
+        .text-primary {
+            color: var(--app-primary-color) !important;
+        }
+        .table thead {
+            background-color: var(--app-primary-color) !important; /* Primary color for table header */
+            color: #ffffff; /* Ensure text is white on colored header */
+            position: sticky; /* Make the header sticky */
+            top: 0; /* Stick to the top of its containing block */
+            z-index: 10; /* Ensure it stays above other content when scrolling */
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--app-primary-rgb), 0.1) !important; /* Light hover effect using RGB for transparency */
+        }
+        .btn-primary {
+            background-color: var(--app-primary-color) !important;
+            border-color: var(--app-primary-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-primary-rgb), 0.3); /* Stronger shadow */
+            transition: all 0.2s ease-in-out; /* Smooth transition for hover */
+        }
+        .btn-primary:hover {
+            background-color: #8B0000 !important; /* Darker red on hover */
+            border-color: #8B0000 !important;
+            box-shadow: 0 6px 12px rgba(var(--app-primary-rgb), 0.4); /* Deeper shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .btn-success {
+            background-color: var(--app-success-color) !important;
+            border-color: var(--app-success-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-success-rgb), 0.3); /* Stronger shadow for dark blue */
+            transition: all 0.2s ease-in-out; /* Smooth transition for hover */
+            color: #ffffff; /* Ensure text is white on dark blue */
+        }
+        .btn-success:hover {
+            background-color: #002b5e !important; /* Darker shade of blue on hover */
+            border-color: #002b5e !important;
+            box-shadow: 0 6px 12px rgba(var(--app-success-rgb), 0.4); /* Deeper shadow on hover */
+            transform: translateY(-2px); /* Slight lift effect */
+        }
+        .btn {
+            font-weight: 500;
+        }
+        .rounded-pill {
+            border-radius: 50rem !important;
+        }
+        /* Custom scrollbar for table if it overflows */
+        .table-responsive {
+            max-height: 60vh; /* Limit height to allow scrolling */
+            overflow-y: auto;
+        }
+        .table {
+            border: none !important; /* Ensure no borders on the table itself */
+            font-size: 1.1rem; /* Reverted font size for the entire table */
+        }
+        .table th, .table td {
+            border-color: #d0d0d0; /* Light gray border for cells */
+            padding: 0.75rem; /* Adjust padding for better spacing with larger font */
+            white-space: nowrap; /* Ensure content stays on a single line */
+        }
+        /* Added to prevent text wrapping in table headers */
+        .table thead th {
+            white-space: nowrap;
+            cursor: pointer; /* Indicate sortable column */
+        }
+        .table thead th .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            vertical-align: middle;
+        }
+        .form-control.border-primary {
+            border-color: var(--app-primary-color) !important;
+        }
+        /* Specific style for the "แจ้งข้อมูลการโอนเงิน" button */
+        #showDonationFormBtn {
+            font-size: 1.2rem; /* Adjusted text to 1.2rem */
+            padding: 0.75rem 1.5rem; /* Padding for better fit */
+        }
+        /* Style for the readonly "วันที่แจ้งโอนเงิน" input */
+        #transferDate[readonly] {
+            background-color: #e9ecef; /* Lighter background for readonly fields */
+            color: #6c757d; /* Grey text color for readonly fields */
+        }
+        /* Style for the readonly "เวลาแจ้งโอนเงิน" input */
+        #transferTime[readonly] { /* Added style for transferTime */
+            background-color: #e9ecef; /* Lighter background for readonly fields */
+            color: #6c757d; /* Grey text color for readonly fields */
+        }
+        /* Custom style for all form-control inputs to have rounded corners */
+        .form-control {
+            border-radius: 0.5rem !important; /* Slightly rounded corners for input fields */
+        }
+        /* New style for Sriracha font */
+        .font-sriracha {
+            font-family: 'Sriracha', cursive;
+        }
+        /* New style for Sarabun font (for specific elements like currency symbol) */
+        .font-sarabun {
+            font-family: 'Sarabun', sans-serif;
+        }
+        /* Styles for the logo image */
+        .logo-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo-container img {
+            max-width: 100px; /* Adjust max-width as needed */
+            height: auto;
+        }
+
+        /* --- New styles for summary boxes --- */
+        .summary-box {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 1.25rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .summary-box:hover {
+            transform: translateY(-5px);
+        }
+        /* Style for the amount box (blue theme) */
+        .summary-amount-box {
+            background-color: #fccfd6;
+            border: 3px solid #d32f2f;
+            color: #d32f2f;
+        }
+        /* Style for the donors box (red theme) */
+        .summary-donors-box {
+            background-color: #cac2c3;
+            border: 3px solid #d32f2f;
+            color: #d32f2f;
+
+        }
+        .summary-box .fw-bold.fs-2 {
+            line-height: 1.2;
+            margin-top: 0.5rem;
+        }
+        .summary-box .bi {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+        @media (max-width: 575.98px) { /* For extra small devices (portrait phones) */
+            .summary-value-box .fw-bold.fs-2 {
+                font-size: 1.4rem !important; /* Adjusted font size for numbers/text on mobile */
+            }
+            .summary-value-box .bi {
+                font-size: 1.4rem !important; /* Also adjust icon size to match smaller text */
+            }
+            .summary-value-box {
+                padding: 0.6rem !important; /* More compact padding for mobile */
+            }
+        }
+
+        /* Pagination styles */
+        .pagination-btn {
+            margin: 0 3px;
+            padding: 5px 10px;
+            border: 1px solid var(--app-primary-color);
+            background-color: #fff;
+            color: var(--app-primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .pagination-btn:hover:not(.active):not(:disabled) {
+            background-color: rgba(var(--app-primary-rgb), 0.1);
+        }
+        .pagination-btn.active {
+            background-color: var(--app-primary-color);
+            color: #fff;
+            font-weight: bold;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .pagination-ellipsis {
+            margin: 0 3px;
+            padding: 5px 0;
+            color: #6c757d;
+        }
+        /* Styles for the banner image */
+        .banner-container {
+            width: 100%;
+            overflow: hidden; /* Ensures rounded corners are applied correctly */
+            margin-bottom: 5px; /* Space between banner and card content */
+        }
+        .banner-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            border-top-left-radius: 1.25rem; /* Rounded top corners to match card */
+            border-top-right-radius: 1.25rem; /* Rounded top corners to match card */
+        }
+        /* Adjust for small screens (mobile): banner should not have rounded corners to blend with full width card */
+        @media (max-width: 767.98px) {
+            .banner-container img {
+                border-radius: 0 !important; /* Remove rounded corners on mobile */
+            }
+        }
