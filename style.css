@@ -259,7 +259,7 @@
         }
         .overlay-text {
             position: absolute;
-            top: 10%;
+            top: 20px;
             left: 50%;
             transform: translate(-50%, -50%); 
              
