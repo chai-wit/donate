@@ -260,10 +260,11 @@
         .overlay-text {
             position: absolute;
             top: 10%;
+            left: 50%;
             transform: translate(-50%, -50%); 
              
             color: #fff; 
             padding: 10px 20px; 
-            font-size: 25px; 
+            font-size: 20px; 
             text-align: center;
         }
