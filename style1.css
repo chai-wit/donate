@@ -1,0 +1,280 @@
+:root {
+            --app-primary-color: #A92020; /* A rich, deep red */
+            --app-primary-rgb: 169, 32, 32; /* RGB values for rgba */
+            --app-success-color: #004085; /* Dark blue for success button */
+            --app-success-rgb: 0, 64, 133; /* RGB for dark blue */
+        }
+
+        body {
+            background-color: #f8f9fa; /* Changed to a very light gray or white */
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px; 
+            padding-top: 5vh; 
+            font-family: 'Sarabun', sans-serif;
+            overflow-x: hidden; 
+        }
+        .container-fluid {
+            padding: 0 !important;
+            max-width: 95%; /* Adjusted max-width for better spacing on large screens */
+        }
+        .card {
+            background-color: #ffffff !important; /* Changed to solid white */
+            border-radius: 1.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+            backdrop-filter: none; /* Removed blur effect */
+            -webkit-backdrop-filter: none;
+            width: 100%;
+            max-width: 700px;
+            padding: 0;
+            margin: 0 auto;
+            box-sizing: border-box;
+        }
+        .card-body-padded-content {
+            padding: 20px; /* Increased padding for all devices */
+        }
+        @media (max-width: 767.98px) {
+            .card {
+                margin: 0;
+                border-radius: 0;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start; /* Changed from center to start for mobile to avoid content being squished */
+                width: 100%;
+            }
+            body {
+                padding: 0; /* Reset padding for mobile */
+                padding-top: 0; /* Ensures the card is flush with the top */
+                display: block; /* Use block to allow child elements to stack */
+            }
+            .card-body-padded-content {
+                padding: 15px; /* Adjust padding for mobile devices */
+            }
+        }
+        .text-primary {
+            color: var(--app-primary-color) !important;
+        }
+        .table thead {
+            background-color: var(--app-primary-color) !important;
+            color: #ffffff;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        .table-hover tbody tr:hover {
+            background-color: rgba(var(--app-primary-rgb), 0.1) !important;
+        }
+        .btn-primary {
+            background-color: var(--app-primary-color) !important;
+            border-color: var(--app-primary-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-primary-rgb), 0.3);
+            transition: all 0.2s ease-in-out;
+        }
+        .btn-primary:hover {
+            background-color: #8B0000 !important;
+            border-color: #8B0000 !important;
+            box-shadow: 0 6px 12px rgba(var(--app-primary-rgb), 0.4);
+            transform: translateY(-2px);
+        }
+        .btn-success {
+            background-color: var(--app-success-color) !important;
+            border-color: var(--app-success-color) !important;
+            box-shadow: 0 4px 8px rgba(var(--app-success-rgb), 0.3);
+            transition: all 0.2s ease-in-out;
+            color: #ffffff;
+        }
+        .btn-success:hover {
+            background-color: #002b5e !important;
+            border-color: #002b5e !important;
+            box-shadow: 0 6px 12px rgba(var(--app-success-rgb), 0.4);
+            transform: translateY(-2px);
+        }
+        .btn {
+            font-weight: 500;
+        }
+        .rounded-pill {
+            border-radius: 50rem !important;
+        }
+        .table-responsive {
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        .table {
+            border: none !important;
+            font-size: 1.1rem;
+        }
+        .table th, .table td {
+            border-color: #d0d0d0;
+            padding: 0.75rem;
+            white-space: nowrap;
+        }
+        .table thead th {
+            white-space: nowrap;
+            cursor: pointer;
+        }
+        .table thead th .sort-icon {
+            margin-left: 5px;
+            font-size: 0.8em;
+            vertical-align: middle;
+        }
+        .form-control.border-primary {
+            border-color: var(--app-primary-color) !important;
+        }
+        #showDonationFormBtn {
+            font-size: 1.2rem;
+            padding: 0.75rem 1.5rem;
+        }
+        #transferDate[readonly] {
+            background-color: #e9ecef;
+            color: #6c757d;
+        }
+        #transferTime[readonly] {
+            background-color: #d9e2ef;
+            color: #555;
+        }
+        .form-control {
+            border-radius: 0.5rem !important;
+        }
+        .font-sriracha {
+            font-family: 'Sriracha', cursive;
+        }
+        .font-sarabun {
+            font-family: 'Sarabun', sans-serif;
+        }
+        /* --- New styles for summary boxes --- */
+        .summary-box {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+            border-radius: 1.25rem;
+            transition: transform 0.2s ease-in-out;
+        }
+        .summary-box:hover {
+            transform: translateY(-5px);
+        }
+        /* Style for the amount box (red theme) */
+        .summary-amount-box {
+            background-color: #ffebee; /* Lightest red */
+            border: 2px solid #d32f2f; /* Dark red, thicker border */
+            color: #d32f2f; /* Dark red */
+        }
+        /* Style for the donors box (red theme) */
+        .summary-donors-box {
+            background-color: #ffebee; /* Lightest red */
+            border: 2px solid #d32f2f; /* Dark red, thicker border */
+            color: #d32f2f; /* Dark red */
+        }
+        .summary-box .fw-bold.fs-2 {
+            line-height: 1.2;
+            margin-top: 0.5rem;
+        }
+        .summary-box .bi {
+            font-size: 1.8rem;
+            margin-bottom: 0;
+        }
+        @media (max-width: 575.98px) {
+            .summary-box .fw-bold.fs-2 {
+                font-size: 1.4rem !important;
+            }
+            .summary-box .bi {
+                font-size: 1.4rem !important;
+            }
+            .summary-box {
+                padding: 0.6rem !important;
+            }
+        }
+        /* --- End of new styles --- */
+        .pagination-btn {
+            margin: 0 3px;
+            padding: 5px 10px;
+            border: 1px solid var(--app-primary-color);
+            background-color: #fff;
+            color: var(--app-primary-color);
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.2s ease-in-out;
+        }
+        .pagination-btn:hover:not(.active):not(:disabled) {
+            background-color: rgba(var(--app-primary-rgb), 0.1);
+        }
+        .pagination-btn.active {
+            background-color: var(--app-primary-color);
+            color: #fff;
+            font-weight: bold;
+        }
+        .pagination-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .pagination-ellipsis {
+            margin: 0 3px;
+            padding: 5px 0;
+            color: #6c757d;
+        }
+        /* New styles for banner */
+        .banner-container {
+            width: 100%;
+            position: relative;
+            padding-bottom: 33.33%; /* 3:1 aspect ratio */
+            overflow: hidden;
+            margin-bottom: 20px;
+            border-radius: 1.25rem;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+        }
+        .banner-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .banner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding: 15px;
+        }
+        .banner-text-main {
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+            line-height: 1.2;
+        }
+        .banner-text-sub {
+            font-size: 1.2rem;
+            font-weight: 400;
+            font-family: 'Sarabun', sans-serif;
+            margin: 0;
+        }
+        @media (min-width: 768px) {
+            .banner-text-main {
+                font-size: 2.5rem;
+            }
+            .banner-text-sub {
+                font-size: 1.8rem;
+            }
+        }
+        @media (max-width: 767.98px) {
+            .banner-container {
+                padding-bottom: 50%; /* Adjust aspect ratio for mobile */
+            }
+        }
