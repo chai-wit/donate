@@ -223,10 +223,10 @@
         .banner-container {
             width: 100%;
             position: relative;
-            padding-bottom: 33.33%; /* 3:1 aspect ratio */
+            padding-bottom: 300px; /* 3:1 aspect ratio */
             overflow: hidden;
-            margin-bottom: 20px;
-            border-radius: 1.25rem;
+            margin-bottom: 5px;
+            border-radius: 2rem;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
         .banner-image {
