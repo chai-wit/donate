@@ -265,6 +265,14 @@
             font-family: 'Sriracha', sans-serif;
             margin: 0;
         }
+        /* New style for the logo */
+        .banner-logo {
+            max-width: 100px; /* Adjust as needed */
+            height: auto;
+            margin-bottom: 10px;
+            -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+        }
         @media (min-width: 768px) {
             .banner-text-main {
                 font-size: 3rem;
