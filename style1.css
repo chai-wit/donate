@@ -308,14 +308,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
+            text-align: center
         }
         @media (min-width: 768px) {
             .qr-section-container {
                 flex-direction: row;
-                justify-content: center;
-                align-items: flex-start;
-                gap: 2rem;
-                text-align: left;
+                justify-content: flex-start; /* Align items to the start of the row */
+                align-items: center; /* Vertically center items */
+                gap: 2rem; /* Add space between QR and text */
+                text-align: left; /* Align text to the left */
             }
         }
         .qr-code-image {
