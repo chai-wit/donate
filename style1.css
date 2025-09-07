@@ -6,7 +6,7 @@
         }
 
         body {
-            background-color: #f8f9fa; /* Changed to a very light gray or white */
+            background-color: #ff9898; /* Changed to a very light gray or white */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -19,7 +19,7 @@
         }
         .container-fluid {
             padding: 0 !important;
-            max-width: 95%; /* Adjusted max-width for better spacing on large screens */
+            max-width: 100%; /* Adjusted max-width for better spacing on large screens */
         }
         .card {
             background-color: #ffffff !important; /* Changed to solid white */
@@ -27,8 +27,8 @@
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
             backdrop-filter: none; /* Removed blur effect */
             -webkit-backdrop-filter: none;
-            width: 100%;
-            max-width: 700px;
+            width: 700%;
+            max-width: 800px;
             padding: 0;
             margin: 0 auto;
             box-sizing: border-box;
