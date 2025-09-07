@@ -226,7 +226,7 @@
             padding-bottom: 300px; /* 3:1 aspect ratio */
             overflow: hidden;
             margin-bottom: 5px;
-            border-radius: 2rem;
+            /*border-radius: 1rem;*/
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
         .banner-image {
@@ -298,7 +298,7 @@
             .qr-code-image {
                 width: 200px;
                 max-width: 200px;
-                margin: 0 auto; /* Center the image */
+                margin: 17px 30px; /* Center the image */
                 display: block; /* Ensure it's a block element to respect margin */
             }
         }
@@ -315,7 +315,7 @@
                 flex-direction: row;
                 justify-content: center;
                 align-items: flex-start;
-                gap: 2rem;
+                gap: 10rem;
                 text-align: left;
             }
         }
@@ -337,7 +337,7 @@
         }
         @media (min-width: 768px) {
             .qr-text-container {
-                margin-top: 0;
+                margin-top: 25px;
             }
         }
         .qr-text-container h3 {
