@@ -6,7 +6,7 @@
         }
 
         body {
-            background-color: #ff9898; /* Changed to a very light gray or white */
+            background-color: #ffffff; /* Changed to a very light gray or white */
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -320,7 +320,7 @@
             }
         }
         .qr-code-image {
-            width: 100%;
+            width: 55%;
             height: auto;
             border-radius: 1.25rem;
             box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
@@ -328,8 +328,8 @@
         }
         @media (min-width: 768px) {
             .qr-code-image {
-                width: 250px;
-                max-width: 250px;
+                width: 190px;
+                max-width: 200px;
             }
         }
         .qr-text-container {
