@@ -378,5 +378,9 @@
             border-radius: 1.25rem;
             transition: transform 0.2s ease-in-out;
         }
+        .qr-box .fw-bold.fs-2 {
+            line-height: 1.2;
+            margin-top: 0.5rem;
+        }
 
-        
+
