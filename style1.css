@@ -228,7 +228,7 @@
             padding-bottom: 250px; /* 3:1 aspect ratio */
             overflow: hidden;
             margin-bottom: 2px;
-            border-radius: 20px 20px 0px 0px;
+            border-radius: 0px 0px 0px 0px;
             box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
         }
         .banner-image {
