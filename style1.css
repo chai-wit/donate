@@ -300,7 +300,7 @@
             .qr-code-image {
                 width: 200px;
                 max-width: 200px;
-                margin: 17px 30px; /* Center the image */
+                margin: 0px 50px; /* Center the image */
                 display: block; /* Ensure it's a block element to respect margin */
             }
         }
@@ -339,7 +339,7 @@
         }
         @media (min-width: 768px) {
             .qr-text-container {
-                margin-top: 25px;
+                margin-top: 0px;
             }
         }
         .qr-text-container h3 {
