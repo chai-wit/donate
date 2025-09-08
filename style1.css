@@ -157,9 +157,9 @@
             border-radius: 1.25rem;
             transition: transform 0.2s ease-in-out;
         }
-        .summary-box:hover {
+        /* .summary-box:hover {
             transform: translateY(-5px);
-        }
+        }*/
         /* Style for the amount box (red theme) */
         .summary-amount-box {
             background-color: #ffebee; /* Lightest red */
@@ -173,6 +173,10 @@
             color: #d32f2f; /* Dark red */
         }
         .summary-box .fw-bold.fs-2 {
+            line-height: 1.2;
+            margin-top: 0.5rem;
+        }
+         .qr-box  {
             line-height: 1.2;
             margin-top: 0.5rem;
         }
