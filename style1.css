@@ -383,5 +383,9 @@
             line-height: 1.2;
             margin-top: 0.5rem;
         }
+        .acc{
+            line-height: 1.1em;
+            border: solid red;
+        }
 
 
