@@ -330,8 +330,8 @@
         }
         @media (min-width: 768px) {
             .qr-code-image {
-                width: 190px;
-                max-width: 200px;
+                width: 279px;
+                max-width: 300px;
             }
         }
         .qr-text-container {
