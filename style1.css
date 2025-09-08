@@ -290,7 +290,7 @@
         }
         @media (max-width: 767.98px) {
             .banner-container {
-                padding-bottom: 50%; /* Adjust aspect ratio for mobile */
+                padding-bottom: 45%; /* Adjust aspect ratio for mobile */
             }
         }
         
