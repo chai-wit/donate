@@ -471,7 +471,7 @@
             event.preventDefault();
 
             // Show loading alert (modal) for saving
-            showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true, 3000);
+            showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true, 5000);
 
             // Get current date and time for transferDate and transferTime
             // These values are already set in the readonly inputs, but we'll re-get them to be safe
@@ -621,5 +621,5 @@
                 } else {
                     console.log("Data unchanged, skipping re-render.");
                 }
-            }, 2000); // Refresh every 2 seconds (2000 milliseconds)
+            }, 3000); // Refresh every 2 seconds (2000 milliseconds)
         });
