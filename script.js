@@ -14,7 +14,7 @@
         const donorsTableBody = document.getElementById('donorsTableBody');
         const totalAmountSpan = document.getElementById('totalAmount');
         const totalDonorsSpan = document.getElementById('totalDonors');
-        const paginationButtonsContainer = document.getElementById('paginationButtons');
+        const paginationButtonsContainer = document.getElementById('paginationButtons'); 
 
         // Added references to new input fields
         const transferDateInput = document.getElementById('transferDate');
@@ -471,7 +471,7 @@
             event.preventDefault();
 
             // Show loading alert (modal) for saving
-            showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true);
+            showAppAlert('กำลังบันทึกข้อมูล...', 'info', 'modal', true, 3000);
 
             // Get current date and time for transferDate and transferTime
             // These values are already set in the readonly inputs, but we'll re-get them to be safe
