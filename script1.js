@@ -261,15 +261,32 @@ donationForm.onsubmit = async e => {
     e.preventDefault();
     showAppAlert('กำลังบันทึก...', 'info', 'modal', true);
 
-    const transferDate = transferDateInput.value; // BE date
+    const transferDate = transferDateInput.value; 
     const transferTime = transferTimeInput.value;
-    const fullName = document.getElementById('fullName').value;
-    const occupation = document.getElementById('occupation').value;
-    const phone = document.getElementById('phoneNumber').value;
-    const amount = document.getElementById('amount').value;
+    const fullName = document.getElementById('fullName').value.trim();
+    const occupation = document.getElementById('occupation').value.trim();
+    const phone = document.getElementById('phoneNumber').value.trim();
+    const amount = parseFloat(document.getElementById('amount').value);
     const donationDate = document.getElementById('donationDate').value;
     const slipFile = document.getElementById('slipImage').files[0];
-    if (!slipFile) { Swal.close(); return showAppAlert('กรุณาแนบสลิป', 'error', 'modal'); }
+
+    // ✅ Validate เบอร์โทร
+    const phoneRegex = /^[0-9]{9,10}$/;
+    if (!phoneRegex.test(phone)) {
+        Swal.close();
+        return showAppAlert('กรุณากรอกเบอร์โทรให้ถูกต้อง (9-10 หลัก)', 'error', 'modal');
+    }
+
+    // ✅ Validate จำนวนเงิน
+    if (isNaN(amount) || amount < 1 || amount > 1000000) {
+        Swal.close();
+        return showAppAlert('จำนวนเงินไม่ถูกต้อง (ขั้นต่ำ 1 บาท และไม่เกิน 1,000,000 บาท)', 'error', 'modal');
+    }
+
+    if (!slipFile) { 
+        Swal.close(); 
+        return showAppAlert('กรุณาแนบสลิป', 'error', 'modal'); 
+    }
 
     const reader = new FileReader();
     reader.onload = async () => {
@@ -293,7 +310,11 @@ donationForm.onsubmit = async e => {
         params.append('fileName', fileName);
 
         try {
-            const res = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: params.toString(), headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
+            const res = await fetch(APPS_SCRIPT_URL, { 
+                method: 'POST', 
+                body: params.toString(), 
+                headers: { 'Content-Type': 'application/x-www-form-urlencoded' } 
+            });
             const result = await res.json();
             if (result.status === 'success') {
                 Swal.close();
