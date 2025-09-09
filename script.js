@@ -499,7 +499,19 @@
             reader.onload = async () => {
                 const base64Image = reader.result.split(',')[1];
                 const mimeType = slipFile.type;
-                const fileName = slipFile.name;
+                const fileExtension = slipFile.name.split('.').pop();
+
+            // ทำให้ชื่อ-นามสกุลปลอดภัย (แทนที่ช่องว่างด้วย _ และลบอักขระต้องห้าม)
+                const safeFullName = fullName
+                    .trim()
+                    .replace(/\s+/g, '_')
+                    .replace(/[^\wก-ฮ]/g, ''); // คงไว้เฉพาะ a-z0-9_ และตัวอักษรไทย
+
+            // วันที่ปัจจุบัน (YYYY-MM-DD)
+            const dateNow = new Date().toISOString().split('T')[0];
+
+            // ✅ ตั้งชื่อไฟล์เป็น "ชื่อ-นามสกุล_YYYY-MM-DD_slip.jpg"
+                const fileName = `${safeFullName}_${dateNow}_slip.${fileExtension}`;
 
                 const params = new URLSearchParams();
                 params.append('action', 'addDonation');
