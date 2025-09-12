@@ -300,7 +300,7 @@
             .qr-code-image {
                 width: 200px;
                 max-width: 200px;
-                margin: 0px 50px; /* Center the image */
+                /*margin: 0px 50px;  Center the image */
                 display: block; /* Ensure it's a block element to respect margin */
             }
         }
