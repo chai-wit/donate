@@ -407,6 +407,8 @@
                     font-size: 1.3rem;        /* ~21px */
                     margin-bottom: 0.5rem;
                     color: #2c7be5;
+                    text-align: center;
+                    font-weight: 700;
         }
         .donation-steps li {
                     margin-bottom: 0.2rem;   /* เว้นระยะระหว่างข้อ */
