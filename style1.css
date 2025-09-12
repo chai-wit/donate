@@ -388,14 +388,6 @@
             line-height: 1;
             padding-bottom: 10px;
             
-        }
-
-        .roow{
-          display: flex;
-          flex-wrap: wrap;
-          margin-top: 0%;
-            
-        }
 
         .donation-steps {
                     font-size: 1.05rem;       /* ~17px */
