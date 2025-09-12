@@ -330,7 +330,7 @@
         }
         @media (min-width: 768px) {
             .qr-code-image {
-                width: 295px;
+                width: 300px;
                 max-width: 300px;
             }
         }
@@ -385,7 +385,7 @@
         }
         .acc{
             line-height: 1;
-            padding-bottom: 5px;
+            padding-bottom: 10px;
             
         }
 
