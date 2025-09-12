@@ -38,7 +38,7 @@ body {
     backdrop-filter: none;
     /* Removed blur effect */
     -webkit-backdrop-filter: none;
-    width: 700%;
+    width: 100%;
     max-width: 800px;
     padding: 0;
     margin: 0 auto;
@@ -286,8 +286,8 @@ body {
 .banner-container {
     width: 100%;
     position: relative;
-    padding-bottom: 250px;
-    /*aspect-ratio: 3/1; /*3:1 aspect ratio */
+    /*padding-bottom: 250px;*/
+    aspect-ratio: 3/1; /*3:1 aspect ratio */
     overflow: hidden;
     margin-bottom: 2px;
     border-radius: 20px 20px 0px 0px;
