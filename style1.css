@@ -1,410 +1,504 @@
 :root {
-            --app-primary-color: #A92020; /* A rich, deep red */
-            --app-primary-rgb: 169, 32, 32; /* RGB values for rgba */
-            --app-success-color: #004085; /* Dark blue for success button */
-            --app-success-rgb: 0, 64, 133; /* RGB for dark blue */
-        }
+    --app-primary-color: #A92020;
+    /* A rich, deep red */
+    --app-primary-rgb: 169, 32, 32;
+    /* RGB values for rgba */
+    --app-success-color: #004085;
+    /* Dark blue for success button */
+    --app-success-rgb: 0, 64, 133;
+    /* RGB for dark blue */
+}
 
-        body {
-            background-color: #ffffff; /* Changed to a very light gray or white */
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 20px; 
-            padding-top: 0; 
-            font-family: 'Sarabun', sans-serif;
-            overflow-x: hidden; 
-        }
-        .container-fluid {
-            padding: 0 !important;
-            max-width: 100%; /* Adjusted max-width for better spacing on large screens */
-            border-radius: 20px 20px 0px 0px
-        }
-        .card {
-            background-color: #ffffff !important; /* Changed to solid white */
-            border-radius: 1.25rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
-            backdrop-filter: none; /* Removed blur effect */
-            -webkit-backdrop-filter: none;
-            width: 700%;
-            max-width: 800px;
-            padding: 0;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-        .card-body-padded-content {
-            padding: 20px; /* Increased padding for all devices */
-        }
-        @media (max-width: 767.98px) {
-            .card {
-                margin: 0;
-                border-radius: 0;
-                min-height: 100vh;
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start; /* Changed from center to start for mobile to avoid content being squished */
-                width: 100%;
-            }
-            body {
-                padding: 0; /* Reset padding for mobile */
-                padding-top: 0; /* Ensures the card is flush with the top */
-                display: block; /* Use block to allow child elements to stack */
-            }
-            .card-body-padded-content {
-                padding: 15px; /* Adjust padding for mobile devices */
-            }
-        }
-        .text-primary {
-            color: var(--app-primary-color) !important;
-        }
-        .table thead {
-            background-color: var(--app-primary-color) !important;
-            color: #ffffff;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .table-hover tbody tr:hover {
-            background-color: rgba(var(--app-primary-rgb), 0.1) !important;
-        }
-        .btn-primary {
-            background-color: var(--app-primary-color) !important;
-            border-color: var(--app-primary-color) !important;
-            box-shadow: 0 4px 8px rgba(var(--app-primary-rgb), 0.3);
-            transition: all 0.2s ease-in-out;
-        }
-        .btn-primary:hover {
-            background-color: #8B0000 !important;
-            border-color: #8B0000 !important;
-            box-shadow: 0 6px 12px rgba(var(--app-primary-rgb), 0.4);
-            transform: translateY(-2px);
-        }
-        .btn-success {
-            background-color: var(--app-success-color) !important;
-            border-color: var(--app-success-color) !important;
-            box-shadow: 0 4px 8px rgba(var(--app-success-rgb), 0.3);
-            transition: all 0.2s ease-in-out;
-            color: #ffffff;
-        }
-        .btn-success:hover {
-            background-color: #002b5e !important;
-            border-color: #002b5e !important;
-            box-shadow: 0 6px 12px rgba(var(--app-success-rgb), 0.4);
-            transform: translateY(-2px);
-        }
-        .btn {
-            font-weight: 500;
-        }
-        .rounded-pill {
-            border-radius: 50rem !important;
-        }
-        .table-responsive {
-            max-height: 60vh;
-            overflow-y: auto;
-        }
-        .table {
-            border: none !important;
-            font-size: 1.1rem;
-        }
-        .table th, .table td {
-            border-color: #d0d0d0;
-            padding: 0.75rem;
-            white-space: nowrap;
-        }
-        .table thead th {
-            white-space: nowrap;
-            cursor: pointer;
-        }
-        .table thead th .sort-icon {
-            margin-left: 5px;
-            font-size: 0.8em;
-            vertical-align: middle;
-        }
-        .form-control.border-primary {
-            border-color: var(--app-primary-color) !important;
-        }
-        #showDonationFormBtn {
-            font-size: 1.2rem;
-            padding: 0.75rem 1.5rem;
-        }
-        #transferDate[readonly] {
-            background-color: #e9ecef;
-            color: #6c757d;
-        }
-        #transferTime[readonly] {
-            background-color: #d9e2ef;
-            color: #555;
-        }
-        .form-control {
-            border-radius: 0.5rem !important;
-        }
-        .font-sriracha {
-            font-family: 'Sriracha', cursive;
-        }
-        .font-sarabun {
-            font-family: 'Sarabun', sans-serif;
-        }
-        /* --- New styles for summary boxes --- */
-        .summary-box {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            border-radius: 1.25rem;
-            transition: transform 0.2s ease-in-out;
-        }
-        /* .summary-box:hover {
+body {
+    background-color: #ffffff;
+    /* Changed to a very light gray or white */
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    padding-top: 0;
+    font-family: 'Sarabun', sans-serif;
+    overflow-x: hidden;
+}
+
+.container-fluid {
+    padding: 0 !important;
+    max-width: 100%;
+    /* Adjusted max-width for better spacing on large screens */
+    border-radius: 20px 20px 0px 0px
+}
+
+.card {
+    background-color: #ffffff !important;
+    /* Changed to solid white */
+    border-radius: 1.25rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+    backdrop-filter: none;
+    /* Removed blur effect */
+    -webkit-backdrop-filter: none;
+    width: 700%;
+    max-width: 800px;
+    padding: 0;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.card-body-padded-content {
+    padding: 20px;
+    /* Increased padding for all devices */
+}
+
+@media (max-width: 767.98px) {
+    .card {
+        margin: 0;
+        border-radius: 0;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        /* Changed from center to start for mobile to avoid content being squished */
+        width: 100%;
+    }
+
+    body {
+        padding: 0;
+        /* Reset padding for mobile */
+        padding-top: 0;
+        /* Ensures the card is flush with the top */
+        display: block;
+        /* Use block to allow child elements to stack */
+    }
+
+    .card-body-padded-content {
+        padding: 15px;
+        /* Adjust padding for mobile devices */
+    }
+}
+
+.text-primary {
+    color: var(--app-primary-color) !important;
+}
+
+.table thead {
+    background-color: var(--app-primary-color) !important;
+    color: #ffffff;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.table-hover tbody tr:hover {
+    background-color: rgba(var(--app-primary-rgb), 0.1) !important;
+}
+
+.btn-primary {
+    background-color: var(--app-primary-color) !important;
+    border-color: var(--app-primary-color) !important;
+    box-shadow: 0 4px 8px rgba(var(--app-primary-rgb), 0.3);
+    transition: all 0.2s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #8B0000 !important;
+    border-color: #8B0000 !important;
+    box-shadow: 0 6px 12px rgba(var(--app-primary-rgb), 0.4);
+    transform: translateY(-2px);
+}
+
+.btn-success {
+    background-color: var(--app-success-color) !important;
+    border-color: var(--app-success-color) !important;
+    box-shadow: 0 4px 8px rgba(var(--app-success-rgb), 0.3);
+    transition: all 0.2s ease-in-out;
+    color: #ffffff;
+}
+
+.btn-success:hover {
+    background-color: #002b5e !important;
+    border-color: #002b5e !important;
+    box-shadow: 0 6px 12px rgba(var(--app-success-rgb), 0.4);
+    transform: translateY(-2px);
+}
+
+.btn {
+    font-weight: 500;
+}
+
+.rounded-pill {
+    border-radius: 50rem !important;
+}
+
+.table-responsive {
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.table {
+    border: none !important;
+    font-size: 1.1rem;
+}
+
+.table th,
+.table td {
+    border-color: #d0d0d0;
+    padding: 0.75rem;
+    white-space: nowrap;
+}
+
+.table thead th {
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.table thead th .sort-icon {
+    margin-left: 5px;
+    font-size: 0.8em;
+    vertical-align: middle;
+}
+
+.form-control.border-primary {
+    border-color: var(--app-primary-color) !important;
+}
+
+#showDonationFormBtn {
+    font-size: 1.2rem;
+    padding: 0.75rem 1.5rem;
+}
+
+#transferDate[readonly] {
+    background-color: #e9ecef;
+    color: #6c757d;
+}
+
+#transferTime[readonly] {
+    background-color: #d9e2ef;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 0.5rem !important;
+}
+
+.font-sriracha {
+    font-family: 'Sriracha', cursive;
+}
+
+.font-sarabun {
+    font-family: 'Sarabun', sans-serif;
+}
+
+/* --- New styles for summary boxes --- */
+.summary-box {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 1.25rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* .summary-box:hover {
             transform: translateY(-5px);
         }*/
-        /* Style for the amount box (red theme) */
-        .summary-amount-box {
-            background-color: #ffebee; /* Lightest red */
-            border: 2px solid #d32f2f; /* Dark red, thicker border */
-            color: #d32f2f; /* Dark red */
-        }
-        /* Style for the donors box (red theme) */
-        .summary-donors-box {
-            background-color: #ffebee; /* Lightest red */
-            border: 2px solid #d32f2f; /* Dark red, thicker border */
-            color: #d32f2f; /* Dark red */
-        }
-        .summary-box .fw-bold.fs-2 {
-            line-height: 1.2;
-            margin-top: 0.5rem;
-        }
-         
-        .summary-box .bi {
-            font-size: 1.8rem;
-            margin-bottom: 0;
-        }
-        @media (max-width: 575.98px) {
-            .summary-box .fw-bold.fs-2 {
-                font-size: 1.4rem !important;
-            }
-            .summary-box .bi {
-                font-size: 1.4rem !important;
-            }
-            .summary-box {
-                padding: 0.6rem !important;
-            }
-        }
-        /* --- End of new styles --- */
-        .pagination-btn {
-            margin: 0 3px;
-            padding: 5px 10px;
-            border: 1px solid var(--app-primary-color);
-            background-color: #fff;
-            color: var(--app-primary-color);
-            border-radius: 5px;
-            cursor: pointer;
-            transition: all 0.2s ease-in-out;
-        }
-        .pagination-btn:hover:not(.active):not(:disabled) {
-            background-color: rgba(var(--app-primary-rgb), 0.1);
-        }
-        .pagination-btn.active {
-            background-color: var(--app-primary-color);
-            color: #fff;
-            font-weight: bold;
-        }
-        .pagination-btn:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-        }
-        .pagination-ellipsis {
-            margin: 0 3px;
-            padding: 5px 0;
-            color: #6c757d;
-        }
-        /* New styles for banner */
-        .banner-container {
-            width: 100%;
-            position: relative;
-            padding-bottom: 250px; 
-            /*aspect-ratio: 3/1; /*3:1 aspect ratio */
-            overflow: hidden;
-            margin-bottom: 2px;
-            border-radius: 20px 20px 0px 0px;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-        }
-        .banner-image {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.4);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: white;
-            padding: 15px;
-        }
-        .banner-text-main {
-            font-size: 1.8rem;
-            font-weight: 650;
-            font-family: 'Sriracha', sans-serif;
-            margin: 0;
-            line-height: 1.2;
-        }
-        .banner-text-sub {
-            font-size: 1.2rem;
-            font-weight: 400;
-            font-family: 'Sriracha', sans-serif;
-            margin: 0;
-        }
-        /* New style for the logo */
-        .banner-logo {
-            max-width: 50px; /* Adjust as needed */
-            height: auto;
-            margin-bottom: 10px;
-            -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-            filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
-        }
-        @media (min-width: 768px) {
-            .banner-text-main {
-                font-size: 3rem;
-            }
-            .banner-text-sub {
-                font-size: 2rem;
-            }
-            .banner-container {
-                max-height: 20%;
-                margin-left: auto;
-                margin-right: auto;
-            }
-        }
-        @media (max-width: 767.98px) {
-            .banner-container {
-                padding-bottom: 45%; /* Adjust aspect ratio for mobile */
-            }
-        }
-        
+/* Style for the amount box (red theme) */
+.summary-amount-box {
+    background-color: #ffebee;
+    /* Lightest red */
+    border: 2px solid #d32f2f;
+    /* Dark red, thicker border */
+    color: #d32f2f;
+    /* Dark red */
+}
+
+/* Style for the donors box (red theme) */
+.summary-donors-box {
+    background-color: #ffebee;
+    /* Lightest red */
+    border: 2px solid #d32f2f;
+    /* Dark red, thicker border */
+    color: #d32f2f;
+    /* Dark red */
+}
+
+.summary-box .fw-bold.fs-2 {
+    line-height: 1.2;
+    margin-top: 0.5rem;
+}
+
+.summary-box .bi {
+    font-size: 1.8rem;
+    margin-bottom: 0;
+}
+
+@media (max-width: 575.98px) {
+    .summary-box .fw-bold.fs-2 {
+        font-size: 1.4rem !important;
+    }
+
+    .summary-box .bi {
+        font-size: 1.4rem !important;
+    }
+
+    .summary-box {
+        padding: 0.6rem !important;
+    }
+}
+
+/* --- End of new styles --- */
+.pagination-btn {
+    margin: 0 3px;
+    padding: 5px 10px;
+    border: 1px solid var(--app-primary-color);
+    background-color: #fff;
+    color: var(--app-primary-color);
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.pagination-btn:hover:not(.active):not(:disabled) {
+    background-color: rgba(var(--app-primary-rgb), 0.1);
+}
+
+.pagination-btn.active {
+    background-color: var(--app-primary-color);
+    color: #fff;
+    font-weight: bold;
+}
+
+.pagination-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.pagination-ellipsis {
+    margin: 0 3px;
+    padding: 5px 0;
+    color: #6c757d;
+}
+
+/* New styles for banner */
+.banner-container {
+    width: 100%;
+    position: relative;
+    padding-bottom: 250px;
+    /*aspect-ratio: 3/1; /*3:1 aspect ratio */
+    overflow: hidden;
+    margin-bottom: 2px;
+    border-radius: 20px 20px 0px 0px;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.banner-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.banner-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 15px;
+}
+
+.banner-text-main {
+    font-size: 1.8rem;
+    font-weight: 650;
+    font-family: 'Sriracha', sans-serif;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.banner-text-sub {
+    font-size: 1.2rem;
+    font-weight: 400;
+    font-family: 'Sriracha', sans-serif;
+    margin: 0;
+}
+
+/* New style for the logo */
+.banner-logo {
+    max-width: 50px;
+    /* Adjust as needed */
+    height: auto;
+    margin-bottom: 10px;
+    -webkit-filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.5));
+}
+
+@media (min-width: 768px) {
+    .banner-text-main {
+        font-size: 3rem;
+    }
+
+    .banner-text-sub {
+        font-size: 2rem;
+    }
+
+    .banner-container {
+        max-height: 20%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .banner-container {
+        padding-bottom: 45%;
+        /* Adjust aspect ratio for mobile */
+    }
+}
+
+
+
+@media (min-width: 601px) {
+    .qr-code-image {
+        width: 200px;
+        max-width: 200px;
+        /*margin: 0px 50px;  Center the image */
+        display: block;
+        /* Ensure it's a block element to respect margin */
+    }
+}
+
+/* --- New style for QR Code section --- */
+.qr-section-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+}
+
+@media (min-width: 768px) {
+    .qr-section-container {
+        flex-direction: row;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 1rem;
+        text-align: left;
+    }
+}
+
+.qr-code-image {
+    width: 55%;
+    height: auto;
+    border-radius: 1.25rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    max-width: 250px;
+}
+
+@media (min-width: 768px) {
+    .qr-code-image {
+        width: 309px;
+        max-width: 350px;
+    }
+}
+
+.qr-text-container {
+    margin-top: 1rem;
+}
+
+@media (min-width: 768px) {
+    .qr-text-container {
+        margin-top: 0px;
+    }
+}
+
+.qr-text-container h3 {
+    font-weight: 600;
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+    color: var(--app-primary-color);
+}
+
+.qr-text-container ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.qr-text-container li {
+    margin-bottom: 0.5rem;
+    position: relative;
+    padding-left: 1.5rem;
+    color: #333;
+}
+
+.qr-text-container li::before {
+    content: '✓';
+    color: var(--app-success-color);
+    font-weight: bold;
+    display: inline-block;
+    width: 1rem;
+    position: absolute;
+    left: 0;
+}
+
+.qr-box {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    border-radius: 1.25rem;
+    transition: transform 0.2s ease-in-out;
+}
+
+.qr-box .fw-bold.fs-2 {
+    line-height: 1.2;
+    margin-top: 0.5rem;
+}
+
+.acc {
+    line-height: 1;
+    padding-bottom: 10px;
+}
 
         
-        @media (min-width: 601px) {
-            .qr-code-image {
-                width: 200px;
-                max-width: 200px;
-                /*margin: 0px 50px;  Center the image */
-                display: block; /* Ensure it's a block element to respect margin */
-            }
-        }
-        /* --- New style for QR Code section --- */
-        .qr-section-container {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            
-        }
-        @media (min-width: 768px) {
-            .qr-section-container {
-                flex-direction: row;
-                justify-content: center;
-                align-items: flex-start;
-                gap: 1rem;
-                text-align: left;
-            }
-        }
-        .qr-code-image {
-            width: 55%;
-            height: auto;
-            border-radius: 1.25rem;
-            box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
-            max-width: 250px;
-        }
-        @media (min-width: 768px) {
-            .qr-code-image {
-                width: 309px;
-                max-width: 350px;
-            }
-        }
-        .qr-text-container {
-            margin-top: 1rem;
-        }
-        @media (min-width: 768px) {
-            .qr-text-container {
-                margin-top: 0px;
-            }
-        }
-        .qr-text-container h3 {
-            font-weight: 600;
-            font-size: 1.25rem;
-            margin-bottom: 0.5rem;
-            color: var(--app-primary-color);
-        }
-        .qr-text-container ul {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-        .qr-text-container li {
-            margin-bottom: 0.5rem;
-            position: relative;
-            padding-left: 1.5rem;
-            color: #333;
-        }
-        .qr-text-container li::before {
-            content: '✓';
-            color: var(--app-success-color);
-            font-weight: bold;
-            display: inline-block;
-            width: 1rem;
-            position: absolute;
-            left: 0;
-        }
-        .qr-box {
-            padding: 1rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            border-radius: 1.25rem;
-            transition: transform 0.2s ease-in-out;
-        }
-        .qr-box .fw-bold.fs-2 {
-            line-height: 1.2;
-            margin-top: 0.5rem;
-        }
-        .acc{
-            line-height: 1;
-            padding-bottom: 10px;
-        {
 
-        .donation-steps {
-                    font-size: 1.05rem;       /* ~17px */
-                    line-height: 1.5;         /* ระยะห่างบรรทัด */
-                    letter-spacing: 0.5px;    /* ระยะห่างตัวอักษร */
-                    text-align: left;         /* อ่านง่ายสุด */
-                    margin: 15px 0;
-        }
-        .donation-steps h3 {
-                    font-size: 1.3rem;        /* ~21px */
-                    margin-bottom: 0.5rem;
-                    color: black;
-                    text-align: center;
-                    font-weight: 700;
-        }
-        .donation-steps li {
-                    margin-bottom: 0.2rem;   /* เว้นระยะระหว่างข้อ */
-        }
+.donation-steps {
+    font-size: 1.05rem;
+    /* ~17px */
+    line-height: 1.5;
+    /* ระยะห่างบรรทัด */
+    letter-spacing: 0.5px;
+    /* ระยะห่างตัวอักษร */
+    text-align: left;
+    /* อ่านง่ายสุด */
+    margin: 15px 0;
+}
 
+.donation-steps h3 {
+    font-size: 1.3rem;
+    /* ~21px */
+    margin-bottom: 0.5rem;
+    color: black;
+    text-align: center;
+    font-weight: 700;
+}
 
+.donation-steps li {
+    margin-bottom: 0.2rem;
+    /* เว้นระยะระหว่างข้อ */
+}
