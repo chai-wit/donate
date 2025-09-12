@@ -400,7 +400,7 @@
                     line-height: 1.5;         /* ระยะห่างบรรทัด */
                     letter-spacing: 0.5px;    /* ระยะห่างตัวอักษร */
                     text-align: left;         /* อ่านง่ายสุด */
-                    margin: 20px 0;
+                    margin: 2px 0;
         }
         .donation-steps h3 {
                     font-size: 1.3rem;        /* ~21px */
