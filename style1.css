@@ -330,7 +330,7 @@
         }
         @media (min-width: 768px) {
             .qr-code-image {
-                width: 279px;
+                width: 295px;
                 max-width: 300px;
             }
         }
@@ -400,7 +400,7 @@
                     line-height: 1.5;         /* ระยะห่างบรรทัด */
                     letter-spacing: 0.5px;    /* ระยะห่างตัวอักษร */
                     text-align: left;         /* อ่านง่ายสุด */
-                    margin: 2px 0;
+                    margin: 5px 0;
         }
         .donation-steps h3 {
                     font-size: 1.3rem;        /* ~21px */
