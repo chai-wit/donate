@@ -395,4 +395,20 @@
             
         }
 
+        .donation-steps {
+                    font-size: 1.05rem;       /* ~17px */
+                    line-height: 1.7;         /* ระยะห่างบรรทัด */
+                    letter-spacing: 0.5px;    /* ระยะห่างตัวอักษร */
+                    text-align: left;         /* อ่านง่ายสุด */
+                    margin: 20px 0;
+        }
+        .donation-steps h3 {
+                    font-size: 1.3rem;        /* ~21px */
+                    margin-bottom: 1rem;
+                    color: #2c7be5;
+        }
+        .donation-steps li {
+                    margin-bottom: 0.75rem;   /* เว้นระยะระหว่างข้อ */
+        }
+
 
