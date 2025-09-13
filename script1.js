@@ -244,9 +244,11 @@ donationForm.addEventListener('submit',async(event)=>{
         const base64Image=reader.result.split(',')[1];
         const mimeType=slipFile.type;
         const fileExtension=slipFile.name.split('.').pop();
-        const safeFullName=fullName.trim().replace(/\s+/g,'_').replace(/[^\wก-ฮ]/g,'');
-        const dateNow=new Date().toISOString().split('T')[0];
-        const fileName=`${safeFullName}_${dateNow}_slip.${fileExtension}`;
+        const safeFullName=fullName
+            .trim()
+            .replace(/\s+/g,'_')
+            .replace(/[\/\\:*?"<>|]/g,'');
+        const fileName = `${safeFullName}.${fileExtension}`;
         const params=new URLSearchParams();
         params.append('action','addDonation');
         params.append('transferDate',transferDate);
