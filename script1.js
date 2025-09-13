@@ -260,7 +260,9 @@ donationForm.addEventListener('submit',async(event)=>{
         params.append('donationDate',donationDate);
         params.append('base64Image',base64Image);
         params.append('mimeType',mimeType);
-        params.append('fileName',fileName);
+        
+        // ✅ encode ก่อนส่งไปยัง GAS
+        params.append('fileName',encodeURIComponent(fileName));
 
         const options={ method:'POST', body:params.toString(), headers:{'Content-Type':'application/x-www-form-urlencoded'} };
 
