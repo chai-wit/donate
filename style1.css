@@ -503,7 +503,7 @@ body {
     /* เว้นระยะระหว่างข้อ */
 }
 th.sorted {
-    background-color: rgba(189, 182, 182, 0.1); /* ใช้สี primary จาง ๆ */
+    /* background-color: rgba(189, 182, 182, 0.1); ใช้สี primary จาง ๆ */
     font-weight: bold;
 }
 .row.qr-row {
