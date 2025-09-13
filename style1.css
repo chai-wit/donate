@@ -507,5 +507,5 @@ th.sorted {
     font-weight: bold;
 }
 .row.qr-row {
-    margin-bottom: -18px !important; /* ปรับค่าตามต้องการ */
+    margin-bottom: -20px !important; /* ปรับค่าตามต้องการ */
 }
