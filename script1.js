@@ -105,6 +105,11 @@ function sortTable(columnKey){
         if(columnKey==='จำนวนเงิน'||columnKey==='วันที่แจ้งโอนเงิน') currentSortDirection='desc';
         else currentSortDirection='asc';
     }
+   // ตั้ง highlight คอลัมน์ที่ถูกเลือก
+    document.querySelectorAll('.table thead th').forEach(th => th.classList.remove('sorted'));
+    const activeTh = document.querySelector(`.table thead th[data-sort-key="${columnKey}"]`);
+    if(activeTh) activeTh.classList.add('sorted');
+    
     filteredDonorsData.sort((a,b)=>{
         let valA=a[columnKey], valB=b[columnKey];
         if(columnKey==='จำนวนเงิน'){ valA=parseFloat(valA)||0; valB=parseFloat(valB)||0; return currentSortDirection==='asc'?valA-valB:valB-valA;}
