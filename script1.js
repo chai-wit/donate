@@ -299,6 +299,16 @@ donationForm.addEventListener('submit',async(event)=>{
 
 // Initial load
 document.addEventListener('DOMContentLoaded',()=>{
+
+    // ✅ แสดงแจ้งเตือนเมื่อเปิดเว็บครั้งแรก
+  Swal.fire({
+    title: 'ยินดีต้อนรับ',
+    text: 'ขอบคุณที่ร่วมสนับสนุนการสร้างโดม โรงเรียนชัยบาดาลวิทยา',
+    icon: 'info',
+    confirmButtonText: 'ตกลง',
+    allowOutsideClick: false
+  }); 
+
     if(refreshIntervalId) clearInterval(refreshIntervalId);
     donorsTableBody.innerHTML='<tr><td colspan="5" class="text-center text-info py-4"><div class="spinner-border text-info spinner-border-sm me-2" role="status"><span class="visually-hidden">Loading...</span></div>กำลังโหลดข้อมูลผู้บริจาค...</td></tr>';
     fetchDonors(3).then(data=>{allDonorsData=data; filteredDonorsData=[...allDonorsData]; sortTable(currentSortColumn);});
@@ -309,3 +319,4 @@ document.addEventListener('DOMContentLoaded',()=>{
         if(JSON.stringify(newData)!==JSON.stringify(allDonorsData)){ allDonorsData=newData; filterDonors(); }
     },3000);
 });
+
